@@ -1,10 +1,11 @@
 import styles from "./Bloges.module.css";
 import one from "../../../media/one.png";
+import { Link } from "react-router-dom";
 
 const Bloges = () => {
   return (
     <div className={styles["blog-mian"]}>
-      <a href="/">
+      <Link to="/post">
         <div className={styles["bloges"]}>
           <img src={one} alt="imges sd"></img>
 
@@ -21,7 +22,7 @@ const Bloges = () => {
             Shuvra Chakrabarty <span>7/1/22</span>
           </p>
         </div>
-      </a>
+      </Link>
       <a href="/">
         <div className={styles["bloges"]}>
           <img src={one} alt="imges sd"></img>

@@ -1,10 +1,11 @@
+import { Link } from "react-router-dom";
 import styles from "./Featurespost.module.css";
 
 const Featurespost = () => {
   return (
     <div className={styles["featues-main"]}>
       <p className={styles["title"]}>Featured Posts</p>
-      <a href="/">
+      <Link to="/post">
         <div className={styles["posts"]}>
           <p className={styles["topic-name"]}>
             The Top Types of AI-Generated Content in Marketing [New Data,
@@ -15,7 +16,7 @@ const Featurespost = () => {
             <p>11/7/23</p>
           </div>
         </div>
-      </a>
+      </Link>
       <a href="/">
         <div className={styles["posts"]}>
           <p className={styles["topic-name"]}>

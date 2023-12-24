@@ -2,6 +2,7 @@ import { Fragment, useState } from "react";
 import styles from "./Header.module.css";
 import BlogCategory from "./BlogCategory/BlogCategory";
 import Sidebar from "./Sidebar/Sidebar";
+import { Link } from "react-router-dom";
 
 const Header = (props) => {
   const [isDropdown, setDropdown] = useState(false);
@@ -13,7 +14,7 @@ const Header = (props) => {
 
   const menuShowHandler = () => {
     setIsShow((pre) => !pre);
-    props.isSidebar(isShow);
+    props.isSidebar(!isShow);
   };
 
   return (
@@ -21,9 +22,12 @@ const Header = (props) => {
       <div className={styles["main-header"]}>
         <div className={styles["header"]}>
           <div className={styles["header-one"]}>
-            <h2 className={styles["webname"]}>
-              Blog<span>Sp</span>ot
-            </h2>
+            <Link to="/">
+              <h2 className={styles["webname"]}>
+                Blog<span>Sp</span>ot
+              </h2>
+            </Link>
+
             <div className={styles["blog-nav"]} onClick={dropDownHandler}>
               <h3>Blogs</h3>
               <img

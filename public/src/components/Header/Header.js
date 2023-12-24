@@ -3,7 +3,7 @@ import styles from "./Header.module.css";
 import BlogCategory from "./BlogCategory/BlogCategory";
 import Sidebar from "./Sidebar/Sidebar";
 
-const Header = () => {
+const Header = (props) => {
   const [isDropdown, setDropdown] = useState(false);
   const [isShow, setIsShow] = useState(false);
 
@@ -13,6 +13,7 @@ const Header = () => {
 
   const menuShowHandler = () => {
     setIsShow((pre) => !pre);
+    props.isSidebar(isShow);
   };
 
   return (

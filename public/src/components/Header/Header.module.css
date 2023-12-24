@@ -5,6 +5,9 @@ a {
   width: 100%;
   padding: 1rem 0;
   border-bottom: 1px solid rgba(224, 224, 224, 0.815);
+  position: sticky;
+  top: 0px;
+  background-color: white;
 }
 
 .header {

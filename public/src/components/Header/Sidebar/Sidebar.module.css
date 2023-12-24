@@ -4,6 +4,8 @@
   padding: 1rem 1rem 2rem 1rem;
   display: none;
   height: 100svh;
+  position: fixed;
+  z-index: 4;
 }
 
 .profile {

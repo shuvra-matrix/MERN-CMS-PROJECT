@@ -1,0 +1,31 @@
+.category-main {
+  width: 100%;
+  background-color: #f6f9fc;
+  padding: 1rem 1rem 2rem 1rem;
+}
+
+.category-sub {
+  width: 1100px;
+  margin: auto;
+}
+
+.category {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.sub-category {
+  display: flex;
+  flex-flow: nowrap row;
+  gap: 5px;
+  background-color: white;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.sub-category:hover {
+  background-color: #b5cfe9;
+  cursor: pointer;
+}

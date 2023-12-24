@@ -1,0 +1,95 @@
+a {
+  text-decoration: none;
+}
+
+.bloges {
+  width: 670px;
+  border: 0px;
+  padding: 10px;
+  background-color: #fef4ea;
+  margin-bottom: 2rem;
+}
+.bloges img {
+  width: 650px;
+  height: 300px;
+}
+
+.title {
+  color: #213343;
+  font-size: 1.6rem;
+  margin-top: 15px;
+}
+.desc {
+  margin-top: 15px;
+  color: #213343;
+}
+
+.name {
+  margin: 20px 0;
+  color: #5181b6;
+}
+
+@media (max-width: 1050px) {
+  .bloges {
+    width: 600px;
+    border: 0px;
+  }
+  .bloges img {
+    width: 580px;
+    height: 300px;
+  }
+}
+
+@media (max-width: 900px) {
+  .bloges {
+    width: 500px;
+    border: 0px;
+  }
+  .bloges img {
+    width: 480px;
+    height: 300px;
+  }
+}
+
+@media (max-width: 800px) {
+  .bloges {
+    width: 450px;
+  }
+  .bloges img {
+    width: 430px;
+    height: 250px;
+  }
+}
+
+@media (max-width: 700px) {
+  .bloges {
+    width: 300px;
+  }
+  .bloges img {
+    width: 280px;
+    height: 250px;
+  }
+}
+
+@media (max-width: 580px) {
+  .bloges {
+    width: 100%;
+  }
+  .bloges img {
+    width: 100%;
+    height: 250px;
+  }
+}
+
+@media (max-width: 450px) {
+  .bloges img {
+    width: 100%;
+    height: 200px;
+  }
+
+  .title {
+    color: #213343;
+    font-size: 1.2rem;
+    margin-top: 15px;
+  }
+}

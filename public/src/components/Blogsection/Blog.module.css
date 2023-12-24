@@ -1,0 +1,21 @@
+.blog-main {
+  width: 1100px;
+  margin: 1rem auto;
+  display: flex;
+  flex-flow: nowrap row;
+  gap: 40px;
+}
+
+@media (max-width: 1150px) {
+  .blog-main {
+    width: 100%;
+    padding: 0 1rem;
+    gap: 30px;
+  }
+}
+
+@media (max-width: 800px) {
+  .blog-main {
+    gap: 20px;
+  }
+}

@@ -20,6 +20,7 @@ a {
   align-items: center;
   flex-flow: nowrap row;
   gap: 50px;
+  flex: 0 0 40%;
 }
 
 .webname {
@@ -54,10 +55,11 @@ a {
 
 .header-two {
   display: flex;
-  justify-content: center;
   align-items: center;
   flex-flow: nowrap row;
-  gap: 50px;
+  gap: 20px;
+  justify-content: space-around;
+  flex: 0 0 60%;
 }
 
 .search {
@@ -133,6 +135,21 @@ a {
     padding: 0 1rem;
   }
 }
+@media (max-width: 980px) {
+  .header-two {
+    flex: 0 0 70%;
+  }
+  .header-one {
+    flex: 0 0 30%;
+  }
+}
+
+@media (max-width: 830px) {
+  .writing-nd {
+    padding: 8px 10px;
+    font-size: 0.8rem;
+  }
+}
 
 @media (max-width: 700px) {
   .blog-nav {
@@ -154,5 +171,19 @@ a {
   }
   .writing-nd {
     display: block;
+  }
+}
+
+@media (max-width: 350px) {
+  .writing-nd {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 290px) {
+  .writing-nd {
+    padding: 8px 6px;
+    font-size: 0.7rem;
   }
 }

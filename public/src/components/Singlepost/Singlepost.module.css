@@ -70,3 +70,49 @@
   font-size: 1.15rem;
   line-height: 1.6;
 }
+
+@media (max-width: 1100px) {
+  .title-section,
+  .text-section {
+    width: 100%;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (max-width: 830px) {
+  .title-section {
+    flex-flow: nowrap column;
+    gap: 20px;
+  }
+
+  .title h1 {
+    font-size: 1.6rem;
+  }
+
+  .desc {
+    font-size: 1.1rem;
+  }
+
+  .date {
+    padding-top: 1rem;
+  }
+  .image-section img {
+    height: 300px;
+  }
+}
+
+@media (max-width: 830px) {
+  .title-section {
+    flex-flow: nowrap column;
+    gap: 20px;
+  }
+
+  .title h1 {
+    font-size: 1.5rem;
+  }
+
+  .image-section img {
+    height: 250px;
+  }
+}

@@ -9,13 +9,13 @@ const Sidebar = () => {
           <img
             width="60"
             height="60"
-            src="https://img.icons8.com/papercut/60/user-female-circle.png"
-            alt="user-female-circle"
+            src="https://img.icons8.com/stickers/100/name-skin-type-2.png"
+            alt="name-skin-type-2"
           />
         </a>
       </div>
       <div className={styles["search"]}>
-        <input type="text"></input>
+        <input type="text" placeholder="Search...."></input>
         <img
           width="50"
           height="50"

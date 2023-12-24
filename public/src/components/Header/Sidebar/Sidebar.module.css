@@ -29,11 +29,13 @@
 .search input {
   width: 100%;
   height: 30px;
-  border: 1px solid #aac5e2;
+
   border-radius: 5px;
   padding-left: 10px;
   padding-right: 40px;
-  background-color: #cce1f7;
+
+  border: 1px solid #c5c5c5;
+  background-color: #f2f2f2;
 }
 
 .search input:focus {
@@ -89,7 +91,7 @@
 
 .login {
   padding: 8px 20px;
-  border: 0px;
+  border: 1px solid black;
   border-radius: 3px;
   background-color: #30d46f;
   color: rgb(34, 34, 34);
@@ -99,7 +101,6 @@
 }
 
 .login:hover {
-  border: 1px solid black;
   background-color: #2ac766;
 }
 

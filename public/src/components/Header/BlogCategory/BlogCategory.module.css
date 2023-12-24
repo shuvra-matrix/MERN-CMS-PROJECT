@@ -29,3 +29,16 @@
   background-color: #b5cfe9;
   cursor: pointer;
 }
+
+@media (max-width: 1120px) {
+  .category-sub {
+    width: 100%;
+  }
+
+  .category {
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+}

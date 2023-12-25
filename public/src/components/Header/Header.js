@@ -28,9 +28,10 @@ const Header = (props) => {
               </h2>
             </Link>
 
-            <div className={styles["blog-nav"]} onClick={dropDownHandler}>
+            <div className={styles["blog-nav"]}>
               <h3>Blogs</h3>
               <img
+                onClick={dropDownHandler}
                 width="50"
                 height="50"
                 src={
@@ -66,9 +67,11 @@ const Header = (props) => {
                 alt="search--v1"
               />
             </div>
-            <button className={styles["login"]} type="button">
-              Login
-            </button>
+            <a href="/login">
+              <button className={styles["login"]} type="button">
+                Login
+              </button>
+            </a>
           </div>
           <a href="/">
             <button className={styles["writing-nd"]} type="button">

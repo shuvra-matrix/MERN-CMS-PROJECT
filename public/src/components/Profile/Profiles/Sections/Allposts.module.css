@@ -8,13 +8,13 @@
 }
 
 .allpost-sub {
-  width: 310px;
+  width: 100%;
   padding: 5px;
   background-color: #ecf6ff;
 }
 
 .blog-image {
-  width: 300px;
+  width: 100%;
   height: 200px;
   margin: auto;
 }
@@ -63,14 +63,8 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
   }
-  .allpost-sub {
-    width: 100%;
-    padding: 5px;
-    background-color: #ecf6ff;
-  }
 
   .blog-image {
-    width: 100%;
     height: 200px;
     margin: auto;
   }

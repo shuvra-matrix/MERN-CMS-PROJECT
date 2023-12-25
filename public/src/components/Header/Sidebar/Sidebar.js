@@ -95,11 +95,11 @@ const Sidebar = (props) => {
         </div>
       </div>
       <div className={styles["auth"]}>
-        <a href="/">
+        <Link to="/login">
           <button className={styles["login"]} type="button">
             Login
           </button>
-        </a>
+        </Link>
       </div>
     </div>
   );

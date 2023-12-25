@@ -53,4 +53,16 @@ rourte.post(
   authController.verifyOtp
 );
 
+rourte.post(
+  "/login",
+  [
+    body("email").trim().isEmail().withMessage("enter valid email"),
+    body("password")
+      .trim()
+      .isLength({ min: 6 })
+      .withMessage("please enter a valid password"),
+  ],
+  authController.login
+);
+
 module.exports = rourte;

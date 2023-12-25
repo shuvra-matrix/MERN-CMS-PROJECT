@@ -2,7 +2,8 @@ const nodeMailer = require("nodemailer");
 const { validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const User = require("../model/User");
-const { response } = require("express");
+const jwt = require("jsonwebtoken");
+const { json } = require("express");
 
 const transporter = nodeMailer.createTransport({
   service: "gmail",
@@ -122,6 +123,64 @@ exports.verifyOtp = (req, res, next) => {
         return res.status(201).json({ message: "notverified" });
       }
       res.status(201).json({ message: "verified" });
+    })
+    .catch((err) => {
+      console.log(err);
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    });
+};
+
+exports.login = (req, res, next) => {
+  const error = validationResult(req);
+
+  if (!error.isEmpty()) {
+    const err = new Error("Validation Error");
+    err.statusCode = 422;
+    err.data = error.array();
+    throw err;
+  }
+
+  const email = req.body.email;
+  const password = req.body.password;
+  let loadUser;
+
+  User.findOne({ email: email })
+    .then((user) => {
+      if (!user) {
+        const error = new Error("user not found");
+        error.statusCode = 404;
+        throw error;
+      }
+
+      loadUser = user;
+
+      return bcrypt.compare(password, user.password);
+    })
+    .then((match) => {
+      if (!match) {
+        const error = new Error("password not matched");
+        error.statusCode = 401;
+        throw error;
+      }
+
+      const secret = process.env.SECRET;
+
+      const token = jwt.sign(
+        { email: loadUser.email, userId: loadUser._id.toString() },
+        secret,
+        {
+          expiresIn: "1h",
+        }
+      );
+
+      res.status(200).json({
+        message: "login done",
+        userId: loadUser._id.toString(),
+        token: token,
+      });
     })
     .catch((err) => {
       console.log(err);

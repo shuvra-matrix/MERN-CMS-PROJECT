@@ -6,19 +6,26 @@ const Sidebar = (props) => {
     props.menuShow();
   };
 
+  const logoutHandler = () => {
+    props.logout();
+    props.menuShow();
+  };
+
   return (
     <div className={styles["category-main"]}>
       <div className={styles["profile"]}>
-        <p>Shuvra Chakrabarty</p>
-        <Link to="/profile">
-          <img
-            onClick={menuShowHandler}
-            width="60"
-            height="60"
-            src="https://img.icons8.com/stickers/100/name-skin-type-2.png"
-            alt="name-skin-type-2"
-          />
-        </Link>
+        {props.isLogin && <p>Shuvra Chakrabarty</p>}
+        {props.isLogin && (
+          <Link to="/profile">
+            <img
+              onClick={menuShowHandler}
+              width="60"
+              height="60"
+              src="https://img.icons8.com/stickers/100/name-skin-type-2.png"
+              alt="name-skin-type-2"
+            />
+          </Link>
+        )}
       </div>
       <div className={styles["search"]}>
         <input type="text" placeholder="Search...."></input>
@@ -95,11 +102,23 @@ const Sidebar = (props) => {
         </div>
       </div>
       <div className={styles["auth"]}>
-        <Link to="/login">
-          <button className={styles["login"]} type="button">
-            Login
-          </button>
-        </Link>
+        {!props.isLogin ? (
+          <Link to="/login">
+            <button className={styles["login"]} type="submit">
+              Login
+            </button>
+          </Link>
+        ) : (
+          <Link to="/">
+            <button
+              onClick={logoutHandler}
+              className={styles["logout"]}
+              type="button"
+            >
+              Logout
+            </button>
+          </Link>
+        )}
       </div>
     </div>
   );

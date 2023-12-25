@@ -17,6 +17,10 @@ const Header = (props) => {
     props.isSidebar(!isShow);
   };
 
+  const logoutHandler = () => {
+    props.logout();
+  };
+
   return (
     <Fragment>
       <div className={styles["main-header"]}>
@@ -44,19 +48,15 @@ const Header = (props) => {
             </div>
           </div>
           <div className={styles["header-two"]}>
-            <a href="/">
-              <button className={styles["writing"]} type="button">
-                START WRITING
-              </button>
-            </a>
-
-            <Link to="/profile">
-              <img
-                className={styles["profile"]}
-                src="https://img.icons8.com/stickers/100/name-skin-type-2.png"
-                alt="name-skin-type-2"
-              />
-            </Link>
+            {props.isLogin && (
+              <Link to="/profile">
+                <img
+                  className={styles["profile"]}
+                  src="https://img.icons8.com/stickers/100/name-skin-type-2.png"
+                  alt="name-skin-type-2"
+                />
+              </Link>
+            )}
 
             <div className={styles["search"]}>
               <input type="text" placeholder="Search...."></input>
@@ -67,17 +67,24 @@ const Header = (props) => {
                 alt="search--v1"
               />
             </div>
-            <a href="/login">
-              <button className={styles["login"]} type="button">
-                Login
-              </button>
-            </a>
+            {!props.isLogin ? (
+              <Link to="/login">
+                <button className={styles["login"]} type="button">
+                  Login
+                </button>
+              </Link>
+            ) : (
+              <Link to="/">
+                <button
+                  onClick={logoutHandler}
+                  className={styles["logout"]}
+                  type="button"
+                >
+                  Logout
+                </button>
+              </Link>
+            )}
           </div>
-          <a href="/">
-            <button className={styles["writing-nd"]} type="button">
-              START WRITING
-            </button>
-          </a>
           <div className={styles["menu"]} onClick={menuShowHandler}>
             <img
               width="50"
@@ -93,7 +100,13 @@ const Header = (props) => {
         </div>
       </div>
       {isDropdown && <BlogCategory />}
-      {isShow && <Sidebar menuShow={menuShowHandler} />}
+      {isShow && (
+        <Sidebar
+          menuShow={menuShowHandler}
+          isLogin={props.isLogin}
+          logout={props.logout}
+        />
+      )}
     </Fragment>
   );
 };

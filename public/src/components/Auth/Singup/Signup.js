@@ -19,7 +19,7 @@ const Signup = (props) => {
 
   const otpSectionHandler = (value) => {
     setShowOtpSection(value);
-    props.authRoutes("login");
+    // props.authRoutes("login");
   };
 
   const inputDataHandler = (e) => {

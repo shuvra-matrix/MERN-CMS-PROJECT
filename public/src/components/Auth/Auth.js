@@ -16,7 +16,7 @@ const Auth = () => {
   return (
     <Fragment>
       {authRoutes === "login" ? <Login authRoutes={authRoutesHandler} /> : ""}
-      {authRoutes === "signup" ? <Signup /> : ""}
+      {authRoutes === "signup" ? <Signup authRoutes={authRoutesHandler} /> : ""}
       {authRoutes === "forgotpass" ? <ForgotPassEmail /> : ""}
     </Fragment>
   );

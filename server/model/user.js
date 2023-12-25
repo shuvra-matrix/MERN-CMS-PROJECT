@@ -24,6 +24,13 @@ const userSchema = new Schema({
   website: {
     type: String,
   },
+  valid: {
+    type: String,
+    default: "no",
+  },
+  otp: {
+    type: Number,
+  },
   posts: [
     {
       type: Schema.Types.ObjectId,

@@ -121,6 +121,11 @@
   border-top-left-radius: 40%;
 }
 
+.invalid input {
+  background-color: rgb(250, 186, 186);
+  border: 1px solid rgb(243, 93, 93);
+}
+
 @media (max-width: 1350px) {
   .login-sub {
     width: 35%;

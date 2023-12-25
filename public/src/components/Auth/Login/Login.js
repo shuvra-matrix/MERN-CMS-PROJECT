@@ -1,7 +1,11 @@
 import { Link } from "react-router-dom";
 import styles from "./Login.module.css";
+import { useLocation } from "react-router-dom";
 
 const Login = (propes) => {
+  const { state } = useLocation();
+  const data = state?.message || "";
+
   const signupRoutesHandler = () => {
     propes.authRoutes("signup");
   };
@@ -18,6 +22,7 @@ const Login = (propes) => {
             Blog<span>Sp</span>ot
           </h3>
         </div>
+        {data.length > 4 ? <p>{data}</p> : ""}
 
         <h3 className={styles["login"]}>Login</h3>
         <p className={styles["signup"]}>

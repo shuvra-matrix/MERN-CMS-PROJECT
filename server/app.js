@@ -5,7 +5,7 @@ require("dotenv").config();
 
 const app = express();
 
-const MONGO_URL = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}mymongoinit.6md0cxy.mongodb.net/dalle?retryWrites=true&w=majority`;
+const MONGO_URL = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}mymongoinit.6md0cxy.mongodb.net/blog?retryWrites=true&w=majority`;
 
 app.use(express.json());
 app.use((req, res, next) => {
@@ -23,6 +23,13 @@ const authRoutes = require("./routes/auth");
 
 app.use(publicRoutes);
 app.use("/auth", authRoutes);
+
+app.use((error, req, res, next) => {
+  const status = error.statusCode;
+  const message = error.messsage;
+  const data = error.data;
+  res.status(status).json({ message: message, data: data, error: "yes" });
+});
 
 mongoos
   .connect(MONGO_URL)

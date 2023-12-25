@@ -1,6 +1,7 @@
 .profile-main {
   width: 70%;
   margin: auto;
+  position: relative;
 }
 .profile-main h3 {
   margin-top: 2rem;
@@ -101,14 +102,48 @@ textarea {
   background-color: #db6d1e;
 }
 
+.back-btn {
+  position: absolute;
+  left: -100px;
+  top: -3px;
+  cursor: pointer;
+}
+@media (max-width: 1000px) {
+  .back-btn {
+    left: -70px;
+    top: -3px;
+  }
+}
+
 @media (max-width: 910px) {
   .profile-main {
     width: 80%;
+  }
+  .back-btn {
+    left: 90%;
   }
 }
 
 @media (max-width: 700px) {
   .profile-main {
     width: 90%;
+  }
+}
+
+@media (max-width: 490px) {
+  .back-btn {
+    left: 90%;
+  }
+}
+
+@media (max-width: 415px) {
+  .back-btn {
+    left: 86%;
+  }
+}
+
+@media (max-width: 325px) {
+  .back-btn {
+    left: 80%;
   }
 }

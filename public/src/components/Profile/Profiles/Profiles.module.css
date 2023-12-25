@@ -1,0 +1,6 @@
+.profiles {
+  width: 100%;
+  border-right: 4px solid #f6f9fc;
+  overflow-x: hidden;
+  overflow-y: auto;
+}

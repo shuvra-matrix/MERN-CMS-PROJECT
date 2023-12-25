@@ -5,6 +5,7 @@ import Header from "./components/Header/Header";
 import Singlepost from "./components/Singlepost/Singlepost";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Footer from "./components/Footer/Footer";
+import Profile from "./components/Profile/Profile";
 
 function App() {
   const [isSidebar, setSidebar] = useState(false);
@@ -18,7 +19,8 @@ function App() {
       <Header isSidebar={sideBarController} />
       <Routes>
         {!isSidebar && <Route path="/" Component={Blog} />}
-        <Route path="/post" Component={Singlepost} />
+        {!isSidebar && <Route path="/post" Component={Singlepost} />}
+        {!isSidebar && <Route path="/profile" Component={Profile} />}
       </Routes>
       <Footer />
     </BrowserRouter>

@@ -1,0 +1,13 @@
+.profile-main {
+  width: 1100px;
+  margin: 0px auto;
+  min-height: 90svh;
+  display: flex;
+  flex-flow: nowrap row;
+}
+
+@media (max-width: 1100px) {
+  .profile-main {
+    width: 100%;
+  }
+}

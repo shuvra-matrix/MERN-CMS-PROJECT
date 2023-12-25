@@ -56,3 +56,62 @@
 .delete:hover {
   background-color: #c73a3a;
 }
+
+@media (max-width: 1050px) {
+  .allpost-main {
+    width: 95%;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .allpost-sub {
+    width: 100%;
+    padding: 5px;
+    background-color: #ecf6ff;
+  }
+
+  .blog-image {
+    width: 100%;
+    height: 200px;
+    margin: auto;
+  }
+}
+
+@media (max-width: 850px) {
+  .allpost-main {
+    padding: 0.8rem;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .allpost-sub {
+    width: 100%;
+    padding: 5px;
+    background-color: #ecf6ff;
+  }
+
+  .blog-image {
+    width: 100%;
+    height: 200px;
+    margin: auto;
+  }
+}
+
+@media (max-width: 700px) {
+  .blog-image {
+    height: 150px;
+  }
+}
+
+@media (max-width: 544px) {
+  .blog-image {
+    height: 130px;
+  }
+}
+
+@media (max-width: 544px) {
+  .allpost-main {
+    padding: 0.8rem;
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .allpost-sub p {
+    font-size: 0.9rem;
+  }
+}

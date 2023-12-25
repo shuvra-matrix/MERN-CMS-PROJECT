@@ -1,18 +1,24 @@
+import { Link } from "react-router-dom";
 import styles from "./Sidebar.module.css";
 
-const Sidebar = () => {
+const Sidebar = (props) => {
+  const menuShowHandler = () => {
+    props.menuShow();
+  };
+
   return (
     <div className={styles["category-main"]}>
       <div className={styles["profile"]}>
         <p>Shuvra Chakrabarty</p>
-        <a href="/">
+        <Link to="/profile">
           <img
+            onClick={menuShowHandler}
             width="60"
             height="60"
             src="https://img.icons8.com/stickers/100/name-skin-type-2.png"
             alt="name-skin-type-2"
           />
-        </a>
+        </Link>
       </div>
       <div className={styles["search"]}>
         <input type="text" placeholder="Search...."></input>

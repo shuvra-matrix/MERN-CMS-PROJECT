@@ -90,7 +90,7 @@ const Header = (props) => {
         </div>
       </div>
       {isDropdown && <BlogCategory />}
-      {isShow && <Sidebar />}
+      {isShow && <Sidebar menuShow={menuShowHandler} />}
     </Fragment>
   );
 };

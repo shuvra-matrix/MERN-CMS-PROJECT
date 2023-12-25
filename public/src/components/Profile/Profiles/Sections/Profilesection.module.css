@@ -23,7 +23,8 @@
 
 .section input,
 select,
-.image {
+.image,
+textarea {
   border: 0px;
   height: 35px;
   border-radius: 5px;
@@ -34,8 +35,17 @@ select,
 }
 
 .section input:focus,
-select:focus {
+select:focus,
+textarea:focus {
   outline: none;
+}
+
+textarea {
+  padding-top: 5px;
+  max-width: 100%;
+  min-width: 100%;
+  max-height: 200px;
+  min-height: 35px;
 }
 
 .section select option {

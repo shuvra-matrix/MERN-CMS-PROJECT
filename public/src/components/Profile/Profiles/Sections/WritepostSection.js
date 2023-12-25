@@ -1,6 +1,4 @@
 import styles from "./Profilesection.module.css";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 const WritePostSection = () => {
   return (
@@ -18,22 +16,7 @@ const WritePostSection = () => {
           </div>
           <div className={styles["section"]}>
             <label htmlFor="">Content</label>
-            <CKEditor
-              editor={ClassicEditor}
-              data=""
-              onReady={(editor) => {
-                console.log("Editor is ready to use!", editor);
-              }}
-              onChange={(event) => {
-                console.log(event);
-              }}
-              onBlur={(event, editor) => {
-                console.log("Blur.", editor);
-              }}
-              onFocus={(event, editor) => {
-                console.log("Focus.", editor);
-              }}
-            />
+            <textarea></textarea>
           </div>
           <div className={styles["section"]}>
             <label htmlFor="">Category</label>
@@ -64,7 +47,7 @@ const WritePostSection = () => {
           </div>
         </div>
         <div className={styles["button"]}>
-          <button type="submit">Update Password</button>
+          <button type="submit">Post Blog</button>
         </div>
       </form>
     </div>

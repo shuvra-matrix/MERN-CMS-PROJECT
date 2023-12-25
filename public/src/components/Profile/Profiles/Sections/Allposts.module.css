@@ -1,0 +1,58 @@
+.allpost-main {
+  width: 90%;
+  margin: auto;
+  padding: 1rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.allpost-sub {
+  width: 310px;
+  padding: 5px;
+  background-color: #ecf6ff;
+}
+
+.blog-image {
+  width: 300px;
+  height: 200px;
+  margin: auto;
+}
+
+.allpost-sub p {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
+.action {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-flow: nowrap row;
+}
+
+.edit,
+.delete {
+  text-align: center;
+  border: 0px;
+  padding: 3px;
+  cursor: pointer;
+}
+
+.edit {
+  background-color: #2ac766;
+}
+
+.delete {
+  background-color: #eb4343;
+}
+
+.edit:hover {
+  background-color: #25af5a;
+}
+
+.delete:hover {
+  background-color: #c73a3a;
+}

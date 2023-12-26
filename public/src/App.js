@@ -22,7 +22,7 @@ function App() {
   useEffect(() => {
     const checkLoginStatus = () => {
       const token = localStorage.getItem("token");
-      const url = "http://localhost:3030/auth//verifytoken";
+      const url = "http://localhost:3030/auth/verifytoken";
 
       fetch(url, {
         method: "post",

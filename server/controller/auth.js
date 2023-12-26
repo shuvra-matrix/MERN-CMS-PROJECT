@@ -110,7 +110,7 @@ exports.verifyOtp = (req, res, next) => {
       if (!user) {
         const error = new Error("user not found");
         error.statusCode = 404;
-        throw err;
+        throw error;
       }
 
       if (Number(otp) === user.otp) {
@@ -218,6 +218,7 @@ exports.tokenVerify = (req, res, next) => {
     throw err;
   }
 
+  req.userId = decodeToken.userId;
   res.status(200).json({
     message: "valid auth",
   });

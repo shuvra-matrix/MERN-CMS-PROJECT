@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import styles from "./Login.module.css";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const Login = (propes) => {
   const { state } = useLocation();

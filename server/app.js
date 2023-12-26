@@ -20,9 +20,11 @@ app.use((req, res, next) => {
 
 const publicRoutes = require("./routes/public");
 const authRoutes = require("./routes/auth");
+const profileRoutes = require("./routes/profile");
 
 app.use(publicRoutes);
 app.use("/auth", authRoutes);
+app.use("/profile", profileRoutes);
 
 app.use((error, req, res, next) => {
   const status = error.statusCode;

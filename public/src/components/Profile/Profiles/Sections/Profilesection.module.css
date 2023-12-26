@@ -41,6 +41,10 @@ textarea:focus {
   outline: none;
 }
 
+.section input::placeholder {
+  color: rgb(24, 24, 24);
+}
+
 textarea {
   padding-top: 5px;
   max-width: 100%;

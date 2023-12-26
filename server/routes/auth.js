@@ -5,6 +5,7 @@ const User = require("../model/User");
 const rourte = express.Router();
 
 const authController = require("../controller/auth");
+const { route } = require("./public");
 
 rourte.post(
   "/signup",
@@ -64,5 +65,7 @@ rourte.post(
   ],
   authController.login
 );
+
+rourte.post("/verifytoken", authController.tokenVerify);
 
 module.exports = rourte;

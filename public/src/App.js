@@ -9,7 +9,6 @@ import Profile from "./components/Profile/Profile";
 import Login from "./components/Auth/Login/Login";
 import Signup from "./components/Auth/Singup/Signup";
 import ForgotPassEmail from "./components/Auth/FogotPassword/ForgotPasswordEmail";
-import Logout from "./components/Auth/Logout";
 
 function App() {
   const [isSidebar, setSidebar] = useState(false);
@@ -21,15 +20,45 @@ function App() {
   };
 
   useEffect(() => {
-    const login = localStorage.getItem("isLogin");
-    if (login === "yes") {
-      setIsLogin(true);
-    } else {
-      setIsLogin(false);
-    }
-  }, [isLogin]);
+    const checkLoginStatus = () => {
+      const token = localStorage.getItem("token");
+      const url = "http://localhost:3030/auth//verifytoken";
 
-  console.log(isLogin);
+      fetch(url, {
+        method: "post",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+        .then((response) => {
+          console.log(response);
+          if (!response.ok) {
+            setIsLogin(false);
+            localStorage.clear("isLogin");
+          }
+
+          return response.json();
+        })
+        .then((data) => {
+          if (data.message === "valid auth") {
+            setIsLogin(true);
+          } else {
+            setIsLogin(false);
+            localStorage.clear("isLogin");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+
+    const isUserLogin = localStorage.getItem("isLogin") === "yes";
+
+    if (isUserLogin) {
+      console.log(isUserLogin);
+      checkLoginStatus();
+    }
+  }, []);
 
   const logoutHandler = () => {
     setIsLogin(false);

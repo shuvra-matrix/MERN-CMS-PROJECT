@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import styles from "./Login.module.css";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Login = (propes) => {
   const { state } = useLocation();
@@ -66,6 +66,9 @@ const Login = (propes) => {
           propes.isLogin(true);
           navigate("/");
         }
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
 

@@ -9,8 +9,16 @@ const Profiles = (propes) => {
     <div className={styles["profiles"]}>
       {propes.options === "profile" ? <ProfileSection /> : ""}
       {propes.options === "security" ? <SecuritySection /> : ""}
-      {propes.options === "writepost" ? <WritePostSection /> : ""}
-      {propes.options === "allpost" ? <Allpost /> : ""}
+      {propes.options === "writepost" ? (
+        <WritePostSection postCategory={propes.postCategory} />
+      ) : (
+        ""
+      )}
+      {propes.options === "allpost" ? (
+        <Allpost postCategory={propes.postCategory} />
+      ) : (
+        ""
+      )}
     </div>
   );
 };

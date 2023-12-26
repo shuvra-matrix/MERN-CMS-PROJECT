@@ -1,4 +1,5 @@
 const User = require("../model/User");
+const PostCategory = require("../model/PostCategory");
 require("dotenv").config();
 
 const nodeMailer = require("nodemailer");
@@ -88,7 +89,7 @@ exports.sendOtp = (req, res, next) => {
 exports.editProfile = (req, res, next) => {
   const data = req.body;
 
-  User.findById(req.userIds)
+  User.findById(req.userId)
     .then((user) => {
       if (!user) {
         const error = new Error("invalid user");
@@ -128,6 +129,61 @@ exports.editProfile = (req, res, next) => {
       if (!err.statusCode) {
         err.statusCode = 500;
       }
+      next(err);
+    });
+};
+
+exports.addCategory = (req, res, next) => {
+  const name = req.body.name;
+  const icon = req.body.icon;
+  const desc = req.body.desc;
+
+  const postCategory = new PostCategory({
+    name: name,
+    icon: icon,
+    desc: desc,
+  });
+
+  postCategory
+    .save()
+    .then((result) => {
+      res.status(201).json({
+        message: "category add done",
+        data: {
+          name: result.name,
+          icon: result.icon,
+          desc: result.desc,
+        },
+      });
+    })
+    .catch((err) => {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    });
+};
+
+exports.getCategory = (req, res, next) => {
+  PostCategory.find()
+    .then((post) => {
+      console.log(post);
+
+      const newPost = post.map((data) => {
+        return {
+          name: data.name,
+          icon: data.icon,
+          desc: data.desc,
+          _id: data._id,
+        };
+      });
+
+      res
+        .status(200)
+        .json({ message: "post category get done", postCategory: newPost });
+    })
+    .then((err) => {
+      console.log(err);
       next(err);
     });
 };

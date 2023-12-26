@@ -1,6 +1,12 @@
 import styles from "./Profilesection.module.css";
 
-const WritePostSection = () => {
+const WritePostSection = (props) => {
+  const selectOptions = props.postCategory.map((data) => (
+    <option value={data._id} key={data._id}>
+      {data.name}
+    </option>
+  ));
+
   return (
     <div className={styles["profile-main"]}>
       <h3>Write New Blog</h3>
@@ -20,10 +26,7 @@ const WritePostSection = () => {
           </div>
           <div className={styles["section"]}>
             <label htmlFor="">Category</label>
-            <select>
-              <option value="1">Technology</option>
-              <option value="1">Lifestyle</option>
-            </select>
+            <select>{selectOptions}</select>
           </div>
           <div className={styles["section"]}>
             <label htmlFor="">Image</label>

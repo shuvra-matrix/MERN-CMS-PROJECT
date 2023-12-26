@@ -33,7 +33,7 @@ const Header = (props) => {
             </Link>
 
             <div className={styles["blog-nav"]}>
-              <h3>Blogs</h3>
+              <h3 onClick={dropDownHandler}>Blogs</h3>
               <img
                 onClick={dropDownHandler}
                 width="50"
@@ -99,9 +99,10 @@ const Header = (props) => {
           </div>
         </div>
       </div>
-      {isDropdown && <BlogCategory />}
+      {isDropdown && <BlogCategory postCategory={props.postCategory} />}
       {isShow && (
         <Sidebar
+          postCategory={props.postCategory}
           menuShow={menuShowHandler}
           isLogin={props.isLogin}
           logout={props.logout}

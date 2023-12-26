@@ -14,6 +14,7 @@ function App() {
   const [isSidebar, setSidebar] = useState(false);
 
   const [isLogin, setIsLogin] = useState(false);
+  const [postCategory, setPostCategory] = useState([]);
 
   const sideBarController = (value) => {
     setSidebar(value);
@@ -72,12 +73,34 @@ function App() {
     setIsLogin(value);
   };
 
+  useEffect(() => {
+    const url = "http://localhost:3030/profile/getcategory";
+    fetch(url, {
+      method: "GET",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("server error");
+        }
+
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        setPostCategory(data.postCategory);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   return (
     <BrowserRouter>
       <Header
         isSidebar={sideBarController}
         isLogin={isLogin}
         logout={logoutHandler}
+        postCategory={postCategory}
       />
       <Routes>
         <Route
@@ -85,13 +108,21 @@ function App() {
           element={!isLogin ? <Login isLogin={loginHandler} /> : <Blog />}
         />
         <Route path="/signup" element={!isLogin ? <Signup /> : <Blog />} />
+        {!isSidebar && (
+          <Route
+            path="/profile"
+            element={
+              isLogin ? <Profile postCategory={postCategory} /> : <Blog />
+            }
+          />
+        )}
         <Route
           path="/forgotpassword"
           element={!isLogin ? <ForgotPassEmail /> : <Blog />}
         />
         {!isSidebar && <Route path="/" Component={Blog} />}
         {!isSidebar && <Route path="/post" Component={Singlepost} />}
-        {isLogin && !isSidebar && <Route path="/profile" Component={Profile} />}
+        {/* {isLogin && !isSidebar && <Route path="/profile" Component={Profile} />} */}
       </Routes>
       <Footer />
     </BrowserRouter>

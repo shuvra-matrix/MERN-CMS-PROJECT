@@ -35,12 +35,19 @@ const Profile = () => {
       });
   }, []);
 
-  console.log(userData);
+  const updateUserDataHandler = (value) => {
+    console.log("users data", value);
+    setUserData(value);
+  };
 
   return (
     <div className={styles["profile-main"]}>
       <Sidemenu optionHandel={optionHandler} />
-      <Profiles options={option} userData={userData} />
+      <Profiles
+        options={option}
+        userData={userData}
+        userDataHndler={updateUserDataHandler}
+      />
     </div>
   );
 };

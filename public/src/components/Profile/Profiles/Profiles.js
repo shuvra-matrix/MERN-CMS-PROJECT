@@ -8,7 +8,10 @@ const Profiles = (propes) => {
   return (
     <div className={styles["profiles"]}>
       {propes.options === "profile" ? (
-        <ProfileSection userData={propes.userData} />
+        <ProfileSection
+          userData={propes.userData}
+          userDataHndler={propes.userDataHndler}
+        />
       ) : (
         ""
       )}

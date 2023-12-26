@@ -3,7 +3,6 @@ require("dotenv").config();
 
 module.exports = (req, res, next) => {
   const authHeader = req.get("Authorization");
-
   if (!authHeader) {
     const error = new Error("invalid token");
     error.statusCode = 401;
@@ -11,6 +10,8 @@ module.exports = (req, res, next) => {
   }
 
   const token = req.get("Authorization").split(" ")[1];
+
+  console.log(token);
 
   if (!token) {
     const error = new Error("invalid token");

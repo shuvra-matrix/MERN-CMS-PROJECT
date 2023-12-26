@@ -7,14 +7,7 @@ import WritePostSection from "./Sections/WritepostSection";
 const Profiles = (propes) => {
   return (
     <div className={styles["profiles"]}>
-      {propes.options === "profile" ? (
-        <ProfileSection
-          userData={propes.userData}
-          userDataHndler={propes.userDataHndler}
-        />
-      ) : (
-        ""
-      )}
+      {propes.options === "profile" ? <ProfileSection /> : ""}
       {propes.options === "security" ? <SecuritySection /> : ""}
       {propes.options === "writepost" ? <WritePostSection /> : ""}
       {propes.options === "allpost" ? <Allpost /> : ""}

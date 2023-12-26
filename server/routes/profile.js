@@ -7,5 +7,5 @@ const authMillerware = require("../middleware/auth");
 
 routes.get("/profile", authMillerware, profileController.getProfile);
 routes.post("/genotp", authMillerware, profileController.sendOtp);
-routes.put("/editprofile", authMillerware, profileController.exitProfile);
+routes.put("/editprofile", authMillerware, profileController.editProfile);
 module.exports = routes;

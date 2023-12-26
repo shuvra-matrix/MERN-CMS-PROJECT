@@ -85,14 +85,14 @@ exports.sendOtp = (req, res, next) => {
     });
 };
 
-exports.exitProfile = (req, res, next) => {
+exports.editProfile = (req, res, next) => {
   const data = req.body;
 
-  User.findById(req.userId)
+  User.findById(req.userIds)
     .then((user) => {
       if (!user) {
         const error = new Error("invalid user");
-        error.statusCode = 404;
+        error.statusCode = 403;
         throw error;
       }
 
@@ -106,7 +106,8 @@ exports.exitProfile = (req, res, next) => {
         return user.save();
       } else {
         const error = new Error("invalid otp");
-        error.statusCode = 404;
+        error.statusCode = 401;
+        error.data = "invalid otp";
         throw error;
       }
     })

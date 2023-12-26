@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 const ProfileSection = (props) => {
   const navigate = useNavigate();
+  const [userData, setUserData] = useState({});
   const [inputData, setInputData] = useState({
     name: "",
     email: "",
@@ -13,8 +14,12 @@ const ProfileSection = (props) => {
     otp: "",
   });
 
+  const [isEmailValid, setEmailValid] = useState(true);
   const [isNewEmail, setNewEmail] = useState(false);
   const [isOtpSend, setOtpSend] = useState(false);
+  const [message, setMessage] = useState("");
+  const [isMessage, setIsMesssage] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   const emailValidHandler = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -28,16 +33,68 @@ const ProfileSection = (props) => {
       return { ...pre, [name]: value.trim() };
     });
     setNewEmail(false);
+    setEmailValid(true);
   };
+
+  const messageHandler = (message) => {
+    setMessage(message);
+    setIsMesssage(true);
+
+    setTimeout(() => {
+      setIsMesssage(false);
+      setMessage("");
+    }, 2000);
+  };
+
+  const errorHandler = (message) => {
+    setMessage(message);
+    setIsError(true);
+
+    setTimeout(() => {
+      setIsError(false);
+      setMessage("");
+    }, 2000);
+  };
+
+  useEffect(() => {
+    return () => {
+      clearTimeout();
+    };
+  }, []);
+
+  useEffect(() => {
+    const url = "http://localhost:3030/profile/profile";
+    const token = localStorage.getItem("token");
+
+    fetch(url, {
+      method: "GET",
+      headers: { Authorization: "Bearer " + token },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          const error = new Error("invalid user");
+          throw error;
+        }
+
+        return response.json();
+      })
+      .then((data) => {
+        setUserData(data.userData);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   useEffect(() => {
     const interval = setTimeout(() => {
       const isEmailValid = emailValidHandler(inputData.email.trim());
       console.log(isEmailValid);
       if (
-        props.userData.email !== inputData.email &&
+        userData.email !== inputData.email &&
         inputData.email.length > 1 &&
-        isEmailValid
+        isEmailValid &&
+        !isOtpSend
       ) {
         setNewEmail(true);
       } else {
@@ -48,15 +105,58 @@ const ProfileSection = (props) => {
     return () => {
       clearTimeout(interval);
     };
-  }, [inputData.email, props.userData.email]);
+  }, [inputData.email, userData.email, isOtpSend]);
+
+  const otpHandler = () => {
+    const emailValid = emailValidHandler(inputData.email);
+
+    if (!emailValid) {
+      setEmailValid(false);
+      return;
+    }
+
+    const url = "http://localhost:3030/profile/genotp";
+    const token = localStorage.getItem("token");
+    const email = inputData.email;
+    fetch(url, {
+      method: "POST",
+      body: JSON.stringify({
+        email: email,
+      }),
+      headers: {
+        Authorization: "Bearer " + token,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          const err = new Error("autherror");
+          throw err;
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (data.message === "otp send") {
+          setOtpSend(true);
+          setNewEmail(false);
+          messageHandler("OTP Send");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        setOtpSend(false);
+        setNewEmail(false);
+        errorHandler("Server Error");
+      });
+  };
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    const name = inputData.name || props.userData.name;
-    const email = inputData.email || props.userData.email;
-    const website = inputData.website || props.userData.website;
-    const bio = inputData.bio || props.userData.bio;
-    const location = inputData.location || props.userData.location;
+    const name = inputData.name || userData.name;
+    const email = inputData.email || userData.email;
+    const website = inputData.website || userData.website;
+    const bio = inputData.bio || userData.bio;
+    const location = inputData.location || userData.location;
     const otp = inputData.otp || "";
     const isOtp = isOtpSend;
 
@@ -89,6 +189,14 @@ const ProfileSection = (props) => {
         });
 
         if (!response.ok) {
+          console.log(response);
+
+          if (response.status === 401) {
+            errorHandler("Invalid OTP");
+          } else {
+            errorHandler("Server Error");
+          }
+
           const err = new Error("server error");
           throw err;
         }
@@ -100,43 +208,14 @@ const ProfileSection = (props) => {
         setNewEmail(false);
         setOtpSend(false);
         if ((data.message = "profile update")) {
-          props.userDataHndler(data.userData);
+          messageHandler("Update Successfully");
+          setUserData(data.userData);
           navigate("/profile");
         }
       })
       .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const otpHandler = () => {
-    const url = "http://localhost:3030/profile/genotp";
-    const token = localStorage.getItem("token");
-    const email = inputData.email;
-    fetch(url, {
-      method: "POST",
-      body: JSON.stringify({
-        email: email,
-      }),
-      headers: {
-        Authorization: "Bearer " + token,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          const err = new Error("autherror");
-          throw err;
-        }
-        return response.json();
-      })
-      .then((data) => {
-        if (data.message === "otp send") {
-          setOtpSend(true);
-          setNewEmail(false);
-        }
-      })
-      .catch((err) => {
+        setNewEmail(false);
+        setOtpSend(false);
         console.log(err);
       });
   };
@@ -144,6 +223,16 @@ const ProfileSection = (props) => {
   return (
     <div className={styles["profile-main"]}>
       <h3>Profile</h3>
+      {isMessage && (
+        <div className={styles["message"]}>
+          <p>{message}</p>
+        </div>
+      )}
+      {isError && (
+        <div className={styles["error"]}>
+          <p>{message}</p>
+        </div>
+      )}
       <form action="" method="post" onSubmit={onSubmitHandler}>
         <div className={styles["profile-sub"]}>
           <div className={styles["section"]}>
@@ -151,24 +240,39 @@ const ProfileSection = (props) => {
             <input
               type="text"
               name="name"
-              placeholder={props.userData.name}
+              placeholder={userData.name}
               onChange={inputHandler}
               value={inputData.name}
             ></input>
           </div>
-          <div className={styles["section"]}>
+          <div
+            className={`${styles["section"]} ${
+              !isEmailValid ? styles["invalid"] : ""
+            }`}
+          >
             <label htmlFor="">Email</label>
-            <input
-              onChange={inputHandler}
-              type="email"
-              name="email"
-              placeholder={props.userData.email}
-              value={inputData.email}
-            ></input>
+            {isOtpSend ? (
+              <input
+                onChange={inputHandler}
+                type="text"
+                name="email"
+                placeholder={userData.email}
+                value={inputData.email}
+                readOnly
+              ></input>
+            ) : (
+              <input
+                onChange={inputHandler}
+                type="text"
+                name="email"
+                placeholder={userData.email}
+                value={inputData.email}
+              ></input>
+            )}
           </div>
           {isNewEmail && (
             <div className={styles["button"]}>
-              <button onClick={otpHandler} type="submit">
+              <button onClick={otpHandler} type="button">
                 Send OTP
               </button>
             </div>
@@ -192,7 +296,7 @@ const ProfileSection = (props) => {
                   onChange={inputHandler}
                   type="text"
                   name="location"
-                  placeholder={props.userData.location}
+                  placeholder={userData.location}
                   value={inputData.location}
                 ></input>
               </div>
@@ -202,7 +306,7 @@ const ProfileSection = (props) => {
                   onChange={inputHandler}
                   type="text"
                   name="website"
-                  placeholder={props.userData.website}
+                  placeholder={userData.website}
                   value={inputData.website}
                 ></input>
               </div>
@@ -212,7 +316,7 @@ const ProfileSection = (props) => {
                   onChange={inputHandler}
                   type="text"
                   name="bio"
-                  placeholder={props.userData.bio}
+                  placeholder={userData.bio}
                   value={inputData.bio}
                 ></input>
               </div>{" "}

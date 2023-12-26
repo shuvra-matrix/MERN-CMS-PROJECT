@@ -30,7 +30,9 @@ app.use((error, req, res, next) => {
   const status = error.statusCode;
   const message = error.messsage;
   const data = error.data;
-  res.status(status).json({ message: message, data: data, error: "yes" });
+  res
+    .status(status || 500)
+    .json({ message: message, data: data, error: "yes" });
 });
 
 mongoos

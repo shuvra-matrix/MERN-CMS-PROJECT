@@ -1,11 +1,71 @@
 import styles from "./Profilesection.module.css";
+import { useState, useEffect } from "react";
 
 const Editpost = (props) => {
-  console.log(props.postId);
+  const [postData, setPostData] = useState({});
+  const [inputData, setInputHandler] = useState({
+    title: "",
+    desc: "",
+    content: "",
+    category: "",
+    imgSource: "",
+    tag: "",
+    status: "",
+    image: "",
+  });
+  const inputHandler = (e) => {
+    const { name, value } = e.target;
+
+    setInputHandler((pre) => {
+      return { ...pre, [name]: value };
+    });
+  };
+
+  const imageHandler = (e) => {
+    const { name, files } = e.target;
+
+    setInputHandler((pre) => {
+      return { ...pre, [name]: files[0] };
+    });
+  };
 
   const backClickHandler = () => {
     props.backBtn(false);
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const postId = props.postId;
+    const url = "http://localhost:3030/post/getpostdata";
+    fetch(url, {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + token,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        postId: postId,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("post not found");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setPostData(data.postData);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  const selectOptions = props.postCategory.map((data) => (
+    <option value={data._id} key={data._id}>
+      {data.name}
+    </option>
+  ));
 
   return (
     <div className={styles["profile-main"]}>
@@ -22,27 +82,51 @@ const Editpost = (props) => {
         <div className={styles["profile-sub"]}>
           <div className={styles["section"]}>
             <label htmlFor="">Title</label>
-            <input type="text" placeholder="Blog Title"></input>
+            <input
+              onChange={inputHandler}
+              name="title"
+              type="text"
+              value={inputData.title || postData.title}
+            ></input>
           </div>
           <div className={styles["section"]}>
             <label htmlFor="">Short Description</label>
-            <input type="text"></input>
+            <input
+              onChange={inputHandler}
+              name="desc"
+              type="text"
+              value={inputData.desc || postData.desc}
+            ></input>
           </div>
           <div className={styles["section"]}>
             <label htmlFor="">Content</label>
-            <textarea></textarea>
+            <textarea
+              value={inputData.content || postData.content}
+              onChange={inputHandler}
+              name="content"
+            >
+              {inputData.content || postData.content}
+            </textarea>
           </div>
           <div className={styles["section"]}>
             <label htmlFor="">Category</label>
-            <select>
-              <option value="1">Technology</option>
-              <option value="1">Lifestyle</option>
+            <select
+              value={inputData.category || postData.category}
+              onChange={inputHandler}
+              name="category"
+              required
+            >
+              <option value="">Select Category</option>
+              {selectOptions}
             </select>
           </div>
           <div className={styles["section"]}>
             <label htmlFor="">Image</label>
             <div className={styles["image"]}>
-              <input type="file"></input>
+              <p className={styles["image-file-name"]}>
+                {inputData.image.name || postData.imageName}
+              </p>
+              <input onChange={imageHandler} name="image" type="file"></input>
               <img
                 width="64"
                 height="64"
@@ -53,11 +137,33 @@ const Editpost = (props) => {
           </div>
           <div className={styles["section"]}>
             <label htmlFor="">Image source</label>
-            <input type="text"></input>
+            <input
+              value={inputData.imgSource || postData.imgSource}
+              onChange={inputHandler}
+              name="imgSource"
+              type="text"
+            ></input>
           </div>
           <div className={styles["section"]}>
             <label htmlFor="">Tag</label>
-            <input type="text"></input>
+            <input
+              value={inputData.tag || postData.tag}
+              onChange={inputHandler}
+              name="tag"
+              type="text"
+            ></input>
+          </div>
+          <div className={styles["section"]}>
+            <label htmlFor="">Status</label>
+            <select
+              value={inputData.status || postData.status}
+              onChange={inputHandler}
+              name="status"
+            >
+              <option value="">Select Status</option>
+              <option value="publish">Publish</option>
+              <option value="draft">Draft</option>
+            </select>
           </div>
         </div>
         <div className={styles["button"]}>

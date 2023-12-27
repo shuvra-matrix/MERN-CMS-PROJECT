@@ -2,16 +2,16 @@ import styles from "./Allposts.module.css";
 import { Fragment, useEffect, useState } from "react";
 import Editpost from "./Editpost";
 
-const Allpost = () => {
+const Allpost = (props) => {
   const [isEdit, setisEdit] = useState(false);
-  const [postId, setPostId] = useState(null);
+  const [postId, setPostId] = useState("");
   const [post, setPost] = useState([]);
 
   const editHandler = (e) => {
     e.preventDefault();
     setisEdit((pre) => !pre);
-    const postId = e.target[0].value;
-    setPostId(postId);
+    const post_Id = e.target[0].value;
+    setPostId(post_Id);
   };
 
   const backClickHandler = (value) => {
@@ -46,7 +46,7 @@ const Allpost = () => {
       {!isEdit && (
         <div className={styles["allpost-main"]}>
           {post.map((data) => (
-            <div className={styles["allpost-sub"]}>
+            <div className={styles["allpost-sub"]} key={data.postId}>
               <img
                 className={styles["blog-image"]}
                 src={data.imageUrl}
@@ -90,7 +90,13 @@ const Allpost = () => {
         </div>
       )}
 
-      {isEdit && <Editpost postId={postId} backBtn={backClickHandler} />}
+      {isEdit && (
+        <Editpost
+          postCategory={props.postCategory}
+          postId={postId}
+          backBtn={backClickHandler}
+        />
+      )}
     </Fragment>
   );
 };

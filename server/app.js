@@ -28,7 +28,7 @@ const authRoutes = require("./routes/auth");
 const profileRoutes = require("./routes/profile");
 const postRoutes = require("./routes/post");
 
-app.use(publicRoutes);
+app.use("/public", publicRoutes);
 app.use("/auth", authRoutes);
 app.use("/profile", profileRoutes);
 app.use("/post", postRoutes);

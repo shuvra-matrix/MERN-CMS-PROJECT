@@ -1,0 +1,41 @@
+.message,
+.error {
+  position: absolute;
+  padding: 10px 10px;
+  border-radius: 5px;
+  top: 0px;
+  right: 0%;
+  font-weight: 400;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.message {
+  background-color: rgba(22, 255, 119, 0.637);
+  border: 1px solid green;
+}
+
+.error {
+  background-color: rgba(255, 140, 140, 0.815);
+  border: 1px solid rgb(247, 63, 63);
+}
+
+.cross {
+  width: 30px;
+  height: 30px;
+  border: 1px solid black;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.cross:hover {
+  background-color: rgba(0, 0, 0, 0.158);
+}
+
+.cross img {
+  width: 28px;
+  height: 28px;
+}

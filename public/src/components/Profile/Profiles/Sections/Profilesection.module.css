@@ -60,6 +60,7 @@ textarea {
 .image {
   position: relative;
   cursor: pointer;
+  overflow: hidden;
 }
 
 .image input {
@@ -115,24 +116,18 @@ textarea {
   border: 1px solid rgb(243, 93, 93);
 }
 
-.message,
-.error {
+.loader {
+  height: 50vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.small-loader {
   position: absolute;
-  padding: 10px 10px;
-  border-radius: 5px;
-  top: 0px;
-  right: 0%;
-  font-weight: 400;
-}
-
-.message {
-  background-color: rgba(22, 255, 119, 0.637);
-  border: 1px solid green;
-}
-
-.error {
-  background-color: rgba(255, 140, 140, 0.815);
-  border: 1px solid rgb(247, 63, 63);
+  bottom: 40px;
+  right: 0px;
 }
 
 @media (max-width: 1000px) {

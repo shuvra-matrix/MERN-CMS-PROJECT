@@ -57,6 +57,20 @@
   background-color: #c73a3a;
 }
 
+.loader {
+  height: 70vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.small-loader {
+  position: absolute;
+  bottom: 40px;
+  right: 0px;
+}
+
 @media (max-width: 1050px) {
   .allpost-main {
     width: 95%;

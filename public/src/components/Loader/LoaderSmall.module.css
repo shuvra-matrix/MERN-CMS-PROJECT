@@ -1,0 +1,65 @@
+:root {
+  --bg: #e3e4e8;
+  --fg: #17181c;
+  --c1: #f42f25;
+  --c2: #f49725;
+  --c3: #255ff4;
+  --c4: #9725f4;
+}
+
+.pl1 {
+  justify-content: space-around;
+}
+.pl1__a,
+.pl1__b,
+.pl1__c {
+  border-radius: 50%;
+  width: 1em;
+  height: 1em;
+  transform-origin: 50% 100%;
+}
+
+.pl1__a,
+.pl1__b,
+.pl1__c {
+  animation: bounce1 1s linear infinite;
+}
+
+.pl1 {
+  display: flex;
+  margin: 0em;
+  width: 5em;
+  height: 2em;
+}
+.pl1__a {
+  background: var(--c1);
+}
+.pl1__b {
+  background: var(--c2);
+  animation-delay: 0.1s;
+}
+.pl1__c {
+  background: var(--c3);
+  animation-delay: 0.2s;
+}
+
+/* Animations */
+@keyframes bounce1 {
+  from,
+  to {
+    transform: translateY(0) scale(1, 1);
+    animation-timing-function: ease-in;
+  }
+  45% {
+    transform: translateY(2em) scale(1, 1);
+    animation-timing-function: linear;
+  }
+  50% {
+    transform: translateY(2em) scale(1.5, 0.5);
+    animation-timing-function: linear;
+  }
+  55% {
+    transform: translateY(2em) scale(1, 1);
+    animation-timing-function: ease-out;
+  }
+}

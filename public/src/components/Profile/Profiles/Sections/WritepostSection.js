@@ -1,3 +1,5 @@
+import LoaderSmall from "../../../Loader/LoaderSmall";
+import Message from "../../../Message/Message";
 import styles from "./Profilesection.module.css";
 import { useState } from "react";
 
@@ -12,6 +14,14 @@ const WritePostSection = (props) => {
     status: "",
     image: "",
   });
+  const [isSmallLaoder, setSmallLoader] = useState(false);
+  const [message, setMessage] = useState("");
+  const [isMessage, setIsMesssage] = useState(false);
+  const [messageType, setMessageType] = useState("");
+
+  const crossHandler = (value) => {
+    setIsMesssage(value);
+  };
 
   const inputHandler = (e) => {
     const { name, value } = e.target;
@@ -31,6 +41,7 @@ const WritePostSection = (props) => {
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
+    setSmallLoader(true);
 
     const url = "http://localhost:3030/post/addpost";
 
@@ -70,9 +81,16 @@ const WritePostSection = (props) => {
         return response.json();
       })
       .then((data) => {
-        console.data(data);
+        setSmallLoader(false);
+        setIsMesssage(true);
+        setMessageType("message");
+        setMessage("Upload Success!");
       })
       .catch((err) => {
+        setSmallLoader(false);
+        setIsMesssage(true);
+        setMessageType("error");
+        setMessage("Upload Failed!");
         console.log(err);
       });
   };
@@ -85,6 +103,15 @@ const WritePostSection = (props) => {
 
   return (
     <div className={styles["profile-main"]}>
+      {isSmallLaoder && (
+        <div className={styles["small-loader"]}>
+          <LoaderSmall />
+        </div>
+      )}
+      {isMessage && (
+        <Message type={messageType} message={message} cross={crossHandler} />
+      )}
+
       <h3>Write New Blog</h3>
       <form action="" method="post" onSubmit={onSubmitHandler}>
         <div className={styles["profile-sub"]}>

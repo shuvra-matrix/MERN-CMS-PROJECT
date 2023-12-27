@@ -1,11 +1,13 @@
 import styles from "./Allposts.module.css";
 import { Fragment, useEffect, useState } from "react";
 import Editpost from "./Editpost";
+import LoaderBig from "../../../Loader/LoaderBig";
 
 const Allpost = (props) => {
   const [isEdit, setisEdit] = useState(false);
   const [postId, setPostId] = useState("");
   const [post, setPost] = useState([]);
+  const [isLoader, setLoader] = useState(false);
 
   const editHandler = (e) => {
     e.preventDefault();
@@ -16,6 +18,7 @@ const Allpost = (props) => {
 
   const backClickHandler = (value) => {
     setisEdit(value);
+    setLoader(true);
     const token = localStorage.getItem("token");
     const url = "http://localhost:3030/post/getpost";
     fetch(url, {
@@ -32,13 +35,16 @@ const Allpost = (props) => {
       })
       .then((data) => {
         setPost(data.postData);
+        setLoader(false);
       })
       .catch((err) => {
         console.log(err);
+        setLoader(false);
       });
   };
 
   useEffect(() => {
+    setLoader(true);
     const token = localStorage.getItem("token");
     const url = "http://localhost:3030/post/getpost";
     fetch(url, {
@@ -55,15 +61,22 @@ const Allpost = (props) => {
       })
       .then((data) => {
         setPost(data.postData);
+        setLoader(false);
       })
       .catch((err) => {
         console.log(err);
+        setLoader(false);
       });
   }, []);
 
   return (
     <Fragment>
-      {!isEdit && (
+      {isLoader && (
+        <div className={styles["loader"]}>
+          <LoaderBig />
+        </div>
+      )}
+      {!isLoader && !isEdit && (
         <div className={styles["allpost-main"]}>
           {post.map((data) => (
             <div className={styles["allpost-sub"]} key={data.postId}>

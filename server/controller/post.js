@@ -133,3 +133,52 @@ exports.addPost = (req, res, next) => {
 
   uploadImage(imageBuffer);
 };
+
+exports.getProfilePost = (req, res, next) => {
+  Post.find({ user: req.userId })
+    .then((post) => {
+      if (post.length == 0) {
+        const error = new Error("no post available");
+        error.statusCode = 401;
+        throw error;
+      }
+
+      const postData = post.map((data) => {
+        return {
+          imageUrl: data.image,
+          desc: data.desc,
+          postId: data._id,
+        };
+      });
+
+      res.status(200).json({ message: "post get done", postData: postData });
+    })
+    .catch((err) => {
+      console.log(err);
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    });
+};
+
+exports.getEditPostData = (req, res, next) => {
+  const postId = req.body.postId;
+
+  Post.findById(postId)
+    .then((post) => {
+      if (!post) {
+        const error = new Error("no post available");
+        error.statusCode = 401;
+        throw error;
+      }
+      res.status(200).json({ message: "post get done", postData: post });
+    })
+    .catch((err) => {
+      console.log(err);
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    });
+};

@@ -59,7 +59,57 @@ const Editpost = (props) => {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [props.postId]);
+
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
+
+    const url = "http://localhost:3030/post/editpostdata";
+
+    const fromData = new FormData();
+    fromData.append("title", inputData.title || postData.title);
+    fromData.append("category", inputData.category || postData.category);
+    fromData.append("content", inputData.content || postData.content);
+    fromData.append("desc", inputData.desc || postData.desc);
+    fromData.append("image", inputData.image || "oldimage");
+    fromData.append("imageSource", inputData.imgSource || postData.imgSource);
+    fromData.append("status", inputData.status || postData.status);
+    fromData.append("tag", inputData.tag || postData.tag);
+    fromData.append("postId", props.postId);
+    const token = localStorage.getItem("token");
+
+    setInputHandler({
+      title: "",
+      desc: "",
+      content: "",
+      category: "",
+      imgSource: "",
+      tag: "",
+      status: "",
+      image: "",
+    });
+
+    fetch(url, {
+      method: "put",
+      body: fromData,
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("server error");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setPostData(data.postData);
+        console.data(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const selectOptions = props.postCategory.map((data) => (
     <option value={data._id} key={data._id}>
@@ -78,7 +128,7 @@ const Editpost = (props) => {
         onClick={backClickHandler}
       />
       <h3>Edit Blog</h3>
-      <form action="" method="post">
+      <form action="" method="post" onSubmit={onSubmitHandler}>
         <div className={styles["profile-sub"]}>
           <div className={styles["section"]}>
             <label htmlFor="">Title</label>

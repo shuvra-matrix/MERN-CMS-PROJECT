@@ -8,5 +8,6 @@ const postController = require("../controller/post");
 routes.post("/addpost", auth, postController.addPost);
 routes.get("/getpost", auth, postController.getProfilePost);
 routes.post("/getpostdata", auth, postController.getEditPostData);
+routes.put("/editpostdata", auth, postController.postEditData);
 
 module.exports = routes;

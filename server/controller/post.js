@@ -12,11 +12,8 @@ cloudinary.config({
 });
 
 exports.addPost = (req, res, next) => {
-  console.log(req.body);
-  console.log(req.file);
   const { title, category, content, desc, imageSource, status, tag } = req.body;
   const imageBuffer = req.file.buffer;
-  console.log(imageBuffer);
   const imageName = req.file.originalname;
   const uniqueFileName =
     imageName + "-" + Date.now() + "-" + Math.round(Math.random() * 1e9);
@@ -146,7 +143,7 @@ exports.getProfilePost = (req, res, next) => {
       const postData = post.map((data) => {
         return {
           imageUrl: data.image,
-          desc: data.desc,
+          desc: data.title.slice(0, 26) + "....",
           postId: data._id,
         };
       });
@@ -182,4 +179,117 @@ exports.getEditPostData = (req, res, next) => {
       }
       next(err);
     });
+};
+
+exports.postEditData = (req, res, next) => {
+  const { title, category, content, desc, imageSource, status, tag, postId } =
+    req.body;
+
+  const currentDate = new Date();
+  const options = { timeZone: "Asia/Kolkata" };
+  const istDate = currentDate.toLocaleString("en-US", options);
+  if (req.body.image) {
+    Post.findById(postId)
+      .then((post) => {
+        if (!post) {
+          const err = new Error("no post available");
+          err.statusCode = 404;
+          throw err;
+        }
+
+        post.title = title;
+        post.category = category;
+        post.content = content;
+        post.desc = desc;
+        post.imgSource = imageSource;
+        post.status = status;
+        post.tag = tag;
+        post.upadteAt = istDate;
+
+        return post.save();
+      })
+      .then((result) => {
+        res.status(200).json({ message: "post edit done", postData: result });
+      })
+      .catch((err) => {
+        console.log(err);
+        if (!err.statusCode) {
+          err.statusCode = 500;
+        }
+        next(err);
+      });
+  } else {
+    const imageBuffer = req.file.buffer;
+    const imageName = req.file.originalname;
+    const uniqueFileName =
+      imageName + "-" + Date.now() + "-" + Math.round(Math.random() * 1e9);
+
+    let imageUrl;
+    const options = {
+      unique_filename: false,
+      overwrite: true,
+      public_id: "Blog/image" + uniqueFileName,
+    };
+
+    const uploadImage = async (imageBuffer) => {
+      try {
+        const writeBufferFile = cloudinary.uploader.upload_stream(
+          options,
+          (error, result) => {
+            if (error) {
+              console.log(error);
+              const err = new Error(error);
+              err.statusCode = 403;
+              throw err;
+            }
+            imageUrl = result.secure_url;
+
+            Post.findById(postId)
+              .then((post) => {
+                if (!post) {
+                  const err = new Error("no post available");
+                  err.statusCode = 404;
+                  throw err;
+                }
+
+                post.title = title;
+                post.category = category;
+                post.content = content;
+                post.desc = desc;
+                post.imgSource = imageSource;
+                post.status = status;
+                post.tag = tag;
+                post.image = imageUrl;
+                post.upadteAt = istDate;
+                post.imageName = imageName;
+
+                return post.save();
+              })
+              .then((result) => {
+                res
+                  .status(200)
+                  .json({ message: "post edit done", postData: result });
+              })
+              .catch((err) => {
+                console.log(err);
+                if (!err.statusCode) {
+                  err.statusCode = 500;
+                }
+                next(err);
+              });
+          }
+        );
+        const readableStream = Readable.from(imageBuffer);
+        readableStream.pipe(writeBufferFile);
+      } catch (err) {
+        console.log(err);
+        if (!err.statusCode) {
+          err.statusCode = 500;
+          next(err);
+        }
+      }
+    };
+
+    uploadImage(imageBuffer);
+  }
 };

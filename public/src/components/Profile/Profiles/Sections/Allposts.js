@@ -16,6 +16,26 @@ const Allpost = (props) => {
 
   const backClickHandler = (value) => {
     setisEdit(value);
+    const token = localStorage.getItem("token");
+    const url = "http://localhost:3030/post/getpost";
+    fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("post not found");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setPost(data.postData);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   useEffect(() => {

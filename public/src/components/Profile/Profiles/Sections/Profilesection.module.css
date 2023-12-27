@@ -81,13 +81,10 @@ textarea {
   cursor: pointer;
 }
 
-.image::after {
-  content: "Select Image File";
-  color: black;
+.image-file-name {
   position: absolute;
   top: 5px;
   left: 50px;
-  cursor: pointer;
 }
 
 .button button {

@@ -18,13 +18,20 @@ app.use((req, res, next) => {
   next();
 });
 
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
+app.use(upload.single("image"));
+
 const publicRoutes = require("./routes/public");
 const authRoutes = require("./routes/auth");
 const profileRoutes = require("./routes/profile");
+const postRoutes = require("./routes/post");
 
 app.use(publicRoutes);
 app.use("/auth", authRoutes);
 app.use("/profile", profileRoutes);
+app.use("/post", postRoutes);
 
 app.use((error, req, res, next) => {
   const status = error.statusCode;

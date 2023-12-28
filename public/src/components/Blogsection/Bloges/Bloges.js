@@ -35,7 +35,7 @@ const Bloges = () => {
             <img src={post.image} alt="imges sd"></img>
 
             <h1 className={styles["title"]}>{post.title}</h1>
-            <p className={styles["desc"]}>{post.desc}</p>
+            <p className={styles["desc"]}>{post.desc.slice(0, 250)}</p>
             <p className={styles["name"]}>
               {post.user.name} <span>{post.date}</span>
             </p>

@@ -6,22 +6,25 @@ a {
   width: 670px;
   border: 0px;
   padding: 10px;
-  background-color: #fef4ea;
+  background-color: #fff1e3;
   margin-bottom: 2rem;
+  border-radius: 10px;
 }
 .bloges img {
   width: 650px;
   height: 300px;
+  border-radius: 10px;
 }
 
 .title {
-  color: #213343;
+  color: #162633;
   font-size: 1.6rem;
   margin-top: 15px;
+  text-align: left;
 }
 .desc {
   margin-top: 15px;
-  color: #213343;
+  color: #414141;
 }
 
 .name {

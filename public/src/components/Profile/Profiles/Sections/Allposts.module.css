@@ -9,14 +9,16 @@
 
 .allpost-sub {
   width: 100%;
-  padding: 5px;
-  background-color: #ecf6ff;
+  padding: 10px;
+  background-color: #fff4e5;
+  border-radius: 10px;
 }
 
 .blog-image {
   width: 100%;
   height: 200px;
   margin: auto;
+  border-radius: 10px;
 }
 
 .allpost-sub p {
@@ -31,6 +33,7 @@
   justify-content: space-between;
   align-items: center;
   flex-flow: nowrap row;
+  padding-top: 5px;
 }
 
 .edit,
@@ -42,11 +45,13 @@
 }
 
 .edit {
-  background-color: #2ac766;
+  background-color: #48f17b;
+  border-radius: 4px;
 }
 
 .delete {
-  background-color: #eb4343;
+  background-color: #f74747;
+  border-radius: 4px;
 }
 
 .edit:hover {

@@ -6,6 +6,7 @@ const rourte = express.Router();
 
 const authController = require("../controller/auth");
 const { route } = require("./public");
+const auth = require("../middleware/auth");
 
 rourte.post(
   "/signup",

@@ -4,6 +4,9 @@ const bcrypt = require("bcryptjs");
 const User = require("../model/User");
 const jwt = require("jsonwebtoken");
 const { json } = require("express");
+const Post = require("../model/Post");
+const PostCategory = require("../model/PostCategory");
+const { post } = require("../routes/public");
 
 const transporter = nodeMailer.createTransport({
   service: "gmail",

@@ -16,6 +16,39 @@ const Allpost = (props) => {
     setPostId(post_Id);
   };
 
+  const deleteHandler = (e) => {
+    console.log(e);
+    e.preventDefault();
+    const post_Id = e.target[0].value;
+    const token = localStorage.getItem("token");
+    const url = "http://localhost:3030/post/postdelete";
+
+    fetch(url, {
+      method: "DELETE",
+      body: JSON.stringify({
+        postId: post_Id,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("server error");
+        }
+
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        setPost(data.postData);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const backClickHandler = (value) => {
     setisEdit(value);
     setLoader(true);
@@ -102,7 +135,7 @@ const Allpost = (props) => {
                     />
                   </button>
                 </form>
-                <form method="post">
+                <form method="post" onSubmit={deleteHandler}>
                   <input
                     type="hidden"
                     name="postId"

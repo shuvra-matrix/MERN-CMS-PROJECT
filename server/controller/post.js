@@ -293,3 +293,90 @@ exports.postEditData = (req, res, next) => {
     uploadImage(imageBuffer);
   }
 };
+
+exports.deletePost = (req, res, next) => {
+  const postId = req.body.postId;
+  let postData;
+  Post.findById(postId)
+    .then((post) => {
+      if (!post) {
+        const error = new Error("post not found");
+        error.statusCode = 401;
+        throw error;
+      }
+
+      postData = post;
+
+      return User.findById(postData.user);
+    })
+    .then((user) => {
+      if (!user) {
+        const error = new Error("user not found");
+        error.statusCode = 401;
+        throw error;
+      }
+
+      user.posts.pop(postId);
+      return user.save();
+    })
+    .then((result) => {
+      if (!result) {
+        const error = new Error("Not found");
+        error.statusCode = 401;
+        throw error;
+      }
+
+      return PostCategory.findById(postData.category);
+    })
+    .then((PostCategoryData) => {
+      if (!PostCategoryData) {
+        const error = new Error("Postcategory Not found");
+        error.statusCode = 401;
+        throw error;
+      }
+
+      PostCategoryData.posts.pop(postId);
+      return PostCategoryData.save();
+    })
+    .then((result) => {
+      if (!result) {
+        const error = new Error("server error");
+        error.statusCode = 401;
+        throw error;
+      }
+
+      return Post.findByIdAndDelete(postId);
+    })
+    .then((post) => {
+      if (!post) {
+        const error = new Error("server error");
+        error.statusCode = 401;
+        throw error;
+      }
+
+      return Post.find({ user: req.userId });
+    })
+    .then((posts) => {
+      if (!posts) {
+        const error = new Error("server error");
+        error.statusCode = 401;
+        throw error;
+      }
+      const postData = posts.map((data) => {
+        return {
+          imageUrl: data.image,
+          desc: data.title.slice(0, 26) + "....",
+          postId: data._id,
+        };
+      });
+
+      res.status(200).json({ message: "post get done", postData: postData });
+    })
+    .catch((err) => {
+      console.log(err);
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    });
+};

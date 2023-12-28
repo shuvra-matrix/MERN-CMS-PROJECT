@@ -47,6 +47,7 @@ const postSchema = new Schema({
   },
   views: {
     type: Number,
+    default: 0,
   },
   createAt: {
     type: String,

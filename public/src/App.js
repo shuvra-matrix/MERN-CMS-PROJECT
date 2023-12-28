@@ -122,7 +122,7 @@ function App() {
         />
         {!isSidebar && <Route path="/" Component={Blog} />}
         {!isSidebar && <Route path="/post" Component={Singlepost} />}
-        {/* {isLogin && !isSidebar && <Route path="/profile" Component={Profile} />} */}
+        {isLogin && !isSidebar && <Route path="/profile" Component={Profile} />}
       </Routes>
       <Footer />
     </BrowserRouter>

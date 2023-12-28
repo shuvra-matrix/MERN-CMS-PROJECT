@@ -6,10 +6,11 @@ const Featurespost = () => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    const url = "http://localhost:3030/public/getpost";
+    const url = "http://localhost:3030/public/getfeaturespost";
 
     fetch(url, { method: "GET" })
       .then((response) => {
+        console.log(response);
         if (!response.ok) {
           const error = new Error("server error");
           throw error;
@@ -17,7 +18,7 @@ const Featurespost = () => {
         return response.json();
       })
       .then((data) => {
-        setPosts(data);
+        setPosts(data.posts);
       })
       .catch((err) => {
         console.log(err);
@@ -29,18 +30,20 @@ const Featurespost = () => {
   return (
     <div className={styles["featues-main"]}>
       <p className={styles["title"]}>Featured Posts</p>
-      <Link to="/post">
-        <div className={styles["posts"]}>
-          <p className={styles["topic-name"]}>
-            The Top Types of AI-Generated Content in Marketing [New Data,
-            Examples & Tips]
-          </p>
-          <div className={styles["namesection"]}>
-            <p>Shuvra Chakrabarty</p>
-            <p>11/7/23</p>
+      {posts.map((post) => (
+        <Link
+          to={`/post?title=${post.title}&id=${post.postId}`}
+          key={post.postId}
+        >
+          <div className={styles["posts"]}>
+            <p className={styles["topic-name"]}>{post.title}</p>
+            <div className={styles["namesection"]}>
+              <p> {post.user.name}</p>
+              <p>{post.date}</p>
+            </div>
           </div>
-        </div>
-      </Link>
+        </Link>
+      ))}
     </div>
   );
 };

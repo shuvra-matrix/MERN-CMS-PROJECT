@@ -5,6 +5,7 @@
   display: none;
   height: 100svh;
   position: fixed;
+  top: 60px;
 }
 
 .profile {

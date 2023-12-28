@@ -1,5 +1,4 @@
 import styles from "./Bloges.module.css";
-import one from "../../../media/one.png";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 
@@ -28,7 +27,10 @@ const Bloges = () => {
   return (
     <div className={styles["blog-mian"]}>
       {posts.map((post) => (
-        <Link to={`/post?${post.title},${post.postId}`} key={post.postId}>
+        <Link
+          to={`/post?title=${post.title}&id=${post.postId}`}
+          key={post.postId}
+        >
           <div className={styles["bloges"]}>
             <img src={post.image} alt="imges sd"></img>
 

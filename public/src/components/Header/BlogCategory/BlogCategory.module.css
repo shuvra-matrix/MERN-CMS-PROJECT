@@ -6,6 +6,7 @@
   padding: 1rem 1rem 2rem 1rem;
   position: fixed;
   z-index: 20;
+  top: 82px;
   border-bottom: 4px solid;
   border-bottom-color: rgba(192, 192, 192, 0.315);
 }
@@ -68,5 +69,11 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
+  }
+}
+
+@media (max-width: 690px) {
+  .category-main {
+    display: none;
   }
 }

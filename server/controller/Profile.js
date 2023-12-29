@@ -171,9 +171,7 @@ exports.getCategory = (req, res, next) => {
 
       const newPost = post.map((data) => {
         return {
-          name: data.name,
-          icon: data.icon,
-          desc: data.desc,
+          name: data.name.split(" ")[0],
           _id: data._id,
         };
       });

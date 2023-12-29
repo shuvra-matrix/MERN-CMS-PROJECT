@@ -106,3 +106,51 @@
   left: 4px;
   transform: rotate(180deg);
 }
+
+@media (max-width: 1120px) {
+  .main-div {
+    width: 96%;
+    margin-right: auto;
+    margin-left: auto;
+  }
+}
+
+@media (max-width: 850px) {
+  .search-div {
+    width: 55%;
+  }
+  .round-two {
+    top: 70px;
+    right: 5%;
+  }
+}
+
+@media (max-width: 700px) {
+  .search-div {
+    width: 65%;
+  }
+  .main-div {
+    height: 130px;
+  }
+}
+
+@media (max-width: 500px) {
+  .search-div {
+    width: 70%;
+  }
+}
+
+@media (max-width: 400px) {
+  .round-one {
+    top: 30px;
+    left: 8%;
+    width: 30px;
+    height: 30px;
+  }
+  .round-two {
+    top: 70px;
+    right: 4%;
+    width: 30px;
+    height: 30px;
+  }
+}

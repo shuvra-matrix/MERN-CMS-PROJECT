@@ -10,6 +10,7 @@ import Login from "./components/Auth/Login/Login";
 import Signup from "./components/Auth/Singup/Signup";
 import ForgotPassEmail from "./components/Auth/FogotPassword/ForgotPasswordEmail";
 import SearchSection from "./components/Searchpost/SearchSection";
+import PostCategory from "./components/PostCategory/PostCategory";
 
 function App() {
   const [isSidebar, setSidebar] = useState(false);
@@ -57,7 +58,6 @@ function App() {
     const isUserLogin = localStorage.getItem("isLogin") === "yes";
 
     if (isUserLogin) {
-      console.log(isUserLogin);
       checkLoginStatus();
     }
   }, []);
@@ -101,9 +101,9 @@ function App() {
         isSidebar={sideBarController}
         isLogin={isLogin}
         logout={logoutHandler}
-        postCategory={postCategory}
       />
       <SearchSection />
+      <PostCategory postCategory={postCategory} />
       <Routes>
         <Route
           path="/login"

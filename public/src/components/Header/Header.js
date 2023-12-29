@@ -14,7 +14,7 @@ const Header = (props) => {
       <div className={styles["main-header"]}>
         <div className={styles["logo"]}>
           <Link to="/">
-            <h1>
+            <h1 onClick={() => setIsActive("blog")}>
               Blog<span>Sp</span>ot
             </h1>
           </Link>

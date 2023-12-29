@@ -1,0 +1,114 @@
+.div-main {
+  display: flex;
+  flex-flow: nowrap row;
+  gap: 20px;
+  width: 40%;
+  margin: auto;
+  align-items: center;
+}
+
+.cat-main {
+  width: 90%;
+  margin: 1rem auto;
+  display: flex;
+  gap: 15px;
+  overflow: scroll;
+  align-items: center;
+  scroll-behavior: smooth;
+  border: 0;
+  border-radius: 25px;
+}
+
+.cat-main::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+
+.cat-main::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+
+.cat-main::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.category {
+  flex: 1 1 50%;
+  box-sizing: border-box;
+  cursor: pointer;
+  color: #3d3d3d;
+}
+
+.cat-main p {
+  display: inline;
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.forward,
+.back {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background-color: #0cace5;
+  box-shadow: 0px 0px 5px 2px rgba(9, 165, 226, 0.452);
+}
+.forward img,
+.back img {
+  width: 20px;
+  height: 20px;
+}
+
+.active {
+  background-color: #0cace5;
+  color: white !important;
+  padding: 5px 20px;
+  border: 0;
+  border-radius: 25px;
+}
+
+@media (max-width: 1100px) {
+  .div-main {
+    width: 60%;
+  }
+}
+
+@media (max-width: 730px) {
+  .div-main {
+    width: 70%;
+  }
+}
+
+@media (max-width: 500px) {
+  .div-main {
+    width: 80%;
+  }
+}
+
+@media (max-width: 500px) {
+  .div-main {
+    width: 90%;
+  }
+}
+
+@media (max-width: 305px) {
+  .div-main {
+    width: 95%;
+  }
+  .cat-main {
+    color: rgb(29, 29, 29);
+  }
+
+  .cat-main p {
+    font-size: 0.9rem;
+    font-weight: 400;
+  }
+  .active {
+    padding: 5px 10px;
+  }
+}

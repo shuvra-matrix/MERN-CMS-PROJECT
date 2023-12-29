@@ -9,6 +9,7 @@ import Profile from "./components/Profile/Profile";
 import Login from "./components/Auth/Login/Login";
 import Signup from "./components/Auth/Singup/Signup";
 import ForgotPassEmail from "./components/Auth/FogotPassword/ForgotPasswordEmail";
+import SearchSection from "./components/Searchpost/SearchSection";
 
 function App() {
   const [isSidebar, setSidebar] = useState(false);
@@ -102,6 +103,7 @@ function App() {
         logout={logoutHandler}
         postCategory={postCategory}
       />
+      <SearchSection />
       <Routes>
         <Route
           path="/login"

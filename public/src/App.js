@@ -17,7 +17,9 @@ function App() {
   const [posts, setPosts] = useState([]);
   const [isLogin, setIsLogin] = useState(false);
   const [postCategory, setPostCategory] = useState([]);
-  const [categoryId, setCategoryId] = useState("");
+  const [categoryId, setCategoryId] = useState("All");
+  const [isLoader, setLoader] = useState(false);
+  const [searchData, setSearchData] = useState("");
   const [pages, setPages] = useState({
     totalItem: 0,
     totalPage: 0,
@@ -27,10 +29,17 @@ function App() {
 
   const sideBarController = (value) => {
     setSidebar(value);
+    setCurrentPage(1);
   };
 
   const categoryHandler = (value) => {
     setCategoryId(value);
+    setSearchData("");
+  };
+
+  const searchDataHandler = (value) => {
+    setSearchData(value);
+    setCurrentPage(1);
   };
 
   useEffect(() => {
@@ -53,6 +62,7 @@ function App() {
           return response.json();
         })
         .then((data) => {
+          setSearchData("");
           if (data.message === "valid auth") {
             setIsLogin(true);
           } else {
@@ -105,11 +115,14 @@ function App() {
   }, []);
 
   useEffect(() => {
+    setLoader(true);
     const url =
       "http://localhost:3030/public/getpost?page=" +
       currentPage +
       "&catId=" +
-      categoryId;
+      categoryId +
+      "&search=" +
+      searchData;
 
     fetch(url, { method: "GET" })
       .then((response) => {
@@ -120,6 +133,7 @@ function App() {
         return response.json();
       })
       .then((data) => {
+        setLoader(false);
         setPages({
           totalItem: data.totalItem,
           totalPage: data.totalPage,
@@ -130,8 +144,9 @@ function App() {
       .catch((err) => {
         console.log(err);
         setPosts([]);
+        setLoader(false);
       });
-  }, [currentPage, categoryId]);
+  }, [currentPage, categoryId, searchData]);
 
   const currentPageHandler = (value) => {
     setCurrentPage(value);
@@ -144,7 +159,7 @@ function App() {
         isLogin={isLogin}
         logout={logoutHandler}
       />
-      <SearchSection />
+      <SearchSection searchDataHandler={searchDataHandler} />
       <PostCategory
         postCategory={postCategory}
         categoryHandler={categoryHandler}
@@ -160,6 +175,7 @@ function App() {
                 posts={posts}
                 pages={pages}
                 currentPageHandler={currentPageHandler}
+                isLoader={isLoader}
               />
             )
           }
@@ -174,6 +190,7 @@ function App() {
                 posts={posts}
                 pages={pages}
                 currentPageHandler={currentPageHandler}
+                isLoader={isLoader}
               />
             )
           }
@@ -189,6 +206,7 @@ function App() {
                   posts={posts}
                   pages={pages}
                   currentPageHandler={currentPageHandler}
+                  isLoader={isLoader}
                 />
               )
             }
@@ -204,6 +222,7 @@ function App() {
                 posts={posts}
                 pages={pages}
                 currentPageHandler={currentPageHandler}
+                isLoader={isLoader}
               />
             )
           }
@@ -216,6 +235,7 @@ function App() {
                 posts={posts}
                 pages={pages}
                 currentPageHandler={currentPageHandler}
+                isLoader={isLoader}
               />
             }
           />

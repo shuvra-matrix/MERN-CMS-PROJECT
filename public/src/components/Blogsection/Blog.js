@@ -3,12 +3,13 @@ import { Link } from "react-router-dom";
 import arrow from "../../media/icons8-right-64.png";
 import { Fragment } from "react";
 import Pagination from "../Pagination/Pagination";
+import LoaderThree from "../Loader/LoaderThree";
 
 const Blog = (props) => {
   let posts = props.posts;
   return (
     <Fragment>
-      {posts.length > 0 && (
+      {!props.isLoader && posts.length > 0 && (
         <Fragment>
           <div className={styles["blog-main"]} key="7848hs8">
             <div className={styles["wide-post"]}>
@@ -82,12 +83,17 @@ const Blog = (props) => {
           />
         </Fragment>
       )}
-      {posts.length < 1 && (
+      {!props.isLoader && posts.length < 1 && (
         <div className={styles["no-post"]}>
           <p>
             Sorry, no post available at the moment. Stay tuned for updates and
             exciting content soon!
           </p>
+        </div>
+      )}
+      {props.isLoader && (
+        <div className={styles["loader"]}>
+          <LoaderThree />
         </div>
       )}
     </Fragment>

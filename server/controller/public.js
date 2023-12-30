@@ -7,19 +7,36 @@ const formatDate = (date) => {
 };
 
 exports.getPublishPost = (req, res, next) => {
-  console.log(req.query);
   const pageNumber = req.query.page || 1;
   const categoryId = req.query.catId;
+  let searchData = req.query.search;
+
+  console.log(req.query);
+
   const perPage = 7;
   let totalItem;
   let totalPage;
-
   let condition;
 
-  if (categoryId === "All" || categoryId === "") {
-    condition = { status: "publish" };
+  const titleCondition = {
+    title: { $regex: searchData, $options: "i" },
+  };
+
+  const tagCondition = {
+    tag: { $regex: searchData, $options: "i" },
+  };
+
+  if (categoryId === "All") {
+    condition = {
+      status: "publish",
+      $or: [titleCondition, tagCondition],
+    };
   } else {
-    condition = { status: "publish", category: categoryId };
+    condition = {
+      status: "publish",
+      category: categoryId,
+      $or: [titleCondition, tagCondition],
+    };
   }
 
   Post.find(condition)

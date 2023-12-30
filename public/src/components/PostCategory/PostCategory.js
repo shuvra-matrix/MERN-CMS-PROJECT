@@ -1,5 +1,5 @@
 import styles from "./PostCategory.module.css";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import back from "../../media/icons8-back-64.png";
 import frow from "../../media/icons8-forward-64.png";
 

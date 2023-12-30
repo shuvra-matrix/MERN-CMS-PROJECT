@@ -33,6 +33,10 @@ code {
     monospace;
 }
 
+a {
+  text-decoration: none;
+}
+
 #root {
   min-height: 100dvh;
   display: flex;

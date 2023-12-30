@@ -12,6 +12,10 @@ a {
   padding: 2rem 0px;
 }
 
+.logo h1 {
+  color: rgb(27, 27, 27);
+}
+
 .logo span {
   background-clip: text;
   color: transparent;

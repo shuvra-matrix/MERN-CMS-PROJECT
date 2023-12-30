@@ -9,6 +9,7 @@ const formatDate = (date) => {
 exports.getPublishPost = (req, res, next) => {
   Post.find({ status: "publish" })
     .populate("user", "name")
+    .populate("category", "name")
     .then((post) => {
       if (post.length === 0) {
         const error = new Error("no post available");
@@ -25,8 +26,10 @@ exports.getPublishPost = (req, res, next) => {
           desc: data.desc,
           date: date,
           user: data.user,
+          category: data.category,
         };
       });
+      console.log(postData);
 
       res.status(200).json({ message: "all post got", posts: postData });
     })

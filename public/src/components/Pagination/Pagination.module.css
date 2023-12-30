@@ -1,0 +1,47 @@
+.pagination-main {
+  width: 100%;
+  margin: 1rem auto 4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.page {
+  background-color: #8d4ef5;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  border: 0;
+  border-radius: 50%;
+}
+
+.activePage {
+  width: 35px;
+  height: 35px;
+  background-color: #6d31ce;
+}
+
+@media (max-width: 350px) {
+  .pagination-main {
+    width: 100%;
+    padding: 0 10px;
+    margin: 0.5rem auto 2rem;
+    gap: 10px;
+    flex-flow: wrap row;
+  }
+  .page {
+    width: 25px;
+    height: 25px;
+    font-weight: 500;
+  }
+  .activePage {
+    width: 30px;
+    height: 30px;
+  }
+}

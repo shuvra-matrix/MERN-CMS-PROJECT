@@ -7,9 +7,23 @@ const formatDate = (date) => {
 };
 
 exports.getPublishPost = (req, res, next) => {
+  const pageNumber = req.query.page || 1;
+  const perPage = 7;
+  let totalItem;
+  let totalPage;
+
   Post.find({ status: "publish" })
-    .populate("user", "name")
-    .populate("category", "name")
+    .countDocuments()
+    .then((count) => {
+      totalItem = count;
+
+      totalPage = Math.ceil(totalItem / perPage);
+      return Post.find({ status: "publish" })
+        .populate("user", "name")
+        .populate("category", "name")
+        .skip((pageNumber - 1) * perPage)
+        .limit(perPage);
+    })
     .then((post) => {
       if (post.length === 0) {
         const error = new Error("no post available");
@@ -29,9 +43,13 @@ exports.getPublishPost = (req, res, next) => {
           category: data.category,
         };
       });
-      console.log(postData);
-
-      res.status(200).json({ message: "all post got", posts: postData });
+      res.status(200).json({
+        message: "all post got",
+        posts: postData,
+        totalItem: totalItem,
+        totalPage: totalPage,
+        currentPage: pageNumber,
+      });
     })
     .catch((err) => {
       console.log(err);

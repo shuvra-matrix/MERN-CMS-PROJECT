@@ -14,9 +14,15 @@ import PostCategory from "./components/PostCategory/PostCategory";
 
 function App() {
   const [isSidebar, setSidebar] = useState(false);
-
+  const [posts, setPosts] = useState([]);
   const [isLogin, setIsLogin] = useState(false);
   const [postCategory, setPostCategory] = useState([]);
+  const [pages, setPages] = useState({
+    totalItem: 0,
+    totalPage: 0,
+    currentPage: 1,
+  });
+  const [currentPage, setCurrentPage] = useState(1);
 
   const sideBarController = (value) => {
     setSidebar(value);
@@ -34,7 +40,6 @@ function App() {
         },
       })
         .then((response) => {
-          console.log(response);
           if (!response.ok) {
             setIsLogin(false);
             localStorage.clear("isLogin");
@@ -87,13 +92,40 @@ function App() {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         setPostCategory(data.postCategory);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
+
+  useEffect(() => {
+    const url = "http://localhost:3030/public/getpost?page=" + currentPage;
+
+    fetch(url, { method: "GET" })
+      .then((response) => {
+        if (!response.ok) {
+          const error = new Error("server error");
+          throw error;
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setPages({
+          totalItem: data.totalItem,
+          totalPage: data.totalPage,
+          currentPage: Number(data.currentPage),
+        });
+        setPosts(data.posts);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [currentPage]);
+
+  const currentPageHandler = (value) => {
+    setCurrentPage(value);
+  };
 
   return (
     <BrowserRouter>
@@ -107,22 +139,74 @@ function App() {
       <Routes>
         <Route
           path="/login"
-          element={!isLogin ? <Login isLogin={loginHandler} /> : <Blog />}
+          element={
+            !isLogin ? (
+              <Login isLogin={loginHandler} />
+            ) : (
+              <Blog
+                posts={posts}
+                pages={pages}
+                currentPageHandler={currentPageHandler}
+              />
+            )
+          }
         />
-        <Route path="/signup" element={!isLogin ? <Signup /> : <Blog />} />
+        <Route
+          path="/signup"
+          element={
+            !isLogin ? (
+              <Signup />
+            ) : (
+              <Blog
+                posts={posts}
+                pages={pages}
+                currentPageHandler={currentPageHandler}
+              />
+            )
+          }
+        />
         {!isSidebar && (
           <Route
             path="/profile"
             element={
-              isLogin ? <Profile postCategory={postCategory} /> : <Blog />
+              isLogin ? (
+                <Profile postCategory={postCategory} />
+              ) : (
+                <Blog
+                  posts={posts}
+                  pages={pages}
+                  currentPageHandler={currentPageHandler}
+                />
+              )
             }
           />
         )}
         <Route
           path="/forgotpassword"
-          element={!isLogin ? <ForgotPassEmail /> : <Blog />}
+          element={
+            !isLogin ? (
+              <ForgotPassEmail />
+            ) : (
+              <Blog
+                posts={posts}
+                pages={pages}
+                currentPageHandler={currentPageHandler}
+              />
+            )
+          }
         />
-        {!isSidebar && <Route path="/" Component={Blog} />}
+        {!isSidebar && (
+          <Route
+            path="/"
+            element={
+              <Blog
+                posts={posts}
+                pages={pages}
+                currentPageHandler={currentPageHandler}
+              />
+            }
+          />
+        )}
         {!isSidebar && <Route path="/post" Component={Singlepost} />}
         {isLogin && !isSidebar && <Route path="/profile" Component={Profile} />}
       </Routes>

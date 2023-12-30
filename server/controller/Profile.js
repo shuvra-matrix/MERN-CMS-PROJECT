@@ -12,7 +12,6 @@ const transporter = nodeMailer.createTransport({
 });
 
 exports.getProfile = (req, res, next) => {
-  console.log(req.userId);
   User.findById(req.userId)
     .then((user) => {
       if (!user) {
@@ -167,8 +166,6 @@ exports.addCategory = (req, res, next) => {
 exports.getCategory = (req, res, next) => {
   PostCategory.find()
     .then((post) => {
-      console.log(post);
-
       const newPost = post.map((data) => {
         return {
           name: data.name.split(" ")[0],

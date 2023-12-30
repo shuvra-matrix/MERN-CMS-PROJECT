@@ -161,7 +161,6 @@ exports.getProfilePost = (req, res, next) => {
 
 exports.getEditPostData = (req, res, next) => {
   const postId = req.body.postId;
-  console.log(postId);
 
   Post.findOne({ _id: postId, user: req.userId })
     .then((post) => {

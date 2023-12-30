@@ -9,8 +9,9 @@ const PostCategory = (propes) => {
   const backRef = useRef(null);
   const forwardRef = useRef(null);
 
-  const handleCategoryClick = (category) => {
+  const handleCategoryClick = (category, catId) => {
     setActiveCategory(category);
+    propes.categoryHandler(catId);
     const categoryIndex = propes.postCategory.findIndex(
       (data) => data.name === category
     );
@@ -47,7 +48,7 @@ const PostCategory = (propes) => {
           className={`${styles["category"]} ${
             activeCategory === "All" ? styles.active : ""
           }`}
-          onClick={() => handleCategoryClick("All")}
+          onClick={() => handleCategoryClick("All", "All")}
         >
           <p>All</p>
         </div>
@@ -57,7 +58,7 @@ const PostCategory = (propes) => {
             className={`${styles["category"]} ${
               activeCategory === data.name ? styles.active : ""
             }`}
-            onClick={() => handleCategoryClick(data.name)}
+            onClick={() => handleCategoryClick(data.name, data._id)}
           >
             <p>{data.name}</p>
           </div>

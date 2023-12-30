@@ -174,6 +174,32 @@
   display: flex;
 }
 
+.no-post {
+  width: 100%;
+  height: 50vh;
+  text-align: center;
+}
+
+.no-post p {
+  max-width: 1100px;
+  width: 100%;
+  margin: auto;
+  color: white;
+  font-weight: 700;
+  border-radius: 25px;
+  margin-top: 2rem;
+  font-size: 1.2rem;
+  background-color: #7d41e1;
+  background: repeating-linear-gradient(
+    35deg,
+    #7d41e1 6px,
+    #7d41e1 46px,
+    #8d4ef5 20px,
+    #8d4ef5 125px
+  );
+  padding: 20px 30px;
+}
+
 @media (max-width: 1300px) {
   .img {
     flex: 1 1 35%;
@@ -187,6 +213,9 @@
 @media (max-width: 1100px) {
   .blog-main {
     margin: auto;
+    padding: 1rem;
+  }
+  .no-post {
     padding: 1rem;
   }
 }
@@ -259,6 +288,10 @@
   .img .img-img,
   .arrow-main {
     height: 250px;
+  }
+
+  .no-post {
+    padding: 8px;
   }
 }
 

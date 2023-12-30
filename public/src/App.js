@@ -17,6 +17,7 @@ function App() {
   const [posts, setPosts] = useState([]);
   const [isLogin, setIsLogin] = useState(false);
   const [postCategory, setPostCategory] = useState([]);
+  const [categoryId, setCategoryId] = useState("");
   const [pages, setPages] = useState({
     totalItem: 0,
     totalPage: 0,
@@ -26,6 +27,10 @@ function App() {
 
   const sideBarController = (value) => {
     setSidebar(value);
+  };
+
+  const categoryHandler = (value) => {
+    setCategoryId(value);
   };
 
   useEffect(() => {
@@ -100,7 +105,11 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const url = "http://localhost:3030/public/getpost?page=" + currentPage;
+    const url =
+      "http://localhost:3030/public/getpost?page=" +
+      currentPage +
+      "&catId=" +
+      categoryId;
 
     fetch(url, { method: "GET" })
       .then((response) => {
@@ -120,8 +129,9 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
+        setPosts([]);
       });
-  }, [currentPage]);
+  }, [currentPage, categoryId]);
 
   const currentPageHandler = (value) => {
     setCurrentPage(value);
@@ -135,7 +145,10 @@ function App() {
         logout={logoutHandler}
       />
       <SearchSection />
-      <PostCategory postCategory={postCategory} />
+      <PostCategory
+        postCategory={postCategory}
+        categoryHandler={categoryHandler}
+      />
       <Routes>
         <Route
           path="/login"

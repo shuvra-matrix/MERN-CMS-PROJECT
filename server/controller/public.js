@@ -7,18 +7,28 @@ const formatDate = (date) => {
 };
 
 exports.getPublishPost = (req, res, next) => {
+  console.log(req.query);
   const pageNumber = req.query.page || 1;
+  const categoryId = req.query.catId;
   const perPage = 7;
   let totalItem;
   let totalPage;
 
-  Post.find({ status: "publish" })
+  let condition;
+
+  if (categoryId === "All" || categoryId === "") {
+    condition = { status: "publish" };
+  } else {
+    condition = { status: "publish", category: categoryId };
+  }
+
+  Post.find(condition)
     .countDocuments()
     .then((count) => {
       totalItem = count;
 
       totalPage = Math.ceil(totalItem / perPage);
-      return Post.find({ status: "publish" })
+      return Post.find(condition)
         .populate("user", "name")
         .populate("category", "name")
         .skip((pageNumber - 1) * perPage)
@@ -64,8 +74,6 @@ exports.postPublishPost = (req, res, next) => {
   const title = req.body.title;
   const postId = req.body.postId;
 
-  console.log(title, postId);
-
   Post.findOne({ _id: postId })
     .populate("user", "name")
     .then((post) => {
@@ -79,7 +87,6 @@ exports.postPublishPost = (req, res, next) => {
       return post.save();
     })
     .then((post) => {
-      console.log(post);
       const createDate = formatDate(post.createAt);
       let updateDate;
       if (post.upadteAt) {
@@ -126,7 +133,6 @@ exports.getFeaturesPost = (req, res, next) => {
         };
       });
 
-      console.log(postData);
       res.status(200).json({ message: "all post got", posts: postData });
     })
     .catch((err) => {

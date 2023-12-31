@@ -1,6 +1,8 @@
 const User = require("../model/User");
 const PostCategory = require("../model/PostCategory");
 require("dotenv").config();
+const bcrypt = require("bcryptjs");
+const { validationResult } = require("express-validator");
 
 const nodeMailer = require("nodemailer");
 const transporter = nodeMailer.createTransport({
@@ -179,6 +181,71 @@ exports.getCategory = (req, res, next) => {
     })
     .then((err) => {
       console.log(err);
+      next(err);
+    });
+};
+
+exports.updatePassword = (req, res, next) => {
+  const error = validationResult(req);
+  if (!error.isEmpty()) {
+    const err = new Error("Validation Error");
+    err.statusCode = 422;
+    err.data = error.array();
+    throw err;
+  }
+  const oldpass = req.body.oldpass.trim();
+  const password = req.body.newpass.trim();
+  const confiempass = req.body.conpass.trim();
+  let hasPass;
+  const userId = req.userId;
+
+  User.findById(userId)
+    .then((user) => {
+      if (!user) {
+        const error = new Error("user not found");
+        error.statusCode = 404;
+        throw error;
+      }
+
+      return bcrypt.compare(oldpass, user.password).then();
+    })
+    .then((match) => {
+      if (!match) {
+        const error = new Error("user not found");
+        error.statusCode = 401;
+        throw error;
+      }
+
+      if (password === confiempass) {
+        return bcrypt.hash(password, 12);
+      } else {
+        const error = new Error("password and confirm not match");
+        error.statusCode = 401;
+        throw error;
+      }
+    })
+    .then((hasPassword) => {
+      hasPass = hasPassword;
+      return User.findById(userId);
+    })
+    .then((user) => {
+      if (!user) {
+        const error = new Error("user not founds");
+        error.statusCode = 404;
+        throw error;
+      }
+
+      user.password = hasPass;
+      return user.save();
+    })
+    .then((result) => {
+      res.status(201).json("update success");
+    })
+    .catch((err) => {
+      console.log(err);
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
       next(err);
     });
 };

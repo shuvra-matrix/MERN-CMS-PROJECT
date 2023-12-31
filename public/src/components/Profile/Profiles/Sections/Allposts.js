@@ -4,6 +4,8 @@ import Editpost from "./Editpost";
 import LoaderBig from "../../../Loader/LoaderBig";
 import back from "../../../../media/icons8-back-64.png";
 import froward from "../../../../media/icons8-forward-64.png";
+import edit from "../../../../media/icons8-edit-48.png";
+import deletes from "../../../../media/icons8-delete-50.png";
 
 const Allpost = (props) => {
   const [isEdit, setisEdit] = useState(false);
@@ -143,12 +145,7 @@ const Allpost = (props) => {
                       value={data.postId}
                     ></input>
                     <button className={styles["edit"]} type="submit">
-                      <img
-                        width="20"
-                        height="20"
-                        src="https://img.icons8.com/ios/50/create-new.png"
-                        alt="create-new"
-                      />
+                      <img width="20" height="20" src={edit} alt="create-new" />
                     </button>
                   </form>
                   <form method="post" onSubmit={deleteHandler}>
@@ -161,7 +158,7 @@ const Allpost = (props) => {
                       <img
                         width="20"
                         height="20"
-                        src="https://img.icons8.com/ios-glyphs/60/filled-trash.png"
+                        src={deletes}
                         alt="filled-trash"
                       />
                     </button>

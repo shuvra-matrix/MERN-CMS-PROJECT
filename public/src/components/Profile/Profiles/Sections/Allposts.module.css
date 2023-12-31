@@ -45,7 +45,7 @@
 }
 
 .edit {
-  background-color: #48f17b;
+  background-color: #20da58;
   border-radius: 4px;
 }
 
@@ -55,7 +55,7 @@
 }
 
 .edit:hover {
-  background-color: #25af5a;
+  background-color: #1da032;
 }
 
 .delete:hover {

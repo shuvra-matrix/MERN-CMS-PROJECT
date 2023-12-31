@@ -4,7 +4,8 @@ import Profiles from "./Profiles/Profiles";
 import { Fragment, useState } from "react";
 
 const Profile = (props) => {
-  const [option, setOption] = useState("profile");
+  const optionValue = localStorage.getItem("optionValue") || "profile";
+  const [option, setOption] = useState(optionValue);
 
   const optionHandler = (value) => {
     setOption(value);

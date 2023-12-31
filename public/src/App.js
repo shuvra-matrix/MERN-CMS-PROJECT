@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { Routes, Route, useNavigate } from "react-router-dom";
+import { Fragment, useEffect, useState } from "react";
 import "./App.css";
 import Blog from "./components/Blogsection/Blog";
 import Header from "./components/Header/Header";
 import Singlepost from "./components/Singlepost/Singlepost";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Footer from "./components/Footer/Footer";
 import Profile from "./components/Profile/Profile";
 import Login from "./components/Auth/Login/Login";
@@ -13,9 +13,8 @@ import SearchSection from "./components/Searchpost/SearchSection";
 import PostCategory from "./components/PostCategory/PostCategory";
 
 function App() {
-  const [isSidebar, setSidebar] = useState(false);
-  const [posts, setPosts] = useState([]);
   const [isLogin, setIsLogin] = useState(false);
+  const [posts, setPosts] = useState([]);
   const [postCategory, setPostCategory] = useState([]);
   const [categoryId, setCategoryId] = useState("All");
   const [isLoader, setLoader] = useState(false);
@@ -28,11 +27,7 @@ function App() {
     currentPage: 1,
   });
   const [currentPage, setCurrentPage] = useState(1);
-
-  const sideBarController = (value) => {
-    setSidebar(value);
-    setCurrentPage(1);
-  };
+  const navigate = useNavigate();
 
   const categoryHandler = (value) => {
     setCategoryId(value);
@@ -87,10 +82,12 @@ function App() {
 
   const logoutHandler = () => {
     setIsLogin(false);
+    setIsHomePage(true);
     localStorage.clear("isLogin");
     localStorage.clear("token");
     localStorage.clear("userId");
     localStorage.clear("expirationTime");
+    navigate("/");
   };
 
   const loginHandler = (value) => {
@@ -160,6 +157,13 @@ function App() {
   };
 
   useEffect(() => {
+    const pathname = window.location.pathname;
+
+    if (pathname === "/post" || pathname === "/profile") {
+      setIsHomePage(false);
+    } else {
+      setIsHomePage(true);
+    }
     const handlePopstate = () => {
       const pathname = window.location.pathname;
 
@@ -178,9 +182,8 @@ function App() {
   }, []);
 
   return (
-    <BrowserRouter>
+    <Fragment>
       <Header
-        isSidebar={sideBarController}
         isLogin={isLogin}
         logout={logoutHandler}
         homePageHandler={homePageHandler}
@@ -227,24 +230,7 @@ function App() {
             )
           }
         />
-        {!isSidebar && (
-          <Route
-            path="/profile"
-            element={
-              isLogin ? (
-                <Profile postCategory={postCategory} />
-              ) : (
-                <Blog
-                  posts={posts}
-                  pages={pages}
-                  currentPageHandler={currentPageHandler}
-                  isLoader={isLoader}
-                  homePageHandler={homePageHandler}
-                />
-              )
-            }
-          />
-        )}
+
         <Route
           path="/forgotpassword"
           element={
@@ -261,10 +247,26 @@ function App() {
             )
           }
         />
-        {!isSidebar && (
-          <Route
-            path="/"
-            element={
+        <Route
+          path="/"
+          element={
+            <Blog
+              posts={posts}
+              pages={pages}
+              currentPageHandler={currentPageHandler}
+              isLoader={isLoader}
+              homePageHandler={homePageHandler}
+            />
+          }
+        />
+        <Route path="/post" element={<Singlepost />} />
+
+        <Route
+          path="/profile"
+          element={
+            isLogin ? (
+              <Profile postCategory={postCategory} />
+            ) : (
               <Blog
                 posts={posts}
                 pages={pages}
@@ -272,14 +274,12 @@ function App() {
                 isLoader={isLoader}
                 homePageHandler={homePageHandler}
               />
-            }
-          />
-        )}
-        {!isSidebar && <Route path="/post" element={<Singlepost />} />}
-        {isLogin && !isSidebar && <Route path="/profile" Component={Profile} />}
+            )
+          }
+        />
       </Routes>
       <Footer />
-    </BrowserRouter>
+    </Fragment>
   );
 }
 

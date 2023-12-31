@@ -3,14 +3,17 @@ import styles from "./Sidemenu.module.css";
 import avatar from "../../../media/tiger.png";
 
 const Sidemenu = (propes) => {
-  const [activeOption, setActiveOption] = useState("option1");
+  const option = localStorage.getItem("option") || "option1";
+  const [activeOption, setActiveOption] = useState(option);
 
   const activeOptionHandler = (value) => {
     setActiveOption(value);
+    localStorage.setItem("option", value);
   };
 
   const optionsHandler = (value) => {
     propes.optionHandel(value);
+    localStorage.setItem("optionValue", value);
   };
 
   return (

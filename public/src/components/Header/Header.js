@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import styles from "./Header.module.css";
 import { Link } from "react-router-dom";
 
@@ -12,6 +12,32 @@ const Header = (props) => {
   const homePageHandler = (value) => {
     props.homePageHandler(value);
   };
+
+  useEffect(() => {
+    const pathname = window.location.pathname;
+
+    if (pathname === "/profile") {
+      setIsActive("profile");
+    } else {
+      setIsActive("blog");
+    }
+
+    const handlePopstate = () => {
+      const pathname = window.location.pathname;
+
+      if (pathname === "/profile") {
+        setIsActive("profile");
+      } else {
+        setIsActive("blog");
+      }
+    };
+
+    window.addEventListener("popstate", handlePopstate);
+
+    return () => {
+      window.removeEventListener("popstate", handlePopstate);
+    };
+  }, []);
 
   return (
     <Fragment>
@@ -53,16 +79,9 @@ const Header = (props) => {
               </p>
             </Link>
           )}
-          <Link href="">
-            <p
-              onClick={() => {
-                setIsActive("aboutus");
-              }}
-              className={isActive === "aboutus" ? styles["active"] : ""}
-            >
-              About us
-            </p>
-          </Link>
+          <a href="https://github.com/shuvra-matrix" target="_block">
+            <p>About us</p>
+          </a>
         </div>
         <div className={styles["auth-btn"]}>
           {!props.isLogin ? (

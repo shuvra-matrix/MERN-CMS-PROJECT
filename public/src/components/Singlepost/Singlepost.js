@@ -2,6 +2,7 @@ import LoaderBig from "../Loader/LoaderBig";
 import styles from "./Singlepost.module.css";
 
 import { Fragment, useEffect, useState } from "react";
+import DOMPurify from "dompurify";
 
 const Singlepost = () => {
   const [postsData, setPostData] = useState({
@@ -49,7 +50,7 @@ const Singlepost = () => {
     }
   }, []);
 
-  console.log("hii", postsData);
+  const sanitizedContent = DOMPurify.sanitize(postsData.post.post.content);
 
   return (
     <Fragment>
@@ -95,9 +96,10 @@ const Singlepost = () => {
               </div>
             </div>
           </div>
-          <div className={styles["text-section"]}>
-            <p>{postsData.post.post.content}</p>
-          </div>
+          <div
+            className={styles["text-section"]}
+            dangerouslySetInnerHTML={{ __html: sanitizedContent }}
+          ></div>
         </div>
       )}
     </Fragment>

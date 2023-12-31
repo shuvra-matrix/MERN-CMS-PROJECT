@@ -1,9 +1,13 @@
 import LoaderSmall from "../../../Loader/LoaderSmall";
 import Message from "../../../Message/Message";
 import styles from "./Profilesection.module.css";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { Editor } from "@tinymce/tinymce-react";
+
+const tinyApiKey = process.env.REACT_APP_TINY_API_KEY;
 
 const WritePostSection = (props) => {
+  const editorRef = useRef(null);
   const [inputData, setInputHandler] = useState({
     title: "",
     desc: "",
@@ -49,11 +53,6 @@ const WritePostSection = (props) => {
     if (name === "desc") {
       setInputError((pre) => {
         return { ...pre, desc: false };
-      });
-    }
-    if (name === "content") {
-      setInputError((pre) => {
-        return { ...pre, content: false };
       });
     }
     if (name === "category") {
@@ -104,12 +103,6 @@ const WritePostSection = (props) => {
       });
       return;
     }
-    if (inputData.content.length < 10) {
-      setInputError((pre) => {
-        return { ...pre, content: true };
-      });
-      return;
-    }
     if (inputData.category.length <= 0) {
       setInputError((pre) => {
         return { ...pre, category: true };
@@ -140,12 +133,20 @@ const WritePostSection = (props) => {
 
     setSmallLoader(true);
 
+    let content;
+
+    if (editorRef.current) {
+      content = editorRef.current.getContent();
+    } else {
+      throw new Error("tiny editor error");
+    }
+
     const url = "http://localhost:3030/post/addpost";
 
     const fromData = new FormData();
     fromData.append("title", inputData.title);
     fromData.append("category", inputData.category);
-    fromData.append("content", inputData.content);
+    fromData.append("content", content);
     fromData.append("desc", inputData.desc);
     fromData.append("image", inputData.image);
     fromData.append("imageSource", inputData.imgSource);
@@ -222,7 +223,6 @@ const WritePostSection = (props) => {
               onChange={inputHandler}
               name="title"
               type="text"
-              placeholder="Blog Title"
               value={inputData.title}
             ></input>
           </div>
@@ -245,13 +245,43 @@ const WritePostSection = (props) => {
             }`}
           >
             <label htmlFor="">Content</label>
-            <textarea
-              value={inputData.content}
-              onChange={inputHandler}
-              name="content"
-            >
-              {inputData.content}
-            </textarea>
+
+            <Editor
+              apiKey={tinyApiKey}
+              onInit={(evt, editor) => (editorRef.current = editor)}
+              initialValue=""
+              init={{
+                height: 500,
+                menubar: true,
+                plugins: [
+                  "advlist",
+                  "autolink",
+                  "lists",
+                  "link",
+                  "image",
+                  "charmap",
+                  "preview",
+                  "anchor",
+                  "searchreplace",
+                  "visualblocks",
+                  "code",
+                  "fullscreen",
+                  "insertdatetime",
+                  "media",
+                  "table",
+                  "code",
+                  "help",
+                  "wordcount",
+                ],
+                toolbar:
+                  "undo redo | blocks | " +
+                  "bold italic forecolor | alignleft aligncenter " +
+                  "alignright alignjustify | bullist numlist outdent indent | " +
+                  "removeformat | help",
+                content_style:
+                  "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+              }}
+            />
           </div>
           <div
             className={`${styles["section"]} ${

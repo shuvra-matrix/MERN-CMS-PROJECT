@@ -2,9 +2,13 @@ import LoaderBig from "../../../Loader/LoaderBig";
 import LoaderSmall from "../../../Loader/LoaderSmall";
 import Message from "../../../Message/Message";
 import styles from "./Profilesection.module.css";
-import { useState, useEffect, Fragment } from "react";
+import { useState, useEffect, Fragment, useRef } from "react";
+import { Editor } from "@tinymce/tinymce-react";
+
+const tinyApiKey = process.env.REACT_APP_TINY_API_KEY;
 
 const Editpost = (props) => {
+  const editorRef = useRef(null);
   const [postData, setPostData] = useState({});
   const [isSmallLaoder, setSmallLoader] = useState(false);
   const [message, setMessage] = useState("");
@@ -81,13 +85,22 @@ const Editpost = (props) => {
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
+
+    let content;
+
+    if (editorRef.current) {
+      content = editorRef.current.getContent();
+    } else {
+      throw new Error("tiny editor error");
+    }
+
     setSmallLoader(true);
     const url = "http://localhost:3030/post/editpostdata";
 
     const fromData = new FormData();
     fromData.append("title", inputData.title || postData.title);
     fromData.append("category", inputData.category || postData.category);
-    fromData.append("content", inputData.content || postData.content);
+    fromData.append("content", content);
     fromData.append("desc", inputData.desc || postData.desc);
     fromData.append("image", inputData.image || "oldimage");
     fromData.append("imageSource", inputData.imgSource || postData.imgSource);
@@ -194,13 +207,42 @@ const Editpost = (props) => {
               </div>
               <div className={styles["section"]}>
                 <label htmlFor="">Content</label>
-                <textarea
-                  value={inputData.content || postData.content}
-                  onChange={inputHandler}
-                  name="content"
-                >
-                  {inputData.content || postData.content}
-                </textarea>
+                <Editor
+                  apiKey={tinyApiKey}
+                  onInit={(evt, editor) => (editorRef.current = editor)}
+                  initialValue={postData.content}
+                  init={{
+                    height: 500,
+                    menubar: true,
+                    plugins: [
+                      "advlist",
+                      "autolink",
+                      "lists",
+                      "link",
+                      "image",
+                      "charmap",
+                      "preview",
+                      "anchor",
+                      "searchreplace",
+                      "visualblocks",
+                      "code",
+                      "fullscreen",
+                      "insertdatetime",
+                      "media",
+                      "table",
+                      "code",
+                      "help",
+                      "wordcount",
+                    ],
+                    toolbar:
+                      "undo redo | blocks | " +
+                      "bold italic forecolor | alignleft aligncenter " +
+                      "alignright alignjustify | bullist numlist outdent indent | " +
+                      "removeformat | help",
+                    content_style:
+                      "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                  }}
+                />
               </div>
               <div className={styles["section"]}>
                 <label htmlFor="">Category</label>

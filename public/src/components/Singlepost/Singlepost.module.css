@@ -7,9 +7,14 @@
 }
 
 .post-sub {
+  max-width: 1100px;
   width: 100%;
-  background-color: #fcead7;
+  background-color: #fcead7bb;
   padding: 2rem 0px;
+  margin: auto;
+  padding: 0.5rem 0.5rem 1.2rem 0.5rem;
+  border: 0;
+  border-radius: 12px;
 }
 
 .title-section {
@@ -20,17 +25,24 @@
 }
 
 .title {
-  flex: 1 1 50%;
+  flex: 1 1 55%;
   display: flex;
   flex-flow: nowrap column;
 }
 
+.title h1 {
+  color: rgb(33, 30, 37);
+  padding-bottom: 0.2rem;
+}
+
 .desc {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 500;
+  line-height: 1.4;
   margin-top: 10px;
-  flex: 1 1 50%;
-  color: rgb(46, 46, 46);
+  flex: 1 1 40%;
+  color: rgb(48, 48, 48);
+  padding-bottom: 0.3rem;
 }
 
 .name {
@@ -40,7 +52,7 @@
 }
 
 .name span {
-  color: blue;
+  color: rgb(0, 120, 150);
 }
 
 .date {
@@ -69,8 +81,12 @@
   margin: 1rem auto;
   box-sizing: border-box;
   padding-top: 1rem;
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   line-height: 1.6;
+  background-color: #f5f4f89c;
+  padding: 0.5rem 0.5rem 1.2rem 0.5rem;
+  border: 0;
+  border-radius: 12px;
 }
 
 .image-section img {

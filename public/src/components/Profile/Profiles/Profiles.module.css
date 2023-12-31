@@ -4,4 +4,5 @@
   overflow-x: hidden;
   overflow-y: auto;
   border-radius: 12px;
+  position: relative;
 }

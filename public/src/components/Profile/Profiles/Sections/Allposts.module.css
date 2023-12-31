@@ -7,6 +7,13 @@
   gap: 20px;
 }
 
+.message {
+  position: absolute;
+  top: 29px;
+  right: 10px;
+  border: 0;
+}
+
 .allpost-sub {
   width: 100%;
   padding: 10px;
@@ -21,11 +28,21 @@
   border-radius: 10px;
 }
 
+.blog-image:hover {
+  transform: scale(102%);
+  opacity: 0.8;
+}
+
 .allpost-sub p {
   font-size: 1rem;
   font-weight: 500;
   margin-top: 5px;
   margin-bottom: 10px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-word;
 }
 
 .action {
@@ -37,21 +54,55 @@
 }
 
 .edit,
-.delete {
+.delete,
+.delete-ok,
+.delete-cancel {
   text-align: center;
   border: 0px;
   padding: 3px;
   cursor: pointer;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.delete-prompt {
+  display: flex;
+  flex-flow: nowrap row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  background-color: #ffffff;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.prompt-delete-message {
+  font-size: 0.8rem !important;
+  color: #2b1e24;
 }
 
 .edit {
   background-color: #20da58;
-  border-radius: 4px;
 }
 
 .delete {
   background-color: #f74747;
-  border-radius: 4px;
+}
+.delete-ok {
+  background-color: #10b0bb;
+}
+.delete-ok:hover {
+  background-color: #129099;
+}
+
+.delete-cancel {
+  background-color: rgba(245, 41, 85, 0.966);
+}
+
+.delete-cancel:hover {
+  background-color: rgba(207, 32, 70, 0.966);
 }
 
 .edit:hover {
@@ -142,7 +193,7 @@
 
 @media (max-width: 544px) {
   .blog-image {
-    height: 130px;
+    height: 180px;
   }
 }
 
@@ -153,5 +204,11 @@
   }
   .allpost-sub p {
     font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .blog-image {
+    height: 140px;
   }
 }

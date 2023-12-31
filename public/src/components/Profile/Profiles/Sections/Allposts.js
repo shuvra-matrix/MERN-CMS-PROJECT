@@ -6,6 +6,10 @@ import back from "../../../../media/icons8-back-64.png";
 import froward from "../../../../media/icons8-forward-64.png";
 import edit from "../../../../media/icons8-edit-48.png";
 import deletes from "../../../../media/icons8-delete-50.png";
+import ok from "../../../../media/icons8-right-ok.png";
+import cross from "../../../../media/icons8-cross-64.png";
+import { Link } from "react-router-dom";
+import Message from "../../../Message/Message";
 
 const Allpost = (props) => {
   const [isEdit, setisEdit] = useState(false);
@@ -14,6 +18,11 @@ const Allpost = (props) => {
   const [isLoader, setLoader] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPage, setTotalPage] = useState(0);
+  const [isDeletePrompt, setDeletePrompt] = useState(false);
+  const [deletePromptPostId, setDeletePromptPostId] = useState(null);
+  const [message, setMessage] = useState("");
+  const [isMessage, setIsMesssage] = useState(false);
+  const [messageType, setMessageType] = useState("");
 
   const editHandler = (e) => {
     e.preventDefault();
@@ -22,12 +31,25 @@ const Allpost = (props) => {
     setPostId(post_Id);
   };
 
+  const deletePromptHandler = (postId) => {
+    setDeletePrompt(true);
+    setDeletePromptPostId(postId);
+  };
+
+  const closeDeletePrompt = () => {
+    setDeletePrompt(false);
+    setDeletePromptPostId(null);
+  };
+  const crossHandler = (value) => {
+    setIsMesssage(value);
+  };
+
   const deleteHandler = (e) => {
-    console.log(e);
     e.preventDefault();
+    setDeletePrompt(false);
     const post_Id = e.target[0].value;
     const token = localStorage.getItem("token");
-    const url = "http://localhost:3030/post/postdelete";
+    const url = "http://localhost:3030/post/postdelete?page=" + currentPage;
 
     fetch(url, {
       method: "DELETE",
@@ -48,9 +70,16 @@ const Allpost = (props) => {
       })
       .then((data) => {
         setPost(data.postData);
+        setCurrentPage(1);
+        setIsMesssage(true);
+        setMessageType("message");
+        setMessage("Delete Success!");
       })
       .catch((err) => {
         console.log(err);
+        setIsMesssage(true);
+        setMessageType("error");
+        setMessage("Delete failed!");
       });
   };
 
@@ -58,7 +87,7 @@ const Allpost = (props) => {
     setisEdit(value);
     setLoader(true);
     const token = localStorage.getItem("token");
-    const url = "http://localhost:3030/post/getpost";
+    const url = "http://localhost:3030/post/getpost?page=" + currentPage;
     fetch(url, {
       method: "GET",
       headers: {
@@ -126,16 +155,28 @@ const Allpost = (props) => {
           <LoaderBig />
         </div>
       )}
+
       {!isLoader && !isEdit && (
         <Fragment>
+          {isMessage && (
+            <div className={styles["message"]}>
+              <Message
+                type={messageType}
+                message={message}
+                cross={crossHandler}
+              />
+            </div>
+          )}
           <div className={styles["allpost-main"]}>
             {post.map((data) => (
               <div className={styles["allpost-sub"]} key={data.postId}>
-                <img
-                  className={styles["blog-image"]}
-                  src={data.imageUrl}
-                  alt="images dssd"
-                ></img>
+                <Link to={`/post?title=${data?.title}&id=${data?.postId}`}>
+                  <img
+                    className={styles["blog-image"]}
+                    src={data.imageUrl}
+                    alt="images dssd"
+                  ></img>
+                </Link>
                 <p>{data.desc}</p>
                 <div className={styles["action"]}>
                   <form method="post" onSubmit={(e) => editHandler(e)}>
@@ -148,21 +189,53 @@ const Allpost = (props) => {
                       <img width="20" height="20" src={edit} alt="create-new" />
                     </button>
                   </form>
-                  <form method="post" onSubmit={deleteHandler}>
-                    <input
-                      type="hidden"
-                      name="postId"
-                      value={data.postId}
-                    ></input>
-                    <button className={styles["delete"]} type="submit">
-                      <img
-                        width="20"
-                        height="20"
-                        src={deletes}
-                        alt="filled-trash"
-                      />
-                    </button>
-                  </form>
+                  {!isDeletePrompt && (
+                    <form
+                      method="post"
+                      onSubmit={() => deletePromptHandler(data.postId)}
+                    >
+                      <button className={styles["delete"]} type="submit">
+                        <img
+                          width="20"
+                          height="20"
+                          src={deletes}
+                          alt="filled-trash"
+                        />
+                      </button>
+                    </form>
+                  )}
+                  {isDeletePrompt && deletePromptPostId === data.postId && (
+                    <div className={styles["delete-prompt"]}>
+                      <p className={styles["prompt-delete-message"]}>Sure?</p>
+                      <form method="post" onSubmit={deleteHandler}>
+                        <input
+                          type="hidden"
+                          name="postId"
+                          value={data.postId}
+                        ></input>
+                        <button className={styles["delete-ok"]} type="submit">
+                          <img
+                            width="20"
+                            height="20"
+                            src={ok}
+                            alt="filled-trash"
+                          />
+                        </button>
+                      </form>
+                      <button
+                        className={styles["delete-cancel"]}
+                        onClick={closeDeletePrompt}
+                        type="submit"
+                      >
+                        <img
+                          width="20"
+                          height="20"
+                          src={cross}
+                          alt="filled-trash"
+                        />
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
             ))}

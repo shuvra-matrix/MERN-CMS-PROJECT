@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styles from "./Profilesection.module.css";
 import Message from "../../../Message/Message";
 import LoaderSmall from "../../../Loader/LoaderSmall";

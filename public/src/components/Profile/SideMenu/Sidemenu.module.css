@@ -40,7 +40,7 @@
 }
 
 .active {
-  border-left: 5px solid;
+  border-left: 8px solid;
   border-left-color: #8d4ef5;
 }
 
@@ -56,8 +56,8 @@
   }
 
   .avatar {
-    width: 50px;
-    height: 50px;
+    width: 45px;
+    height: 45px;
     margin-bottom: 5px;
   }
 
@@ -75,14 +75,23 @@
   }
 }
 
+@media (max-width: 650px) {
+  .options img {
+    display: none;
+  }
+  .sidemenu-main {
+    width: 180px;
+  }
+}
+
 @media (max-width: 550px) {
   .sidemenu-main {
     width: 90px;
   }
 
   .avatar {
-    width: 50px;
-    height: 50px;
+    width: 35px;
+    height: 35px;
     margin-bottom: 5px;
   }
 
@@ -107,6 +116,7 @@
   }
 
   .options span img {
+    display: inline;
     width: 25px;
     height: 25px;
   }

@@ -38,7 +38,7 @@ const WritePostSection = (props) => {
     const { name, value } = e.target;
 
     setInputHandler((pre) => {
-      return { ...pre, [name]: value.trim() };
+      return { ...pre, [name]: value };
     });
 
     if (name === "title") {

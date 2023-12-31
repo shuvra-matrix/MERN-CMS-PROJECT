@@ -161,7 +161,7 @@ exports.getProfilePost = (req, res, next) => {
       const postData = post.map((data) => {
         return {
           imageUrl: data.image,
-          desc: data.title.slice(0, 30) + "....",
+          desc: data.title,
           postId: data._id,
         };
       });

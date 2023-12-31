@@ -11,8 +11,6 @@ exports.getPublishPost = (req, res, next) => {
   const categoryId = req.query.catId;
   let searchData = req.query.search;
 
-  console.log(req.query);
-
   const perPage = 7;
   let totalItem;
   let totalPage;

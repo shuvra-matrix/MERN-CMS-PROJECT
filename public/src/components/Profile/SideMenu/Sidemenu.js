@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styles from "./Sidemenu.module.css";
+import avatar from "../../../media/tiger.png";
 
 const Sidemenu = (propes) => {
   const [activeOption, setActiveOption] = useState("option1");
@@ -15,12 +16,14 @@ const Sidemenu = (propes) => {
   return (
     <div className={styles["sidemenu-main"]}>
       <img
+        onClick={() => {
+          activeOptionHandler("option1");
+          optionsHandler("profile");
+        }}
         className={styles["avatar"]}
-        src="https://img.icons8.com/color/48/circled-user-male-skin-type-5--v1.png"
+        src={avatar}
         alt="avatar"
       ></img>
-      <h2 className={styles["name"]}>Shuvra Chakrabarty</h2>
-
       <div
         className={`${styles["options"]} ${
           activeOption === "option1" ? styles["active"] : ""
@@ -30,7 +33,7 @@ const Sidemenu = (propes) => {
           optionsHandler("profile");
         }}
       >
-        <p>Profile</p>{" "}
+        <p>Profile</p>
         <span>
           <img
             width="50"
@@ -50,7 +53,7 @@ const Sidemenu = (propes) => {
           optionsHandler("security");
         }}
       >
-        <p>Security</p>{" "}
+        <p>Security</p>
         <span>
           <img
             width="50"
@@ -69,7 +72,7 @@ const Sidemenu = (propes) => {
           optionsHandler("writepost");
         }}
       >
-        <p>Write Post</p>{" "}
+        <p>Write Post</p>
         <span>
           <img
             width="50"
@@ -88,7 +91,7 @@ const Sidemenu = (propes) => {
           optionsHandler("allpost");
         }}
       >
-        <p>Posts</p>{" "}
+        <p>Posts</p>
         <span>
           <img
             width="50"

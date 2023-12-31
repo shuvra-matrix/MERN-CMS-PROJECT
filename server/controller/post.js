@@ -132,7 +132,23 @@ exports.addPost = (req, res, next) => {
 };
 
 exports.getProfilePost = (req, res, next) => {
+  const pageNumber = req.query.page || 1;
+
+  const perPageItem = 6;
+
+  let totalItem;
+  let totalPage;
+
   Post.find({ user: req.userId })
+    .countDocuments()
+    .then((count) => {
+      totalItem = count;
+
+      return Post.find({ user: req.userId })
+        .skip((pageNumber - 1) * perPageItem)
+        .limit(perPageItem);
+    })
+
     .then((post) => {
       if (post.length == 0) {
         const error = new Error("no post available");
@@ -140,15 +156,22 @@ exports.getProfilePost = (req, res, next) => {
         throw error;
       }
 
+      totalPage = Math.ceil(totalItem / perPageItem);
+
       const postData = post.map((data) => {
         return {
           imageUrl: data.image,
-          desc: data.title.slice(0, 26) + "....",
+          desc: data.title.slice(0, 30) + "....",
           postId: data._id,
         };
       });
 
-      res.status(200).json({ message: "post get done", postData: postData });
+      res.status(200).json({
+        message: "post get done",
+        postData: postData,
+        totalItem: totalItem,
+        totalPage: totalPage,
+      });
     })
     .catch((err) => {
       console.log(err);

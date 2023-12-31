@@ -17,10 +17,11 @@ const Blog = (props) => {
       {!props.isLoader && posts.length > 0 && (
         <Fragment>
           <div className={styles["blog-main"]} key="7848hs8">
-            <div className={styles["wide-post"]} onClick={isHomeHandler}>
+            <div className={styles["wide-post"]}>
               <div className={styles["img"]}>
                 <Link
                   to={`/post?title=${posts[0]?.title}&id=${posts[0]?.postId}`}
+                  onClick={isHomeHandler}
                 >
                   <img
                     className={styles["img-img"]}

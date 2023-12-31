@@ -19,7 +19,7 @@
 .section label {
   font-size: 1rem;
   font-weight: 500;
-  color: #ff700b;
+  color: #0077ff;
 }
 
 .section input,
@@ -27,9 +27,9 @@ select,
 .image,
 textarea {
   border: 0px;
-  height: 35px;
+  height: 40px;
   border-radius: 5px;
-  background-color: #f2f2f2;
+  background-color: #f6f5fb;
   padding-left: 10px;
   font-size: 1rem;
   color: rgb(46, 46, 46);
@@ -92,16 +92,18 @@ textarea {
   padding: 10px 20px;
   margin-top: 1rem;
   font-size: 1rem;
-  background-color: #ff700b;
+  background-color: #8d4ef5;
   color: white;
   font-weight: 700;
   border: 0px;
   cursor: pointer;
   margin-bottom: 2rem;
+  border: 0;
+  border-radius: 6px;
 }
 
 .button button:hover {
-  background-color: #db6d1e;
+  background-color: #7d41e1;
 }
 
 .back-btn {

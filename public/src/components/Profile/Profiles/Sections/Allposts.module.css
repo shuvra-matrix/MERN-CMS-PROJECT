@@ -10,7 +10,7 @@
 .allpost-sub {
   width: 100%;
   padding: 10px;
-  background-color: #fff4e5;
+  background-color: #f6f5fb;
   border-radius: 10px;
 }
 
@@ -74,6 +74,33 @@
   position: absolute;
   bottom: 40px;
   right: 0px;
+}
+
+.pagination {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem auto 2rem;
+  gap: 20px;
+}
+
+.pagination button {
+  cursor: pointer;
+  background-color: #7b69e0;
+  border: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 5px;
+}
+
+.pagination button:disabled {
+  background-color: #292546;
+}
+
+.pagination button img {
+  width: 30px;
+  height: 30px;
 }
 
 @media (max-width: 1050px) {

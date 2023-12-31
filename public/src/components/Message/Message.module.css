@@ -3,7 +3,7 @@
   position: absolute;
   padding: 10px 10px;
   border-radius: 5px;
-  top: 0px;
+  top: -20px;
   right: 0%;
   font-weight: 400;
   display: flex;
@@ -19,7 +19,7 @@
 }
 
 .error {
-  background-color: rgba(255, 140, 140, 0.815);
+  background-color: rgba(255, 134, 134, 0.918);
   border: 1px solid rgb(247, 63, 63);
 }
 

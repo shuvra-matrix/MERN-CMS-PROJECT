@@ -78,7 +78,8 @@ textarea {
   position: absolute;
   width: 30px;
   height: 30px;
-  top: 2px;
+  top: 4px;
+  left: 10px;
   cursor: pointer;
 }
 
@@ -113,7 +114,9 @@ textarea {
   cursor: pointer;
 }
 
-.invalid input {
+.invalid input,
+.invalid textarea,
+.invalid select {
   background-color: rgb(250, 186, 186);
   border: 1px solid rgb(243, 93, 93);
 }

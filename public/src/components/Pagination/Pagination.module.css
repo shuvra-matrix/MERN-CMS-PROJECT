@@ -1,6 +1,6 @@
 .pagination-main {
   width: 100%;
-  margin: 1rem auto 4rem;
+  margin: 3rem auto 3rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -25,6 +25,12 @@
   width: 35px;
   height: 35px;
   background-color: #6d31ce;
+}
+
+@media (max-width: 750px) {
+  .pagination-main {
+    margin: 1rem auto 2rem;
+  }
 }
 
 @media (max-width: 350px) {

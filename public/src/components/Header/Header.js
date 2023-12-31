@@ -9,12 +9,21 @@ const Header = (props) => {
     props.logout();
   };
 
+  const homePageHandler = (value) => {
+    props.homePageHandler(value);
+  };
+
   return (
     <Fragment>
       <div className={styles["main-header"]}>
         <div className={styles["logo"]}>
           <Link to="/">
-            <h1 onClick={() => setIsActive("blog")}>
+            <h1
+              onClick={() => {
+                setIsActive("blog");
+                homePageHandler(true);
+              }}
+            >
               Blog<span>Sp</span>ot
             </h1>
           </Link>
@@ -22,7 +31,10 @@ const Header = (props) => {
         <div className={styles["navlink"]}>
           <Link to="/">
             <p
-              onClick={() => setIsActive("blog")}
+              onClick={() => {
+                setIsActive("blog");
+                homePageHandler(true);
+              }}
               className={isActive === "blog" ? styles["active"] : ""}
             >
               Blog
@@ -31,7 +43,10 @@ const Header = (props) => {
           {props.isLogin && (
             <Link to="/profile">
               <p
-                onClick={() => setIsActive("profile")}
+                onClick={() => {
+                  setIsActive("profile");
+                  homePageHandler(false);
+                }}
                 className={isActive === "profile" ? styles["active"] : ""}
               >
                 Profile
@@ -40,7 +55,9 @@ const Header = (props) => {
           )}
           <Link href="">
             <p
-              onClick={() => setIsActive("aboutus")}
+              onClick={() => {
+                setIsActive("aboutus");
+              }}
               className={isActive === "aboutus" ? styles["active"] : ""}
             >
               About us

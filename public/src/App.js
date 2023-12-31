@@ -20,6 +20,8 @@ function App() {
   const [categoryId, setCategoryId] = useState("All");
   const [isLoader, setLoader] = useState(false);
   const [searchData, setSearchData] = useState("");
+  const [isHomepage, setIsHomePage] = useState(true);
+
   const [pages, setPages] = useState({
     totalItem: 0,
     totalPage: 0,
@@ -35,6 +37,7 @@ function App() {
   const categoryHandler = (value) => {
     setCategoryId(value);
     setSearchData("");
+    setCurrentPage(1);
   };
 
   const searchDataHandler = (value) => {
@@ -152,18 +155,45 @@ function App() {
     setCurrentPage(value);
   };
 
+  const homePageHandler = (value) => {
+    setIsHomePage(value);
+  };
+
+  useEffect(() => {
+    const handlePopstate = () => {
+      const pathname = window.location.pathname;
+
+      if (pathname === "/post" || pathname === "/profile") {
+        setIsHomePage(false);
+      } else {
+        setIsHomePage(true);
+      }
+    };
+
+    window.addEventListener("popstate", handlePopstate);
+
+    return () => {
+      window.removeEventListener("popstate", handlePopstate);
+    };
+  }, []);
+
   return (
     <BrowserRouter>
       <Header
         isSidebar={sideBarController}
         isLogin={isLogin}
         logout={logoutHandler}
+        homePageHandler={homePageHandler}
       />
-      <SearchSection searchDataHandler={searchDataHandler} />
-      <PostCategory
-        postCategory={postCategory}
-        categoryHandler={categoryHandler}
-      />
+
+      {isHomepage && <SearchSection searchDataHandler={searchDataHandler} />}
+      {isHomepage && (
+        <PostCategory
+          postCategory={postCategory}
+          categoryHandler={categoryHandler}
+        />
+      )}
+
       <Routes>
         <Route
           path="/login"
@@ -176,6 +206,7 @@ function App() {
                 pages={pages}
                 currentPageHandler={currentPageHandler}
                 isLoader={isLoader}
+                homePageHandler={homePageHandler}
               />
             )
           }
@@ -191,6 +222,7 @@ function App() {
                 pages={pages}
                 currentPageHandler={currentPageHandler}
                 isLoader={isLoader}
+                homePageHandler={homePageHandler}
               />
             )
           }
@@ -207,6 +239,7 @@ function App() {
                   pages={pages}
                   currentPageHandler={currentPageHandler}
                   isLoader={isLoader}
+                  homePageHandler={homePageHandler}
                 />
               )
             }
@@ -223,6 +256,7 @@ function App() {
                 pages={pages}
                 currentPageHandler={currentPageHandler}
                 isLoader={isLoader}
+                homePageHandler={homePageHandler}
               />
             )
           }
@@ -236,11 +270,12 @@ function App() {
                 pages={pages}
                 currentPageHandler={currentPageHandler}
                 isLoader={isLoader}
+                homePageHandler={homePageHandler}
               />
             }
           />
         )}
-        {!isSidebar && <Route path="/post" Component={Singlepost} />}
+        {!isSidebar && <Route path="/post" element={<Singlepost />} />}
         {isLogin && !isSidebar && <Route path="/profile" Component={Profile} />}
       </Routes>
       <Footer />

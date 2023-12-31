@@ -7,12 +7,17 @@ import LoaderThree from "../Loader/LoaderThree";
 
 const Blog = (props) => {
   let posts = props.posts;
+
+  const isHomeHandler = () => {
+    props.homePageHandler(false);
+  };
+
   return (
     <Fragment>
       {!props.isLoader && posts.length > 0 && (
         <Fragment>
           <div className={styles["blog-main"]} key="7848hs8">
-            <div className={styles["wide-post"]}>
+            <div className={styles["wide-post"]} onClick={isHomeHandler}>
               <div className={styles["img"]}>
                 <Link
                   to={`/post?title=${posts[0]?.title}&id=${posts[0]?.postId}`}
@@ -47,7 +52,11 @@ const Blog = (props) => {
 
             <div className={styles["small-post"]}>
               {posts.slice(1, posts.length).map((data) => (
-                <div className={styles["posts"]} key={data?.postId}>
+                <div
+                  className={styles["posts"]}
+                  key={data?.postId}
+                  onClick={isHomeHandler}
+                >
                   <Link to={`/post?title=${data?.title}&id=${data?.postId}`}>
                     <img
                       className={styles["small-img"]}

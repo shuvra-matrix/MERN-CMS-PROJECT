@@ -10,6 +10,7 @@ a {
   flex-flow: nowrap row;
   margin: auto;
   padding: 2rem 0px;
+  position: relative;
 }
 
 .logo h1 {
@@ -130,8 +131,30 @@ a {
   }
 }
 
-@media (max-width: 350px) {
+@media (max-width: 480px) {
+  .logo h1 {
+    font-size: 1.6rem;
+  }
 }
 
-@media (max-width: 290px) {
+@media (max-width: 440px) {
+  .main-header {
+    flex-flow: wrap row;
+  }
+
+  .logo {
+    flex: 1 1 100%;
+  }
+  .logout-btn,
+  .login-btn {
+    position: absolute;
+    top: 16px;
+    right: 8px;
+  }
+
+  .navlink {
+    padding-top: 20px;
+    flex: 1 1 100%;
+    justify-content: center;
+  }
 }

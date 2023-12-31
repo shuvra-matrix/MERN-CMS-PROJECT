@@ -1,6 +1,7 @@
 .post-main {
   width: 100%;
   margin-bottom: 10px;
+
   word-wrap: break-word;
   flex: 1;
   overflow: hidden;
@@ -114,6 +115,13 @@
   margin-top: 12rem;
 }
 
+p img {
+  margin: auto;
+  border: 0;
+  border-radius: 12px;
+  height: auto;
+}
+
 @media (max-width: 1100px) {
   .title-section,
   .text-section {
@@ -157,5 +165,19 @@
 
   .image-section img {
     height: 250px;
+  }
+}
+
+@media (max-width: 550px) {
+  .post-sub,
+  .text-section {
+    padding: 0.5rem 0.1rem 1.2rem 0.1rem;
+  }
+  p img {
+    width: 100%;
+    height: auto;
+  }
+  .post-main {
+    margin-top: 10px;
   }
 }

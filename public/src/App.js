@@ -9,8 +9,6 @@ import Profile from "./components/Profile/Profile";
 import Login from "./components/Auth/Login/Login";
 import Signup from "./components/Auth/Singup/Signup";
 import ForgotPassEmail from "./components/Auth/FogotPassword/ForgotPasswordEmail";
-import SearchSection from "./components/Searchpost/SearchSection";
-import PostCategory from "./components/PostCategory/PostCategory";
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -19,7 +17,6 @@ function App() {
   const [categoryId, setCategoryId] = useState("All");
   const [isLoader, setLoader] = useState(false);
   const [searchData, setSearchData] = useState("");
-  const [isHomepage, setIsHomePage] = useState(true);
 
   const [pages, setPages] = useState({
     totalItem: 0,
@@ -82,11 +79,12 @@ function App() {
 
   const logoutHandler = () => {
     setIsLogin(false);
-    setIsHomePage(true);
     localStorage.clear("isLogin");
     localStorage.clear("token");
     localStorage.clear("userId");
     localStorage.clear("expirationTime");
+    localStorage.clear("option");
+    localStorage.clear("optionValue");
     navigate("/");
   };
 
@@ -152,50 +150,9 @@ function App() {
     setCurrentPage(value);
   };
 
-  const homePageHandler = (value) => {
-    setIsHomePage(value);
-  };
-
-  useEffect(() => {
-    const pathname = window.location.pathname;
-
-    if (pathname === "/post" || pathname === "/profile") {
-      setIsHomePage(false);
-    } else {
-      setIsHomePage(true);
-    }
-    const handlePopstate = () => {
-      const pathname = window.location.pathname;
-
-      if (pathname === "/post" || pathname === "/profile") {
-        setIsHomePage(false);
-      } else {
-        setIsHomePage(true);
-      }
-    };
-
-    window.addEventListener("popstate", handlePopstate);
-
-    return () => {
-      window.removeEventListener("popstate", handlePopstate);
-    };
-  }, []);
-
   return (
     <Fragment>
-      <Header
-        isLogin={isLogin}
-        logout={logoutHandler}
-        homePageHandler={homePageHandler}
-      />
-
-      {isHomepage && <SearchSection searchDataHandler={searchDataHandler} />}
-      {isHomepage && (
-        <PostCategory
-          postCategory={postCategory}
-          categoryHandler={categoryHandler}
-        />
-      )}
+      <Header isLogin={isLogin} logout={logoutHandler} />
 
       <Routes>
         <Route
@@ -209,7 +166,9 @@ function App() {
                 pages={pages}
                 currentPageHandler={currentPageHandler}
                 isLoader={isLoader}
-                homePageHandler={homePageHandler}
+                postCategory={postCategory}
+                categoryHandler={categoryHandler}
+                searchDataHandler={searchDataHandler}
               />
             )
           }
@@ -225,7 +184,9 @@ function App() {
                 pages={pages}
                 currentPageHandler={currentPageHandler}
                 isLoader={isLoader}
-                homePageHandler={homePageHandler}
+                postCategory={postCategory}
+                categoryHandler={categoryHandler}
+                searchDataHandler={searchDataHandler}
               />
             )
           }
@@ -242,7 +203,9 @@ function App() {
                 pages={pages}
                 currentPageHandler={currentPageHandler}
                 isLoader={isLoader}
-                homePageHandler={homePageHandler}
+                postCategory={postCategory}
+                categoryHandler={categoryHandler}
+                searchDataHandler={searchDataHandler}
               />
             )
           }
@@ -255,7 +218,9 @@ function App() {
               pages={pages}
               currentPageHandler={currentPageHandler}
               isLoader={isLoader}
-              homePageHandler={homePageHandler}
+              postCategory={postCategory}
+              categoryHandler={categoryHandler}
+              searchDataHandler={searchDataHandler}
             />
           }
         />
@@ -272,7 +237,9 @@ function App() {
                 pages={pages}
                 currentPageHandler={currentPageHandler}
                 isLoader={isLoader}
-                homePageHandler={homePageHandler}
+                postCategory={postCategory}
+                categoryHandler={categoryHandler}
+                searchDataHandler={searchDataHandler}
               />
             )
           }

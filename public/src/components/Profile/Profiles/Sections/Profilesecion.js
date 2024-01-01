@@ -293,7 +293,7 @@ const ProfileSection = (props) => {
                   onChange={inputHandler}
                   type="text"
                   name="otp"
-                  placeholder="Please Enter your otp"
+                  placeholder="Please Enter Your OTP"
                 ></input>
               </div>
             )}

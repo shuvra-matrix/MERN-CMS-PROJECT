@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useState } from "react";
 import styles from "./Header.module.css";
 import { Link } from "react-router-dom";
 
@@ -7,37 +7,8 @@ const Header = (props) => {
 
   const logoutHandler = () => {
     props.logout();
+    setIsActive("blog");
   };
-
-  const homePageHandler = (value) => {
-    props.homePageHandler(value);
-  };
-
-  useEffect(() => {
-    const pathname = window.location.pathname;
-
-    if (pathname === "/profile") {
-      setIsActive("profile");
-    } else {
-      setIsActive("blog");
-    }
-
-    const handlePopstate = () => {
-      const pathname = window.location.pathname;
-
-      if (pathname === "/profile") {
-        setIsActive("profile");
-      } else {
-        setIsActive("blog");
-      }
-    };
-
-    window.addEventListener("popstate", handlePopstate);
-
-    return () => {
-      window.removeEventListener("popstate", handlePopstate);
-    };
-  }, []);
 
   return (
     <Fragment>
@@ -47,7 +18,6 @@ const Header = (props) => {
             <h1
               onClick={() => {
                 setIsActive("blog");
-                homePageHandler(true);
               }}
             >
               Blog<span>Sp</span>ot
@@ -59,7 +29,6 @@ const Header = (props) => {
             <p
               onClick={() => {
                 setIsActive("blog");
-                homePageHandler(true);
               }}
               className={isActive === "blog" ? styles["active"] : ""}
             >
@@ -71,7 +40,6 @@ const Header = (props) => {
               <p
                 onClick={() => {
                   setIsActive("profile");
-                  homePageHandler(false);
                 }}
                 className={isActive === "profile" ? styles["active"] : ""}
               >

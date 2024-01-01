@@ -45,39 +45,10 @@ const WritePostSection = (props) => {
       return { ...pre, [name]: value };
     });
 
-    if (name === "title") {
-      setInputError((pre) => {
-        return { ...pre, title: false };
-      });
-    }
-    if (name === "desc") {
-      setInputError((pre) => {
-        return { ...pre, desc: false };
-      });
-    }
-    if (name === "category") {
-      setInputError((pre) => {
-        return { ...pre, category: false };
-      });
-    }
-
-    if (name === "imgSource") {
-      setInputError((pre) => {
-        return { ...pre, imgSource: false };
-      });
-    }
-
-    if (name === "tag") {
-      setInputError((pre) => {
-        return { ...pre, tag: false };
-      });
-    }
-
-    if (name === "status") {
-      setInputError((pre) => {
-        return { ...pre, status: false };
-      });
-    }
+    setInputError((prev) => ({
+      ...prev,
+      [name]: false,
+    }));
   };
 
   const imageHandler = (e) => {
@@ -154,17 +125,6 @@ const WritePostSection = (props) => {
     fromData.append("tag", inputData.tag);
     const token = localStorage.getItem("token");
 
-    setInputHandler({
-      title: "",
-      desc: "",
-      content: "",
-      category: "",
-      imgSource: "",
-      tag: "",
-      status: "",
-      image: "",
-    });
-
     fetch(url, {
       method: "POST",
       body: fromData,
@@ -191,6 +151,16 @@ const WritePostSection = (props) => {
         setMessage("Upload Failed!");
         console.log(err);
       });
+    setInputHandler({
+      title: "",
+      desc: "",
+      content: "",
+      category: "",
+      imgSource: "",
+      tag: "",
+      status: "",
+      image: "",
+    });
   };
 
   const selectOptions = props.postCategory.map((data) => (
@@ -304,12 +274,7 @@ const WritePostSection = (props) => {
               <p className={styles["image-file-name"]}>
                 {inputData.image.name || "Select Image File"}
               </p>
-              <input
-                onChange={imageHandler}
-                name="image"
-                type="file"
-                required
-              ></input>
+              <input onChange={imageHandler} name="image" type="file"></input>
               <img
                 width="64"
                 height="64"

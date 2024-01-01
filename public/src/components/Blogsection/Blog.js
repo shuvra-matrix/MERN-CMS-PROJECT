@@ -4,16 +4,19 @@ import arrow from "../../media/icons8-right-64.png";
 import { Fragment } from "react";
 import Pagination from "../Pagination/Pagination";
 import LoaderThree from "../Loader/LoaderThree";
+import PostCategory from "../PostCategory/PostCategory";
+import SearchSection from "../Searchpost/SearchSection";
 
 const Blog = (props) => {
   let posts = props.posts;
 
-  const isHomeHandler = () => {
-    props.homePageHandler(false);
-  };
-
   return (
     <Fragment>
+      <SearchSection searchDataHandler={props.searchDataHandler} />
+      <PostCategory
+        postCategory={props.postCategory}
+        categoryHandler={props.categoryHandler}
+      />
       {!props.isLoader && posts.length > 0 && (
         <Fragment>
           <div className={styles["blog-main"]} key="7848hs8">
@@ -21,7 +24,6 @@ const Blog = (props) => {
               <div className={styles["img"]}>
                 <Link
                   to={`/post?title=${posts[0]?.title}&id=${posts[0]?.postId}`}
-                  onClick={isHomeHandler}
                 >
                   <img
                     className={styles["img-img"]}
@@ -39,26 +41,29 @@ const Blog = (props) => {
               </div>
 
               <div className={styles["wide-text-section"]}>
-                <p className={styles["cat-name"]}>
-                  {posts[0]?.category.name.split(" ")[0]}
-                </p>
-                <h2 className={styles["titie"]}>{posts[0]?.title}</h2>
-                <p className={styles["desc"]}>{posts[0]?.desc}</p>
-                <div className={styles["name-date"]}>
-                  <p className={styles["name"]}>{posts[0]?.user.name}</p>
-                  <p className={styles["date"]}>{posts[0]?.date}</p>
-                </div>
+                <Link
+                  to={`/post?title=${posts[0]?.title}&id=${posts[0]?.postId}`}
+                >
+                  <p className={styles["cat-name"]}>
+                    {posts[0]?.category.name.split(" ")[0]}
+                  </p>
+                  <h2 className={styles["titie"]}>{posts[0]?.title}</h2>
+                  <p className={styles["desc"]}>{posts[0]?.desc}</p>
+                  <div className={styles["name-date"]}>
+                    <p className={styles["name"]}>{posts[0]?.user.name}</p>
+                    <p className={styles["date"]}>{posts[0]?.date}</p>
+                  </div>
+                </Link>
               </div>
             </div>
 
             <div className={styles["small-post"]}>
               {posts.slice(1, posts.length).map((data) => (
-                <div
-                  className={styles["posts"]}
-                  key={data?.postId}
-                  onClick={isHomeHandler}
+                <Link
+                  to={`/post?title=${data?.title}&id=${data?.postId}`}
+                  key={data.prodId}
                 >
-                  <Link to={`/post?title=${data?.title}&id=${data?.postId}`}>
+                  <div className={styles["posts"]} key={data?.postId}>
                     <img
                       className={styles["small-img"]}
                       src={data?.image}
@@ -71,19 +76,20 @@ const Blog = (props) => {
                         alt="arrow"
                       ></img>
                     </div>
-                  </Link>
-                  <p className={styles["cat"]}>
-                    {data?.category.name.split(" ")[0]}
-                  </p>
-                  <h3 className={styles["title-two"]}>{data?.title}</h3>
-                  <p className={styles["desc-two"]}>{data?.desc}</p>
-                  <div
-                    className={`${styles["name-date"]} ${styles["name-date-snd"]}`}
-                  >
-                    <p className={styles["name"]}>{data?.user.name}</p>
-                    <p className={styles["date"]}>{data?.date}</p>
+
+                    <p className={styles["cat"]}>
+                      {data?.category.name.split(" ")[0]}
+                    </p>
+                    <h3 className={styles["title-two"]}>{data?.title}</h3>
+                    <p className={styles["desc-two"]}>{data?.desc}</p>
+                    <div
+                      className={`${styles["name-date"]} ${styles["name-date-snd"]}`}
+                    >
+                      <p className={styles["name"]}>{data?.user.name}</p>
+                      <p className={styles["date"]}>{data?.date}</p>
+                    </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           </div>

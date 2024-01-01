@@ -42,11 +42,15 @@ exports.signup = (req, res, next) => {
       return User.findOne({ email: email });
     })
     .then((user) => {
+      const ip = req.clientIp;
+      const resetTime = Date.now() + 900000;
       if (user) {
         user.email = email;
         user.password = encryptPassword;
         user.name = name;
         user.otp = randomOTP;
+        user.ip = ip;
+        user.resetTokenExp = resetTime;
 
         return user.save();
       }
@@ -56,6 +60,8 @@ exports.signup = (req, res, next) => {
         email: email,
         password: encryptPassword,
         otp: randomOTP,
+        ip: req.clientIp,
+        resetTokenExp: resetTime,
       });
 
       return newUser.save();
@@ -107,7 +113,7 @@ exports.verifyOtp = (req, res, next) => {
   const otp = req.body.otp;
   const userId = req.body.userId;
 
-  User.findById(userId)
+  User.findOne({ _id: userId, resetTokenExp: { $gt: Date.now() } })
     .then((user) => {
       if (!user) {
         const error = new Error("user not found");
@@ -149,7 +155,7 @@ exports.login = (req, res, next) => {
   const password = req.body.password;
   let loadUser;
 
-  User.findOne({ email: email })
+  User.findOne({ email: email, valid: "yes" })
     .then((user) => {
       if (!user) {
         const error = new Error("user not found");
@@ -255,7 +261,7 @@ exports.sendResetLink = (req, res, next) => {
         }
 
         user.resetToken = token;
-        user.resetTokenExp = Date.now() + 3600000;
+        user.resetTokenExp = Date.now() + 900000;
         user.isTokenExp = "no";
         return user.save();
       })

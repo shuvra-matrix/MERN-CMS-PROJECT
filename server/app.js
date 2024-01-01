@@ -1,13 +1,17 @@
 const express = require("express");
 const mongoos = require("mongoose");
 const multer = require("multer");
+const requestIp = require("request-ip");
 require("dotenv").config();
 
 const app = express();
 
+const port = "3030";
 const MONGO_URL = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}mymongoinit.6md0cxy.mongodb.net/blog?retryWrites=true&w=majority`;
 
 app.use(express.json());
+app.use(requestIp.mw());
+
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
@@ -46,7 +50,9 @@ app.use((error, req, res, next) => {
 mongoos
   .connect(MONGO_URL)
   .then((result) => {
-    app.listen(3030);
+    app.listen(process.env.PORT || port, () => {
+      console.log(`listning to the port ${port}`);
+    });
   })
   .catch((err) => {
     console.log(err);

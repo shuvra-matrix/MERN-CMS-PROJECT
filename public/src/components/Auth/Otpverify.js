@@ -56,7 +56,9 @@ const Otpverify = (props) => {
         setIsLoader(false);
         console.log(err);
         setIsError(true);
-        setMessage("Oops! Something went wrong. Please try again later.");
+        setMessage(
+          "your one-time password has expired or something went wrong."
+        );
       });
   };
 

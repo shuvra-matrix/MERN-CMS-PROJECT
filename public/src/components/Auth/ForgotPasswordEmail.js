@@ -1,5 +1,4 @@
-import styles from "./Forgotpassword.module.css";
-
+import styles from "./Auth.module.css";
 const ForgotPassEmail = () => {
   return (
     <div className={styles["login-main"]}>

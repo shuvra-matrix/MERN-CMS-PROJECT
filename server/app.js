@@ -34,12 +34,13 @@ app.use("/profile", profileRoutes);
 app.use("/post", postRoutes);
 
 app.use((error, req, res, next) => {
+  console.log(error);
   const status = error.statusCode;
   const message = error.messsage;
   const data = error.data;
   res
     .status(status || 500)
-    .json({ message: message, data: data, error: "yes" });
+    .json({ message: message, data: data, error: "yes", errors: error });
 });
 
 mongoos

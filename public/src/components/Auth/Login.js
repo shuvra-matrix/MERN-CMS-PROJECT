@@ -1,12 +1,14 @@
 import { Link } from "react-router-dom";
-import styles from "./Login.module.css";
+import styles from "./Auth.module.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import LoaderForAuth from "../Loader/LoaderForAuth";
 
 const Login = (propes) => {
   const { state } = useLocation();
   const navigate = useNavigate();
-  const data = state?.message || "";
+  let data = state?.message || "";
+
   const [inputData, setInputData] = useState({
     email: "",
     password: "",
@@ -14,6 +16,9 @@ const Login = (propes) => {
 
   const [emailError, setEmailError] = useState(false);
   const [passError, setPassError] = useState(false);
+  const [isError, setIsError] = useState(true);
+  const [message, setMessage] = useState("");
+  const [isLoader, setIsLoader] = useState(false);
 
   const inputDataHandler = (e) => {
     const { name, value } = e.target;
@@ -27,10 +32,13 @@ const Login = (propes) => {
     setInputData((pre) => {
       return { ...pre, [name]: value };
     });
+
+    setIsError(false);
   };
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
+
     if (!inputData.email.includes("@") && inputData.email.length < 8) {
       setEmailError(true);
       return;
@@ -39,7 +47,7 @@ const Login = (propes) => {
       setPassError(true);
       return;
     }
-
+    setIsLoader(true);
     const url = "http://localhost:3030/auth/login";
 
     fetch(url, {
@@ -53,6 +61,9 @@ const Login = (propes) => {
       },
     })
       .then((response) => {
+        if (!response.ok) {
+          throw new Error("Authentication failed");
+        }
         return response.json();
       })
       .then((data) => {
@@ -64,11 +75,15 @@ const Login = (propes) => {
           localStorage.setItem("isLogin", "yes");
           localStorage.setItem("userId", data.userId);
           propes.isLogin(true);
+          setIsLoader(false);
           navigate("/");
         }
       })
       .catch((err) => {
-        console.log(err);
+        setIsError(true);
+        setMessage("Authentication Failed!");
+        console.log(err.message);
+        setIsLoader(false);
       });
   };
 
@@ -80,11 +95,9 @@ const Login = (propes) => {
             Blog<span>Sp</span>ot
           </h3>
         </div>
-        {data.length > 4 ? <p>{data}</p> : ""}
-
         <h3 className={styles["login"]}>Login</h3>
         <p className={styles["signup"]}>
-          Doesn't have account yet?{" "}
+          Doesn't have account yet?
           <Link to="/signup">
             <span>Sing Up</span>
           </Link>
@@ -123,11 +136,26 @@ const Login = (propes) => {
               </Link>
             </div>
           </div>
-          <button className={styles["btn"]} type="submit">
-            Login
-          </button>
+          {isLoader ? (
+            <button className={styles["btn"]} type="button" disabled>
+              <LoaderForAuth />
+            </button>
+          ) : (
+            <button className={styles["btn"]} type="submit">
+              Login
+            </button>
+          )}
         </form>
+        {isError && <p className={styles["message"]}>{message}</p>}
+        {data.length > 4 ? (
+          <p className={styles["verify-message"]}>
+            Verification successful! Please log in.
+          </p>
+        ) : (
+          ""
+        )}
       </div>
+
       <div className={styles["design"]}></div>
     </div>
   );

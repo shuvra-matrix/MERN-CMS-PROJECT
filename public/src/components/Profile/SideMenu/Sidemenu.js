@@ -1,6 +1,10 @@
 import { useState } from "react";
 import styles from "./Sidemenu.module.css";
 import avatar from "../../../media/tiger.png";
+import profileIcon from "../../../media/icons8-male-user-50.png";
+import securityIcon from "../../../media/icons8-password-50.png";
+import writeBlogIcon from "../../../media/icons8-edit-row-50.png";
+import blogsIcon from "../../../media/icons8-blog-50.png";
 
 const Sidemenu = (propes) => {
   const option = localStorage.getItem("option") || "option1";
@@ -41,7 +45,7 @@ const Sidemenu = (propes) => {
           <img
             width="50"
             height="50"
-            src="https://img.icons8.com/ios/50/user-male-circle--v1.png"
+            src={profileIcon}
             alt="user-male-circle--v1"
           />
         </span>
@@ -58,12 +62,7 @@ const Sidemenu = (propes) => {
       >
         <p>Security</p>
         <span>
-          <img
-            width="50"
-            height="50"
-            src="https://img.icons8.com/ios/50/password--v1.png"
-            alt="password--v1"
-          />
+          <img width="50" height="50" src={securityIcon} alt="password--v1" />
         </span>
       </div>
       <div
@@ -77,12 +76,7 @@ const Sidemenu = (propes) => {
       >
         <p>Write Post</p>
         <span>
-          <img
-            width="50"
-            height="50"
-            src="https://img.icons8.com/ios/50/edit-row.png"
-            alt="edit-row"
-          />
+          <img width="50" height="50" src={writeBlogIcon} alt="edit-row" />
         </span>
       </div>
       <div
@@ -96,12 +90,7 @@ const Sidemenu = (propes) => {
       >
         <p>Posts</p>
         <span>
-          <img
-            width="50"
-            height="50"
-            src="https://img.icons8.com/ios/50/blog.png"
-            alt="blog"
-          />
+          <img width="50" height="50" src={blogsIcon} alt="blog" />
         </span>
       </div>
     </div>

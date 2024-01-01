@@ -3,10 +3,6 @@ const { validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const User = require("../model/User");
 const jwt = require("jsonwebtoken");
-const { json } = require("express");
-const Post = require("../model/Post");
-const PostCategory = require("../model/PostCategory");
-const { post } = require("../routes/public");
 
 const transporter = nodeMailer.createTransport({
   service: "gmail",
@@ -21,8 +17,9 @@ exports.signup = (req, res, next) => {
 
   if (!error.isEmpty()) {
     const err = new Error("Validation Error");
-    err.statusCode = 422;
-    err.data = error.array();
+    err.statusCode = 403;
+    const errArray = error.array();
+    err.data = errArray[0].msg;
     throw err;
   }
 
@@ -82,13 +79,14 @@ exports.signup = (req, res, next) => {
       return transporter.sendMail(mailOption);
     })
     .then((response) => {
+      console.log(response);
+
       res.status(201).json({
         message: "otp send successfully",
         userId: userId,
       });
     })
     .catch((err) => {
-      console.log(err);
       if (!err.statusCode) {
         err.statusCode = 500;
       }
@@ -123,7 +121,7 @@ exports.verifyOtp = (req, res, next) => {
     })
     .then((result) => {
       if (!result) {
-        return res.status(201).json({ message: "notverified" });
+        return res.status(403).json({ message: "notverified" });
       }
       res.status(201).json({ message: "verified" });
     })
@@ -186,7 +184,6 @@ exports.login = (req, res, next) => {
       });
     })
     .catch((err) => {
-      console.log(err);
       if (!err.statusCode) {
         err.statusCode = 500;
       }

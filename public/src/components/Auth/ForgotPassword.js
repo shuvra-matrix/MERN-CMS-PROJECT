@@ -1,4 +1,4 @@
-import styles from "./Forgotpassword.module.css";
+import styles from "./Auth.module.css";
 
 const ForgotPass = () => {
   return (

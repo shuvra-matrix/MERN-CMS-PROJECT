@@ -13,7 +13,7 @@
   width: 30%;
   margin: 8rem auto 0;
   padding: 2rem;
-  border-radius: 5px;
+  border-radius: 12px;
   box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.226);
 }
 
@@ -25,13 +25,16 @@
 }
 
 .title span {
-  color: orangered;
+  background-clip: text;
+  color: transparent;
+  background-image: linear-gradient(to right, #0091f1, #15d0ff);
 }
 
 .login {
-  padding-top: 1rem;
+  padding-top: 1.1rem;
   padding-bottom: 0.5rem;
-  font-size: 1.6rem;
+  font-size: 1.5rem !important;
+  color: rgb(31, 22, 46) !important;
 }
 
 .signup {
@@ -40,7 +43,7 @@
 }
 
 .signup span {
-  color: orangered;
+  color: rgb(174, 2, 218);
   text-decoration: underline;
   cursor: pointer;
   padding-left: 10px;
@@ -62,15 +65,17 @@
 .password label {
   font-size: 1rem;
   font-weight: 500;
+  color: rgb(68, 68, 68);
 }
 
 .email input,
 .password input {
   width: 100%;
-  height: 40px;
+  height: 45px;
   background-color: #f2f2f2;
   padding-left: 10px;
   border: 0px;
+  border-radius: 8px;
   font-size: 1rem;
   color: rgb(34, 34, 34);
 }
@@ -86,9 +91,9 @@
 
 .forgot {
   position: absolute;
-  top: 0px;
+  top: -1px;
   right: 0px;
-  color: orangered;
+  color: rgb(231, 19, 72);
   font-weight: 500;
   text-decoration: underline;
   cursor: pointer;
@@ -98,12 +103,16 @@
   background-color: #893dff;
   width: 100%;
   padding: 15px 0;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   font-weight: 500;
   color: white;
   border: 0;
   margin-bottom: 1rem;
   cursor: pointer;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .btn:hover {
@@ -112,7 +121,7 @@
 
 .design {
   position: absolute;
-  background-color: #ff700b;
+  background-color: #8d4ef5;
   width: 100%;
   height: 500px;
   bottom: 0px;
@@ -130,6 +139,23 @@
   .login-sub {
     width: 35%;
   }
+}
+
+.message,
+.verify-message {
+  width: 100%;
+  margin: auto;
+  color: rgb(236, 46, 78);
+  text-align: center;
+  font-weight: 500;
+}
+
+.message {
+  color: rgb(236, 46, 78);
+}
+
+.verify-message {
+  color: rgb(108, 6, 121);
 }
 
 @media (max-width: 1080px) {
@@ -160,12 +186,15 @@
   .login-sub {
     width: 75%;
   }
+  .btn {
+    font-size: 1.2rem;
+  }
 }
 
 @media (max-width: 430px) {
   .login-sub {
     width: 90%;
-    margin: 5rem auto 0;
+    margin: 7rem auto 0;
   }
   .design {
     width: 100%;

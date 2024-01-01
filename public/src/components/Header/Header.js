@@ -3,11 +3,13 @@ import styles from "./Header.module.css";
 import { Link } from "react-router-dom";
 
 const Header = (props) => {
-  const [isActive, setIsActive] = useState("blog");
+  const option = localStorage.getItem("headerActive") || "blog";
+  const [isActive, setIsActive] = useState(option);
 
   const logoutHandler = () => {
     props.logout();
     setIsActive("blog");
+    localStorage.clear("headerActive", "profile");
   };
 
   return (
@@ -18,6 +20,7 @@ const Header = (props) => {
             <h1
               onClick={() => {
                 setIsActive("blog");
+                localStorage.setItem("headerActive", "blog");
               }}
             >
               Blog<span>Sp</span>ot
@@ -29,6 +32,7 @@ const Header = (props) => {
             <p
               onClick={() => {
                 setIsActive("blog");
+                localStorage.setItem("headerActive", "blog");
               }}
               className={isActive === "blog" ? styles["active"] : ""}
             >
@@ -40,6 +44,7 @@ const Header = (props) => {
               <p
                 onClick={() => {
                   setIsActive("profile");
+                  localStorage.setItem("headerActive", "profile");
                 }}
                 className={isActive === "profile" ? styles["active"] : ""}
               >

@@ -6,9 +6,9 @@ import Header from "./components/Header/Header";
 import Singlepost from "./components/Singlepost/Singlepost";
 import Footer from "./components/Footer/Footer";
 import Profile from "./components/Profile/Profile";
-import Login from "./components/Auth/Login/Login";
-import Signup from "./components/Auth/Singup/Signup";
-import ForgotPassEmail from "./components/Auth/FogotPassword/ForgotPasswordEmail";
+import Login from "./components/Auth/Login";
+import Signup from "./components/Auth/Signup";
+import ForgotPassEmail from "./components/Auth/ForgotPasswordEmail";
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);

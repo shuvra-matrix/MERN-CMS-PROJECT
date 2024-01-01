@@ -1,6 +1,7 @@
-import styles from "./Signup.module.css";
+import styles from "./Auth.module.css";
 import { Fragment, useState } from "react";
-import Otpverify from "../FogotPassword/Otpverify";
+import Otpverify from "./Otpverify";
+import LoaderForAuth from "../Loader/LoaderForAuth";
 
 const Signup = (props) => {
   const [showOtpSection, setShowOtpSection] = useState(false);
@@ -16,14 +17,15 @@ const Signup = (props) => {
   const [emailError, setEmailError] = useState(false);
   const [passError, setPassError] = useState(false);
   const [conPassError, setConPassError] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [message, setMessage] = useState("");
+  const [isLoader, setIsLoader] = useState(false);
 
   const otpSectionHandler = (value) => {
     setShowOtpSection(value);
-    // props.authRoutes("login");
   };
 
   const inputDataHandler = (e) => {
-    console.log(e);
     const { name, value } = e.target;
     if (name === "name") {
       setNameError(false);
@@ -40,6 +42,7 @@ const Signup = (props) => {
     setInputData((pre) => {
       return { ...pre, [name]: value };
     });
+    setIsError(false);
   };
 
   const submitHandler = (e) => {
@@ -63,7 +66,16 @@ const Signup = (props) => {
       return;
     }
 
-    const url = "http://localhost:3030/auth/signup";
+    if (inputData.password.trim() !== inputData.confirmPassword.trim()) {
+      setIsError(true);
+      setMessage("Passwords do not match");
+      setConPassError(true);
+      return;
+    }
+
+    setIsLoader(true);
+
+    const url = "http://localhost:3030/auth/signup/";
 
     fetch(url, {
       method: "POST",
@@ -73,20 +85,32 @@ const Signup = (props) => {
       },
     })
       .then((response) => {
-        console.log(response);
-        if (response.status !== 200 && response.status !== 201) {
-          throw new Error("Can not signup");
+        if (response.status === 500) {
+          throw new Error("server Error");
         }
+
         return response.json();
       })
       .then((data) => {
+        setIsLoader(false);
+        if (data.data === "Email present!") {
+          setIsError(true);
+          setMessage("Email already registered.");
+          return;
+        }
+
         const message = data.message;
+
         if (message === "otp send successfully") {
           setShowOtpSection(true);
           setUserId(data.userId);
+          setIsError(false);
         }
       })
       .catch((err) => {
+        setIsLoader(false);
+        setIsError(true);
+        setMessage("Oops! Something went wrong. Please try again later.");
         console.log(err);
       });
   };
@@ -168,10 +192,17 @@ const Signup = (props) => {
                   ></input>
                 </div>
               </div>
-              <button className={styles["btn"]} type="submit">
-                Sign Up
-              </button>
+              {isLoader ? (
+                <button className={styles["btn"]} type="button" disabled>
+                  <LoaderForAuth />
+                </button>
+              ) : (
+                <button className={styles["btn"]} type="submit">
+                  Singn Up
+                </button>
+              )}
             </form>
+            {isError && <p className={styles["message"]}>{message}</p>}
           </div>
           <div className={styles["design"]}></div>
         </div>

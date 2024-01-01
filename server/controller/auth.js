@@ -3,6 +3,7 @@ const { validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const User = require("../model/User");
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
 
 const transporter = nodeMailer.createTransport({
   service: "gmail",
@@ -221,5 +222,68 @@ exports.tokenVerify = (req, res, next) => {
   req.userId = decodeToken.userId;
   res.status(200).json({
     message: "valid auth",
+  });
+};
+
+exports.sendResetLink = (req, res, next) => {
+  const error = validationResult(req);
+
+  if (!error.isEmpty()) {
+    const err = new Error("Validation Error");
+    err.statusCode = 403;
+    const errArray = error.array();
+    err.data = errArray[0].msg;
+    throw err;
+  }
+
+  crypto.randomBytes(32, (err, bytes) => {
+    if (err) {
+      const error = new Error("Validation Error");
+      error.statusCode = 500;
+      throw error;
+    }
+
+    const token = bytes.toString("hex");
+    const email = req.body.email;
+    User.findOne({ email: email })
+      .then((user) => {
+        if (!user) {
+          const err = new Error("email is not registered");
+          err.statusCode = 403;
+          err.data = "email is not registered";
+          throw err;
+        }
+
+        user.resetToken = token;
+        user.resetTokenExp = Date.now() + 3600000;
+        return user.save();
+      })
+      .then((result) => {
+        const mailOption = {
+          from: process.env.USER_ID,
+          to: email,
+          subject: "BlogSpot OTP",
+          html: `<html><body style="width : 95%; text-align:center;   display: flex;
+                justify-content: center;
+                align-items: center; margin : auto ; background-color :#000000d9;padding : 15px ;">
+                
+                <div style="width : 95% ;height : 90%; text-align : center; margin : 12px auto ; background-color : #0c0921; padding:1rem">
+                <h1 style="color : green">Hi Your Api limit is end. We call a new api . please add more api</h1>
+                 <p style="margin:12px , color : orange ">Click This <a href="http://localhost:3000/reset/${token}">Link</a> to reset your password </p>
+                </div>
+                
+                </body></html>`,
+        };
+        return transporter.sendMail(mailOption);
+      })
+      .then((result) => {
+        res.status(200).json({ message: "reset link send" });
+      })
+      .catch((err) => {
+        if (!err.statusCode) {
+          err.statusCode = 500;
+        }
+        next(err);
+      });
   });
 };

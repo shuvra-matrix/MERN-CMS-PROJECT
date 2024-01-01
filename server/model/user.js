@@ -37,6 +37,15 @@ const userSchema = new Schema({
       ref: "Posts",
     },
   ],
+  ip: {
+    type: String,
+  },
+  resetToken: {
+    type: String,
+  },
+  resetTokenExp: {
+    type: Date,
+  },
 });
 
 module.exports = mongoos.model("User", userSchema);

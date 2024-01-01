@@ -91,9 +91,11 @@ const Login = (propes) => {
     <div className={styles["login-main"]}>
       <div className={styles["login-sub"]}>
         <div className={styles["title"]}>
-          <h3>
-            Blog<span>Sp</span>ot
-          </h3>
+          <Link to="/">
+            <h3>
+              Blog<span>Sp</span>ot
+            </h3>
+          </Link>
         </div>
         <h3 className={styles["login"]}>Login</h3>
         <p className={styles["signup"]}>
@@ -148,9 +150,7 @@ const Login = (propes) => {
         </form>
         {isError && <p className={styles["message"]}>{message}</p>}
         {data.length > 4 ? (
-          <p className={styles["verify-message"]}>
-            Verification successful! Please log in.
-          </p>
+          <p className={styles["verify-message"]}>{data}</p>
         ) : (
           ""
         )}

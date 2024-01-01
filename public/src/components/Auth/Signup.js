@@ -2,6 +2,7 @@ import styles from "./Auth.module.css";
 import { Fragment, useState } from "react";
 import Otpverify from "./Otpverify";
 import LoaderForAuth from "../Loader/LoaderForAuth";
+import { Link } from "react-router-dom";
 
 const Signup = (props) => {
   const [showOtpSection, setShowOtpSection] = useState(false);
@@ -121,9 +122,11 @@ const Signup = (props) => {
         <div className={styles["login-main"]}>
           <div className={styles["login-sub"]}>
             <div className={styles["title"]}>
-              <h3>
-                Blog<span>Sp</span>ot
-              </h3>
+              <Link to="/">
+                <h3>
+                  Blog<span>Sp</span>ot
+                </h3>
+              </Link>
             </div>
 
             <h3 className={styles["login"]}>Sign Up</h3>

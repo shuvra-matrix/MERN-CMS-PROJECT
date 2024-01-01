@@ -69,4 +69,10 @@ rourte.post(
 
 rourte.post("/verifytoken", authController.tokenVerify);
 
+rourte.post(
+  "/sendresetlink",
+  [body("email").trim().isEmail().withMessage("enter valid email")],
+  authController.sendResetLink
+);
+
 module.exports = rourte;

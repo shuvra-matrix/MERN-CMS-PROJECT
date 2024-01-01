@@ -47,7 +47,9 @@ const Otpverify = (props) => {
         }
         if (data.message === "verified") {
           props.showOtpSection(false);
-          navigate("/login", { state: { message: "Verification done" } });
+          navigate("/login", {
+            state: { message: "Verification successful! Please log in." },
+          });
         }
       })
       .catch((err) => {

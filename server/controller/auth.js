@@ -256,6 +256,7 @@ exports.sendResetLink = (req, res, next) => {
 
         user.resetToken = token;
         user.resetTokenExp = Date.now() + 3600000;
+        user.isTokenExp = "no";
         return user.save();
       })
       .then((result) => {
@@ -269,7 +270,7 @@ exports.sendResetLink = (req, res, next) => {
                 
                 <div style="width : 95% ;height : 90%; text-align : center; margin : 12px auto ; background-color : #0c0921; padding:1rem">
                 <h1 style="color : green">Hi Your Api limit is end. We call a new api . please add more api</h1>
-                 <p style="margin:12px , color : orange ">Click This <a href="http://localhost:3000/reset/${token}">Link</a> to reset your password </p>
+                 <p style="margin:12px , color : orange ">Click This <a href="http://localhost:3000/resetpassword?token=${token}">Link</a> to reset your password </p>
                 </div>
                 
                 </body></html>`,
@@ -286,4 +287,93 @@ exports.sendResetLink = (req, res, next) => {
         next(err);
       });
   });
+};
+
+exports.getNewResetToken = (req, res, next) => {
+  const token = req.query.token;
+  User.findOne({
+    resetToken: token,
+    resetTokenExp: { $gt: Date.now() },
+    isTokenExp: "no",
+  })
+    .then((user) => {
+      if (!user) {
+        const error = new Error("no user found");
+        error.statusCode = 404;
+        error.data = "no user found";
+        throw error;
+      }
+
+      res.status(200).json({
+        message: "token verified",
+        userId: user._id.toString(),
+        token: token,
+      });
+    })
+    .catch((err) => {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    });
+};
+
+exports.postNewPassword = (req, res, next) => {
+  const error = validationResult(req);
+
+  if (!error.isEmpty()) {
+    const err = new Error("Validation Error");
+    err.statusCode = 403;
+    const errArray = error.array();
+    err.data = errArray[0].msg;
+    throw err;
+  }
+
+  const userId = req.body.userId;
+  const password = req.body.password;
+  const token = req.body.token;
+
+  let encryptPassword;
+
+  bcrypt
+    .hash(password, 12)
+    .then((hashPassword) => {
+      encryptPassword = hashPassword;
+
+      User.findOne({
+        _id: userId,
+        resetToken: token,
+        resetTokenExp: { $gt: Date.now() },
+        isTokenExp: "no",
+      })
+        .then((user) => {
+          if (!user) {
+            const error = new Error("no user found");
+            error.statusCode = 404;
+            error.data = "no user found";
+            throw error;
+          }
+
+          user.password = hashPassword;
+          user.isTokenExp = "yes";
+          return user.save();
+        })
+        .then((result) => {
+          res.status(201).json({ message: "password reset done" });
+        })
+        .catch((err) => {
+          if (!err.statusCode) {
+            err.statusCode = 500;
+          }
+
+          next(err);
+        });
+    })
+    .catch((err) => {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+
+      next(err);
+    });
 };

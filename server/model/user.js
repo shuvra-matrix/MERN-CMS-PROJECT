@@ -46,6 +46,9 @@ const userSchema = new Schema({
   resetTokenExp: {
     type: Date,
   },
+  isTokenExp: {
+    type: String,
+  },
 });
 
 module.exports = mongoos.model("User", userSchema);

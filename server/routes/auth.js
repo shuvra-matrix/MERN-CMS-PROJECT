@@ -75,4 +75,26 @@ rourte.post(
   authController.sendResetLink
 );
 
+rourte.get("/verifyResetToken", authController.getNewResetToken);
+rourte.put(
+  "/restpassword",
+  [
+    body("password")
+      .trim()
+      .isLength({ min: 6 })
+      .withMessage("invalid password"),
+    body("confirmPass")
+      .trim()
+      .isLength({ min: 6 })
+      .withMessage("invalid password")
+      .custom((value, { req }) => {
+        if (value.toString() != req.body.password.toString()) {
+          return Promise.reject("password not matched");
+        }
+        return true;
+      }),
+  ],
+  authController.postNewPassword
+);
+
 module.exports = rourte;

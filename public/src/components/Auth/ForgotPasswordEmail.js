@@ -7,7 +7,7 @@ const ForgotPassEmail = () => {
   const [userInput, setUserInput] = useState("");
   const [isUserInputError, setIsUserInputError] = useState(false);
 
-  const [isError, setIsError] = useState(true);
+  const [isError, setIsError] = useState(false);
   const [message, setMessage] = useState("");
   const [isLoader, setIsLoader] = useState(false);
   const userInputHndler = (e) => {

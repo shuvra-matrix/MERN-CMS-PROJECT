@@ -9,6 +9,7 @@ import Profile from "./components/Profile/Profile";
 import Login from "./components/Auth/Login";
 import Signup from "./components/Auth/Signup";
 import ForgotPassEmail from "./components/Auth/ForgotPasswordEmail";
+import ResetPass from "./components/Auth/ResetPassword";
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -231,6 +232,24 @@ function App() {
           element={
             isLogin ? (
               <Profile postCategory={postCategory} />
+            ) : (
+              <Blog
+                posts={posts}
+                pages={pages}
+                currentPageHandler={currentPageHandler}
+                isLoader={isLoader}
+                postCategory={postCategory}
+                categoryHandler={categoryHandler}
+                searchDataHandler={searchDataHandler}
+              />
+            )
+          }
+        />
+        <Route
+          path="/resetpassword"
+          element={
+            !isLogin ? (
+              <ResetPass />
             ) : (
               <Blog
                 posts={posts}

@@ -66,7 +66,7 @@ const ResetPass = () => {
         console.log(err);
         setIsCurrentState("error");
       });
-  }, []);
+  }, [navigate]);
 
   const onSubmitHandler = (e) => {
     e.preventDefault();

@@ -20,7 +20,6 @@ const Singlepost = () => {
     const params = new URLSearchParams(queryString);
     let title = params.get("title");
     let id = params.get("id");
-    console.log(title, id);
     const url = apiUrl + "/public/getsinglepost";
     if (title && id) {
       fetch(url, {
@@ -98,10 +97,12 @@ const Singlepost = () => {
               </div>
             </div>
           </div>
-          <div
-            className={styles["text-section"]}
-            dangerouslySetInnerHTML={{ __html: sanitizedContent }}
-          ></div>
+          <div className={styles["text-section-main"]}>
+            <div
+              className={styles["text-section"]}
+              dangerouslySetInnerHTML={{ __html: sanitizedContent }}
+            ></div>
+          </div>
         </div>
       )}
     </Fragment>

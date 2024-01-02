@@ -19,7 +19,7 @@ const Blog = (props) => {
       />
       {!props.isLoader && posts.length > 0 && (
         <Fragment>
-          <div className={styles["blog-main"]} key="7848hs8">
+          <div className={styles["blog-main"]}>
             <div className={styles["wide-post"]}>
               <div className={styles["img"]}>
                 <Link
@@ -61,9 +61,9 @@ const Blog = (props) => {
               {posts.slice(1, posts.length).map((data) => (
                 <Link
                   to={`/post?title=${data?.title}&id=${data?.postId}`}
-                  key={data.prodId}
+                  key={data?.postId}
                 >
-                  <div className={styles["posts"]} key={data?.postId}>
+                  <div className={styles["posts"]}>
                     <img
                       className={styles["small-img"]}
                       src={data?.image}

@@ -13,7 +13,7 @@ import ResetPass from "./components/Auth/ResetPassword";
 
 const apiUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3030";
 
-function App() {
+const App = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [posts, setPosts] = useState([]);
   const [postCategory, setPostCategory] = useState([]);
@@ -53,8 +53,7 @@ function App() {
       })
         .then((response) => {
           if (!response.ok) {
-            setIsLogin(false);
-            localStorage.clear("isLogin");
+            throw new Error("auth failed");
           }
 
           return response.json();
@@ -69,6 +68,8 @@ function App() {
           }
         })
         .catch((err) => {
+          setIsLogin(false);
+          localStorage.clear("isLogin");
           console.log(err);
         });
     };
@@ -88,7 +89,7 @@ function App() {
     localStorage.clear("expirationTime");
     localStorage.clear("option");
     localStorage.clear("optionValue");
-    localStorage.clear("catActive");
+    localStorage.clear("activeCat");
     navigate("/");
   };
 
@@ -118,6 +119,7 @@ function App() {
 
   useEffect(() => {
     setLoader(true);
+
     const url =
       apiUrl +
       "/public/getpost?page=" +
@@ -150,6 +152,11 @@ function App() {
         setLoader(false);
       });
   }, [currentPage, categoryId, searchData]);
+
+  useEffect(() => {
+    console.log("hi");
+    localStorage.clear("activeCat");
+  }, []);
 
   const currentPageHandler = (value) => {
     setCurrentPage(value);
@@ -271,6 +278,6 @@ function App() {
       <Footer />
     </Fragment>
   );
-}
+};
 
 export default App;

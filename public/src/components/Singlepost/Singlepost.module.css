@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap");
+
 .post-main {
   width: 100%;
   margin-bottom: 10px;
@@ -7,9 +9,8 @@
 }
 
 .post-sub {
-  max-width: 1100px;
   width: 100%;
-  background-color: #fcead7bb;
+  background-color: #f6f8f7;
   padding: 2rem 0px;
   margin: auto;
   padding: 0.5rem 0.5rem 1.2rem 0.5rem;
@@ -18,7 +19,7 @@
 }
 
 .title-section {
-  max-width: 1100px;
+  width: 1100px;
   margin: auto;
   display: flex;
   gap: 20px;
@@ -33,16 +34,18 @@
 .title h1 {
   color: rgb(33, 30, 37);
   padding-bottom: 0.2rem;
+  font-family: "Inter", sans-serif;
 }
 
 .desc {
-  font-size: 1.1rem;
-  font-weight: 500;
-  line-height: 1.4;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.6;
   margin-top: 10px;
   flex: 1 1 40%;
-  color: rgb(48, 48, 48);
+  color: #383838;
   padding-bottom: 0.3rem;
+  font-family: "Inter", sans-serif;
 }
 
 .name {
@@ -75,18 +78,23 @@
   gap: 5px;
 }
 
+.text-section-main {
+  width: 100%;
+  background-color: #f6f8f7;
+}
+
 .text-section {
   width: 100%;
   max-width: 1100px;
-  margin: 1rem auto;
+  margin: 1rem auto 0px;
+  font-family: "Inter", sans-serif;
   box-sizing: border-box;
   padding-top: 1rem;
-  font-size: 1.1rem;
-  line-height: 1.6;
-  background-color: #f5f4f89c;
+  line-height: 32px !important;
   padding: 0.5rem 0.5rem 1.2rem 0.5rem;
   border: 0;
   border-radius: 12px;
+  color: #181c25;
 }
 
 .image-section img {
@@ -168,10 +176,6 @@ p img {
 }
 
 @media (max-width: 550px) {
-  .post-sub,
-  .text-section {
-    padding: 0.5rem 0.1rem 1.2rem 0.1rem;
-  }
   p img {
     width: 100%;
     height: auto;

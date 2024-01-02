@@ -5,20 +5,21 @@ import frow from "../../media/icons8-forward-64.png";
 
 const PostCategory = (propes) => {
   const catMainRef = useRef(null);
-  const activeTab = localStorage.getItem("catActive") || "All";
-  const [activeCategory, setActiveCategory] = useState(activeTab);
+  const activeCat = localStorage.getItem("activeCat") || "All";
+  const [activeCategory, setActiveCategory] = useState(activeCat);
   const backRef = useRef(null);
   const forwardRef = useRef(null);
 
   const handleCategoryClick = (category, catId) => {
     setActiveCategory(category);
-    localStorage.setItem("catActive", category);
+    localStorage.setItem("activeCat", category);
     propes.categoryHandler(catId);
     const categoryIndex = propes.postCategory.findIndex(
       (data) => data.name === category
     );
     const categoryWidth =
       catMainRef.current.scrollWidth / propes.postCategory.length;
+
     const scrollPosition = categoryIndex * categoryWidth - 60;
     catMainRef.current.scrollLeft = scrollPosition;
   };

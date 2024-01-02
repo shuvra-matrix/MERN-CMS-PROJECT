@@ -5,6 +5,7 @@ import { useState, useRef } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 
 const tinyApiKey = process.env.REACT_APP_TINY_API_KEY;
+const apiUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3030";
 
 const WritePostSection = (props) => {
   const editorRef = useRef(null);
@@ -112,7 +113,7 @@ const WritePostSection = (props) => {
       throw new Error("tiny editor error");
     }
 
-    const url = "http://localhost:3030/post/addpost";
+    const url = apiUrl + "/post/addpost";
 
     const fromData = new FormData();
     fromData.append("title", inputData.title);

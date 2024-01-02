@@ -5,6 +5,8 @@ import LoaderBig from "../../../Loader/LoaderBig";
 import LoaderSmall from "../../../Loader/LoaderSmall";
 import Message from "../../../Message/Message";
 
+const apiUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3030";
+
 const ProfileSection = (props) => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState({});
@@ -46,7 +48,7 @@ const ProfileSection = (props) => {
   };
 
   useEffect(() => {
-    const url = "http://localhost:3030/profile/profile";
+    const url = apiUrl + "/profile/profile";
     const token = localStorage.getItem("token");
     setLoader(true);
     fetch(url, {
@@ -103,7 +105,7 @@ const ProfileSection = (props) => {
       return;
     }
 
-    const url = "http://localhost:3030/profile/genotp";
+    const url = apiUrl + "/profile/genotp";
     const token = localStorage.getItem("token");
     const email = inputData.email;
     fetch(url, {
@@ -155,7 +157,7 @@ const ProfileSection = (props) => {
     const otp = inputData.otp || "";
     const isOtp = isOtpSend;
 
-    const url = "http://localhost:3030/profile/editprofile";
+    const url = apiUrl + "/profile/editprofile";
     const token = localStorage.getItem("token");
     fetch(url, {
       method: "PUT",

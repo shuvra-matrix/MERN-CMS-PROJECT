@@ -1,7 +1,10 @@
 import { useState } from "react";
 import styles from "./Auth.module.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LoaderForAuth from "../Loader/LoaderForAuth";
+import blogLogo from "../../media/bloglogo.png";
+
+const apiUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3030";
 
 const Otpverify = (props) => {
   const [getOtp, setOtp] = useState("");
@@ -20,7 +23,7 @@ const Otpverify = (props) => {
     const userId = props.userId;
 
     setIsLoader(true);
-    const url = "http://localhost:3030/auth/otpverify";
+    const url = apiUrl + "/auth/otpverify";
 
     fetch(url, {
       method: "POST",
@@ -66,17 +69,29 @@ const Otpverify = (props) => {
     <div className={styles["login-main"]}>
       <div className={styles["login-sub"]}>
         <div className={styles["title"]}>
-          <h3>
-            Blog<span>Sp</span>ot
-          </h3>
+          <Link to="/">
+            <img src={blogLogo} alt="logo"></img>
+          </Link>
+          <Link to="/">
+            <h3>
+              Blog<span>Sp</span>ot
+            </h3>
+          </Link>
         </div>
 
-        <h3 className={styles["login"]}>Verification</h3>
-
+        <h3 className={`${styles["login"]} ${styles["veri-title"]}`}>
+          Verification
+        </h3>
+        <p className={styles["veri-message"]}>
+          We've sent an OTP to your email address. Please check your{" "}
+          <span>inbox</span> for the code. If you don't find it there, kindly
+          take a peek in your
+          <span> spam box </span>.
+        </p>
         <form method="post" onSubmit={onSubmitHandler}>
           <div className={styles["input-section"]}>
             <div className={styles["email"]}>
-              <label htmlFor="">You will get a OTP via EMAIL</label>
+              <label htmlFor=""></label>
               <input
                 onChange={inputHandler}
                 type="email"

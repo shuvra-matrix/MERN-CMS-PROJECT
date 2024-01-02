@@ -11,6 +11,8 @@ import cross from "../../../../media/icons8-cross-64.png";
 import { Link } from "react-router-dom";
 import Message from "../../../Message/Message";
 
+const apiUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3030";
+
 const Allpost = (props) => {
   const [isEdit, setisEdit] = useState(false);
   const [postId, setPostId] = useState("");
@@ -49,7 +51,7 @@ const Allpost = (props) => {
     setDeletePrompt(false);
     const post_Id = e.target[0].value;
     const token = localStorage.getItem("token");
-    const url = "http://localhost:3030/post/postdelete?page=" + currentPage;
+    const url = apiUrl + "/post/postdelete?page=" + currentPage;
 
     fetch(url, {
       method: "DELETE",
@@ -87,7 +89,7 @@ const Allpost = (props) => {
     setisEdit(value);
     setLoader(true);
     const token = localStorage.getItem("token");
-    const url = "http://localhost:3030/post/getpost?page=" + currentPage;
+    const url = apiUrl + "/post/getpost?page=" + currentPage;
     fetch(url, {
       method: "GET",
       headers: {
@@ -113,7 +115,7 @@ const Allpost = (props) => {
   useEffect(() => {
     setLoader(true);
     const token = localStorage.getItem("token");
-    const url = "http://localhost:3030/post/getpost?page=" + currentPage;
+    const url = apiUrl + "/post/getpost?page=" + currentPage;
     fetch(url, {
       method: "GET",
       headers: {

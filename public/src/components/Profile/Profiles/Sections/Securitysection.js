@@ -3,6 +3,8 @@ import styles from "./Profilesection.module.css";
 import Message from "../../../Message/Message";
 import LoaderSmall from "../../../Loader/LoaderSmall";
 
+const apiUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3030";
+
 const SecuritySection = () => {
   const [userInput, setUserInput] = useState({
     oldpass: "",
@@ -65,7 +67,7 @@ const SecuritySection = () => {
 
     setSmallLoader(true);
     const token = localStorage.getItem("token");
-    const url = "http://localhost:3030/profile/updatepassword";
+    const url = apiUrl + "/profile/updatepassword";
     fetch(url, {
       method: "PUT",
       headers: {

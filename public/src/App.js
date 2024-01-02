@@ -11,6 +11,8 @@ import Signup from "./components/Auth/Signup";
 import ForgotPassEmail from "./components/Auth/ForgotPasswordEmail";
 import ResetPass from "./components/Auth/ResetPassword";
 
+const apiUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3030";
+
 function App() {
   const [isLogin, setIsLogin] = useState(false);
   const [posts, setPosts] = useState([]);
@@ -41,7 +43,7 @@ function App() {
   useEffect(() => {
     const checkLoginStatus = () => {
       const token = localStorage.getItem("token");
-      const url = "http://localhost:3030/auth/verifytoken";
+      const url = apiUrl + "/auth/verifytoken";
 
       fetch(url, {
         method: "post",
@@ -86,6 +88,7 @@ function App() {
     localStorage.clear("expirationTime");
     localStorage.clear("option");
     localStorage.clear("optionValue");
+    localStorage.clear("catActive");
     navigate("/");
   };
 
@@ -94,7 +97,7 @@ function App() {
   };
 
   useEffect(() => {
-    const url = "http://localhost:3030/profile/getcategory";
+    const url = apiUrl + "/profile/getcategory";
     fetch(url, {
       method: "GET",
     })
@@ -116,7 +119,8 @@ function App() {
   useEffect(() => {
     setLoader(true);
     const url =
-      "http://localhost:3030/public/getpost?page=" +
+      apiUrl +
+      "/public/getpost?page=" +
       currentPage +
       "&catId=" +
       categoryId +

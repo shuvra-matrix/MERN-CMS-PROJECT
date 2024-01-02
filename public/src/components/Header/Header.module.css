@@ -13,8 +13,22 @@ a {
   position: relative;
 }
 
+.logo {
+  display: flex;
+  flex-flow: nowrap row;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.logo img {
+  width: 35px;
+  height: 35px;
+}
+
 .logo h1 {
-  color: rgb(27, 27, 27);
+  color: rgb(65, 65, 65);
+  font-size: 1.6rem;
 }
 
 .logo span {
@@ -156,5 +170,9 @@ a {
     padding-top: 20px;
     flex: 1 1 100%;
     justify-content: center;
+  }
+
+  .logo {
+    justify-content: flex-start;
   }
 }

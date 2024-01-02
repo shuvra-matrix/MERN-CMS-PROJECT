@@ -3,6 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { Fragment, useEffect, useState } from "react";
 import LoaderForAuth from "../Loader/LoaderForAuth";
 import LoaderSmall from "../Loader/LoaderSmall";
+import blogLogo from "../../media/bloglogo.png";
+
+const apiUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3030";
 
 const ResetPass = () => {
   const navigate = useNavigate();
@@ -42,7 +45,7 @@ const ResetPass = () => {
       return;
     }
 
-    const url = "http://localhost:3030/auth/verifyResetToken?token=" + token;
+    const url = apiUrl + "/auth/verifyResetToken?token=" + token;
 
     fetch(url, {
       method: "GET",
@@ -82,7 +85,7 @@ const ResetPass = () => {
       return;
     }
 
-    const url = "http://localhost:3030/auth/restpassword";
+    const url = apiUrl + "/auth/restpassword";
     setIsLoader(true);
     fetch(url, {
       method: "PUT",
@@ -129,9 +132,14 @@ const ResetPass = () => {
     <div className={styles["login-main"]}>
       <div className={styles["login-sub"]}>
         <div className={styles["title"]}>
-          <h3>
-            Blog<span>Sp</span>ot
-          </h3>
+          <Link to="/">
+            <img src={blogLogo} alt="logo"></img>
+          </Link>
+          <Link to="/">
+            <h3>
+              Blog<span>Sp</span>ot
+            </h3>
+          </Link>
         </div>
         {isCurrentState === "validate-message" && (
           <div className={styles["validate-message-main"]}>

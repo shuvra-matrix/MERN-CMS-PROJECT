@@ -5,12 +5,14 @@ import frow from "../../media/icons8-forward-64.png";
 
 const PostCategory = (propes) => {
   const catMainRef = useRef(null);
-  const [activeCategory, setActiveCategory] = useState("All");
+  const activeTab = localStorage.getItem("catActive") || "All";
+  const [activeCategory, setActiveCategory] = useState(activeTab);
   const backRef = useRef(null);
   const forwardRef = useRef(null);
 
   const handleCategoryClick = (category, catId) => {
     setActiveCategory(category);
+    localStorage.setItem("catActive", category);
     propes.categoryHandler(catId);
     const categoryIndex = propes.postCategory.findIndex(
       (data) => data.name === category

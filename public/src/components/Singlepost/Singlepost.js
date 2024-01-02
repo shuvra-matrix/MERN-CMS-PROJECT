@@ -4,6 +4,8 @@ import styles from "./Singlepost.module.css";
 import { Fragment, useEffect, useState } from "react";
 import DOMPurify from "dompurify";
 
+const apiUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3030";
+
 const Singlepost = () => {
   const [postsData, setPostData] = useState({
     post: { post: { user: {} } },
@@ -19,7 +21,7 @@ const Singlepost = () => {
     let title = params.get("title");
     let id = params.get("id");
     console.log(title, id);
-    const url = "http://localhost:3030/public/getsinglepost";
+    const url = apiUrl + "/public/getsinglepost";
     if (title && id) {
       fetch(url, {
         method: "post",

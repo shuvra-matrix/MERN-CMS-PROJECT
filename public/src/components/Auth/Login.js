@@ -3,6 +3,9 @@ import styles from "./Auth.module.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import LoaderForAuth from "../Loader/LoaderForAuth";
+import blogLogo from "../../media/bloglogo.png";
+
+const apiUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3030";
 
 const Login = (propes) => {
   const { state } = useLocation();
@@ -48,7 +51,7 @@ const Login = (propes) => {
       return;
     }
     setIsLoader(true);
-    const url = "http://localhost:3030/auth/login";
+    const url = apiUrl + "/auth/login";
 
     fetch(url, {
       method: "POST",
@@ -91,6 +94,9 @@ const Login = (propes) => {
     <div className={styles["login-main"]}>
       <div className={styles["login-sub"]}>
         <div className={styles["title"]}>
+          <Link to="/">
+            <img src={blogLogo} alt="logo"></img>
+          </Link>
           <Link to="/">
             <h3>
               Blog<span>Sp</span>ot

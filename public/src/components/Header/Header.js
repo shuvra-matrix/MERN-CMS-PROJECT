@@ -1,6 +1,7 @@
 import { Fragment, useState } from "react";
 import styles from "./Header.module.css";
 import { Link } from "react-router-dom";
+import blogLogo from "../../media/bloglogo.png";
 
 const Header = (props) => {
   const option = localStorage.getItem("headerActive") || "blog";
@@ -16,6 +17,9 @@ const Header = (props) => {
     <Fragment>
       <div className={styles["main-header"]}>
         <div className={styles["logo"]}>
+          <Link to="/">
+            <img src={blogLogo} alt="logo"></img>
+          </Link>
           <Link to="/">
             <h1
               onClick={() => {

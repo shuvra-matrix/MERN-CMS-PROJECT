@@ -22,14 +22,22 @@ a {
 }
 
 .title {
-  font-size: 1.8rem;
+  font-size: 1.4rem;
   font-weight: 700;
   width: 100%;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
+
+.title img {
+  width: 35px;
+  height: 35px;
 }
 
 .title h3 {
-  color: rgb(29, 15, 36) !important;
+  color: rgb(56, 56, 56) !important;
 }
 
 .title span {
@@ -42,7 +50,12 @@ a {
   padding-top: 1.1rem;
   padding-bottom: 0.5rem;
   font-size: 1.4rem !important;
-  color: rgb(55, 16, 78) !important;
+  color: rgb(58, 58, 58) !important;
+}
+
+.veri-title {
+  width: 100%;
+  text-align: center;
 }
 
 .signup {
@@ -216,6 +229,22 @@ a {
 
 .forgot-p:hover {
   background-color: rgb(212, 31, 61);
+}
+
+.veri-message {
+  color: rgb(56, 56, 56);
+  padding-bottom: 10px;
+}
+.veri-message span {
+  font-weight: 500;
+}
+
+.veri-message span:first-child {
+  color: #5e17c9;
+}
+
+.veri-message span:last-child {
+  color: #d40e50;
 }
 
 @media (max-width: 1350px) {

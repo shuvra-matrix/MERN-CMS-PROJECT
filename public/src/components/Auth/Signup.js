@@ -3,6 +3,9 @@ import { Fragment, useState } from "react";
 import Otpverify from "./Otpverify";
 import LoaderForAuth from "../Loader/LoaderForAuth";
 import { Link } from "react-router-dom";
+import blogLogo from "../../media/bloglogo.png";
+
+const apiUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3030";
 
 const Signup = (props) => {
   const [showOtpSection, setShowOtpSection] = useState(false);
@@ -76,7 +79,7 @@ const Signup = (props) => {
 
     setIsLoader(true);
 
-    const url = "http://localhost:3030/auth/signup/";
+    const url = apiUrl + "/auth/signup/";
 
     fetch(url, {
       method: "POST",
@@ -122,6 +125,9 @@ const Signup = (props) => {
         <div className={styles["login-main"]}>
           <div className={styles["login-sub"]}>
             <div className={styles["title"]}>
+              <Link to="/">
+                <img src={blogLogo} alt="logo"></img>
+              </Link>
               <Link to="/">
                 <h3>
                   Blog<span>Sp</span>ot

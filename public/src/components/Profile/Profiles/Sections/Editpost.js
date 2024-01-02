@@ -6,6 +6,7 @@ import { useState, useEffect, Fragment, useRef } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 
 const tinyApiKey = process.env.REACT_APP_TINY_API_KEY;
+const apiUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3030";
 
 const Editpost = (props) => {
   const editorRef = useRef(null);
@@ -53,7 +54,7 @@ const Editpost = (props) => {
     setLoader(true);
     const token = localStorage.getItem("token");
     const postId = props.postId;
-    const url = "http://localhost:3030/post/getpostdata";
+    const url = apiUrl + "/post/getpostdata";
     fetch(url, {
       method: "POST",
       headers: {
@@ -95,7 +96,7 @@ const Editpost = (props) => {
     }
 
     setSmallLoader(true);
-    const url = "http://localhost:3030/post/editpostdata";
+    const url = apiUrl + "/post/editpostdata";
 
     const fromData = new FormData();
     fromData.append("title", inputData.title || postData.title);

@@ -2,6 +2,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Auth.module.css";
 import LoaderForAuth from "../Loader/LoaderForAuth";
+import { Link } from "react-router-dom";
+import blogLogo from "../../media/bloglogo.png";
+
+const apiUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3030";
+
 const ForgotPassEmail = () => {
   const navigate = useNavigate();
   const [userInput, setUserInput] = useState("");
@@ -24,7 +29,7 @@ const ForgotPassEmail = () => {
     }
 
     setIsLoader(true);
-    const url = "http://localhost:3030/auth/sendresetlink";
+    const url = apiUrl + "/auth/sendresetlink";
 
     fetch(url, {
       method: "POST",
@@ -44,7 +49,7 @@ const ForgotPassEmail = () => {
         setIsLoader(false);
         navigate("/login", {
           state: {
-            message: "Check your email for a password reset link",
+            message: "Check your inbox or spam for a password reset link",
           },
         });
       })
@@ -60,12 +65,24 @@ const ForgotPassEmail = () => {
     <div className={styles["login-main"]}>
       <div className={styles["login-sub"]}>
         <div className={styles["title"]}>
-          <h3>
-            Blog<span>Sp</span>ot
-          </h3>
+          <Link to="/">
+            <img src={blogLogo} alt="logo"></img>
+          </Link>
+          <Link to="/">
+            <h3>
+              Blog<span>Sp</span>ot
+            </h3>
+          </Link>
         </div>
 
         <h3 className={styles["login"]}>Forgot Password</h3>
+
+        <p className={styles["veri-message"]}>
+          We will sent an OTP to your email address. Please check your{" "}
+          <span>inbox</span> for the code. If you don't find it there, kindly
+          take a peek in your
+          <span> spam box </span>.
+        </p>
 
         <form onSubmit={onSubmit}>
           <div

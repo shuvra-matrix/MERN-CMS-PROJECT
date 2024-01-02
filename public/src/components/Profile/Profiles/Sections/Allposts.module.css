@@ -154,6 +154,17 @@
   height: 30px;
 }
 
+.no-post {
+  width: 90%;
+  margin: 2rem auto;
+  text-align: center;
+  background-color: #f6f5fb;
+  padding: 20px 15px;
+  border: 0;
+  font-weight: 500;
+  border-radius: 8px;
+}
+
 @media (max-width: 1050px) {
   .allpost-main {
     width: 95%;

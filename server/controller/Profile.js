@@ -3,15 +3,7 @@ const PostCategory = require("../model/PostCategory");
 require("dotenv").config();
 const bcrypt = require("bcryptjs");
 const { validationResult } = require("express-validator");
-
-const nodeMailer = require("nodemailer");
-const transporter = nodeMailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.USER_ID,
-    pass: process.env.PASSWORD,
-  },
-});
+const { sendEmail } = require("./mail");
 
 exports.getProfile = (req, res, next) => {
   User.findById(req.userId)
@@ -34,7 +26,6 @@ exports.getProfile = (req, res, next) => {
       });
     })
     .catch((err) => {
-      console.log(err);
       if (!err.statusCode) {
         err.statusCode = 500;
       }
@@ -47,39 +38,56 @@ exports.sendOtp = (req, res, next) => {
   const min = 12456;
   const max = 98985;
   const randomOTP = Math.floor(Math.random() * (max - min + 1)) + min;
-  User.findById(req.userId)
+  let name;
+
+  User.findOne({ email: email })
+    .then((user) => {
+      if (user) {
+        const err = new Error("user already exist");
+        err.statusCode = 403;
+        throw err;
+      }
+      return User.findById(req.userId);
+    })
+
     .then((user) => {
       if (!user) {
         const err = new Error("invalid user");
         err.statusCode = 404;
         throw err;
       }
+      name = user.name;
       user.otp = randomOTP;
+      user.resetTokenExp = Date.now() + 900000;
       return user.save();
     })
     .then((response) => {
-      const mailOption = {
-        from: process.env.USER_ID,
-        to: email,
-        subject: "BlogSpot OTP",
-        html: `<html><body style="width : 95%; text-align:center;   display: flex;
-                justify-content: center;
-                align-items: center; margin : auto ; background-color :#000000d9;padding : 15px ;">
-                
-                <div style="width : 95% ;height : 90%; text-align : center; margin : 12px auto ; background-color : #0c0921; padding:1rem">
-                <h1 style="color : green">Hi Your Api limit is end. We call a new api . please add more api</h1>
-                  <h2 style="margin:12px , color : orange "> Your OTP - ${randomOTP} </h2>
-                </div>
-                
-                </body></html>`,
-      };
-      return transporter.sendMail(mailOption);
+      let message = ` A request to change the email address associated with your BlogSpot account has been initiated. 
+      To complete this process, please use the following one-time password (OTP).This OTP is valid for 
+      <span style="font-weight: 600; color: #1f1f1f">15 minutes</span>.
+              Do not share this with others.`;
+
+      let action = `   <p
+              style="
+                margin: 0;
+                margin-top: 60px;
+                font-size: 30px;
+                font-weight: 600;
+                letter-spacing: 15px;
+                color: #ba3d4f;
+              "
+            >
+              ${randomOTP}
+            </p>`;
+
+      let title = "OTP";
+
+      return sendEmail(title, email, name, message, action);
     })
     .then((result) => {
       res.status(200).json({ message: "otp send" });
     })
     .catch((err) => {
-      console.log(err);
       if (!err.statusCode) {
         err.statusCode = 500;
       }
@@ -126,7 +134,6 @@ exports.editProfile = (req, res, next) => {
       });
     })
     .catch((err) => {
-      console.log(err);
       if (!err.statusCode) {
         err.statusCode = 500;
       }
@@ -180,7 +187,6 @@ exports.getCategory = (req, res, next) => {
         .json({ message: "post category get done", postCategory: newPost });
     })
     .then((err) => {
-      console.log(err);
       next(err);
     });
 };
@@ -242,7 +248,6 @@ exports.updatePassword = (req, res, next) => {
       res.status(201).json("update success");
     })
     .catch((err) => {
-      console.log(err);
       if (!err.statusCode) {
         err.statusCode = 500;
       }

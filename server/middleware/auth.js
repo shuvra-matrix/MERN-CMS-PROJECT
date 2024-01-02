@@ -11,8 +11,6 @@ module.exports = (req, res, next) => {
 
   const token = req.get("Authorization").split(" ")[1];
 
-  console.log(token);
-
   if (!token) {
     const error = new Error("invalid token");
     error.statusCode = 401;

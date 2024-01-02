@@ -31,7 +31,6 @@ exports.addPost = (req, res, next) => {
         options,
         (error, result) => {
           if (error) {
-            console.log(error);
             const err = new Error(error);
             err.statusCode = 403;
             throw err;
@@ -108,7 +107,6 @@ exports.addPost = (req, res, next) => {
               res.status(201).json({ message: "post add done" });
             })
             .catch((err) => {
-              console.log(err);
               if (!err.statusCode) {
                 err.statusCode = 500;
               }
@@ -120,7 +118,6 @@ exports.addPost = (req, res, next) => {
       const readableStream = Readable.from(imageBuffer);
       readableStream.pipe(writeBufferFile);
     } catch (err) {
-      console.log(err);
       if (!err.statusCode) {
         err.statusCode = 500;
         next(err);
@@ -174,7 +171,6 @@ exports.getProfilePost = (req, res, next) => {
       });
     })
     .catch((err) => {
-      console.log(err);
       if (!err.statusCode) {
         err.statusCode = 500;
       }
@@ -195,7 +191,6 @@ exports.getEditPostData = (req, res, next) => {
       res.status(200).json({ message: "post get done", postData: post });
     })
     .catch((err) => {
-      console.log(err);
       if (!err.statusCode) {
         err.statusCode = 500;
       }
@@ -234,7 +229,6 @@ exports.postEditData = (req, res, next) => {
         res.status(200).json({ message: "post edit done", postData: result });
       })
       .catch((err) => {
-        console.log(err);
         if (!err.statusCode) {
           err.statusCode = 500;
         }
@@ -259,7 +253,6 @@ exports.postEditData = (req, res, next) => {
           options,
           (error, result) => {
             if (error) {
-              console.log(error);
               const err = new Error(error);
               err.statusCode = 403;
               throw err;
@@ -293,7 +286,6 @@ exports.postEditData = (req, res, next) => {
                   .json({ message: "post edit done", postData: result });
               })
               .catch((err) => {
-                console.log(err);
                 if (!err.statusCode) {
                   err.statusCode = 500;
                 }
@@ -304,7 +296,6 @@ exports.postEditData = (req, res, next) => {
         const readableStream = Readable.from(imageBuffer);
         readableStream.pipe(writeBufferFile);
       } catch (err) {
-        console.log(err);
         if (!err.statusCode) {
           err.statusCode = 500;
           next(err);
@@ -395,7 +386,6 @@ exports.deletePost = (req, res, next) => {
       res.status(200).json({ message: "post get done", postData: postData });
     })
     .catch((err) => {
-      console.log(err);
       if (!err.statusCode) {
         err.statusCode = 500;
       }

@@ -156,7 +156,7 @@ const Allpost = (props) => {
         </div>
       )}
 
-      {!isLoader && !isEdit && (
+      {!isLoader && !isEdit && post.length > 0 && (
         <Fragment>
           {isMessage && (
             <div className={styles["message"]}>
@@ -261,6 +261,10 @@ const Allpost = (props) => {
             )}
           </div>
         </Fragment>
+      )}
+
+      {post.length === 0 && (
+        <p className={styles["no-post"]}>No posts available !</p>
       )}
 
       {isEdit && (

@@ -1,17 +1,9 @@
-const nodeMailer = require("nodemailer");
 const { validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const User = require("../model/User");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
-
-const transporter = nodeMailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.USER_ID,
-    pass: process.env.PASSWORD,
-  },
-});
+const { sendEmail } = require("./mail");
 
 exports.signup = (req, res, next) => {
   const error = validationResult(req);
@@ -68,26 +60,30 @@ exports.signup = (req, res, next) => {
     })
     .then((response) => {
       userId = response._id;
-      const mailOption = {
-        from: process.env.USER_ID,
-        to: email,
-        subject: "BlogSpot OTP",
-        html: `<html><body style="width : 95%; text-align:center;   display: flex;
-                justify-content: center;
-                align-items: center; margin : auto ; background-color :#000000d9;padding : 15px ;">
-                
-                <div style="width : 95% ;height : 90%; text-align : center; margin : 12px auto ; background-color : #0c0921; padding:1rem">
-                <h1 style="color : green">Hi Your Api limit is end. We call a new api . please add more api</h1>
-                  <h2 style="margin:12px , color : orange "> Your OTP - ${randomOTP} </h2>
-                </div>
-                
-                </body></html>`,
-      };
-      return transporter.sendMail(mailOption);
+      let message = `Thank you for signing up with BlogSopt!. To ensure the security of
+              your account, we require you to verify your email address. Please
+              use the following one-time password (OTP) to complete the
+              verification process.This OTP is valid for <span style="font-weight: 600; color: #1f1f1f">15 minutes</span>.
+              Do not share this with others.`;
+
+      let action = `   <p
+              style="
+                margin: 0;
+                margin-top: 60px;
+                font-size: 30px;
+                font-weight: 600;
+                letter-spacing: 15px;
+                color: #ba3d4f;
+              "
+            >
+              ${randomOTP}
+            </p>`;
+
+      let title = "OTP";
+
+      return sendEmail(title, email, name, message, action);
     })
     .then((response) => {
-      console.log(response);
-
       res.status(201).json({
         message: "otp send successfully",
         userId: userId,
@@ -133,7 +129,6 @@ exports.verifyOtp = (req, res, next) => {
       res.status(201).json({ message: "verified" });
     })
     .catch((err) => {
-      console.log(err);
       if (!err.statusCode) {
         err.statusCode = 500;
       }
@@ -178,10 +173,7 @@ exports.login = (req, res, next) => {
 
       const token = jwt.sign(
         { email: loadUser.email, userId: loadUser._id.toString() },
-        secret,
-        {
-          expiresIn: "1h",
-        }
+        secret
       );
 
       res.status(200).json({
@@ -251,6 +243,8 @@ exports.sendResetLink = (req, res, next) => {
 
     const token = bytes.toString("hex");
     const email = req.body.email;
+    let name;
+
     User.findOne({ email: email })
       .then((user) => {
         if (!user) {
@@ -259,29 +253,49 @@ exports.sendResetLink = (req, res, next) => {
           err.data = "email is not registered";
           throw err;
         }
-
+        name = user.name;
         user.resetToken = token;
         user.resetTokenExp = Date.now() + 900000;
         user.isTokenExp = "no";
         return user.save();
       })
       .then((result) => {
-        const mailOption = {
-          from: process.env.USER_ID,
-          to: email,
-          subject: "BlogSpot OTP",
-          html: `<html><body style="width : 95%; text-align:center;   display: flex;
-                justify-content: center;
-                align-items: center; margin : auto ; background-color :#000000d9;padding : 15px ;">
-                
-                <div style="width : 95% ;height : 90%; text-align : center; margin : 12px auto ; background-color : #0c0921; padding:1rem">
-                <h1 style="color : green">Hi Your Api limit is end. We call a new api . please add more api</h1>
-                 <p style="margin:12px , color : orange ">Click This <a href="http://localhost:3000/resetpassword?token=${token}">Link</a> to reset your password </p>
-                </div>
-                
-                </body></html>`,
-        };
-        return transporter.sendMail(mailOption);
+        let message = ` We received a request to reset the password for your BlogSopt account. 
+        To proceed with the password reset, please click on the link below. 
+        This link is valid for <span style="font-weight: 600; color: #1f1f1f">15 minutes</span>. Do not share this with others.`;
+
+        let resetUrl =
+          process.env.RESET_URL ||
+          "http://localhost:3000/resetpassword?token=" + token;
+
+        let action = ` <a
+              style="
+                width: 95%;
+                margin: auto;
+                text-decoration: none;
+                color: white;
+                text-align: center;
+              "
+              href=${resetUrl}
+              target="_blank"
+              ><p
+                style="
+                  max-width: 150px;
+                  margin: 20px auto;
+                  padding: 15px 0px;
+                  font-size: 1.2rem;
+                  font-weight: 500;
+                  background-color: rgb(3, 30, 56);
+                  border: 0px;
+                  border-radius: 8px;
+                "
+              >
+                Click Here
+              </p></a`;
+
+        let title = "Password Reset Link";
+
+        return sendEmail(title, email, name, message, action);
       })
       .then((result) => {
         res.status(200).json({ message: "reset link send" });

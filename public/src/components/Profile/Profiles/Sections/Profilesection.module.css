@@ -149,6 +149,9 @@ textarea {
   .back-btn {
     left: 90%;
   }
+  .image-file-name {
+    font-size: 0.8rem;
+  }
 }
 
 @media (max-width: 700px) {

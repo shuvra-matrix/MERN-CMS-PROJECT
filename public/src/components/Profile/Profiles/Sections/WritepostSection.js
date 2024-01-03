@@ -273,7 +273,8 @@ const WritePostSection = (props) => {
             <label htmlFor="">Image</label>
             <div className={styles["image"]}>
               <p className={styles["image-file-name"]}>
-                {inputData.image.name || "Select Image File"}
+                {inputData.image.name ||
+                  "Select Image File type. Only JPEG, PNG, and JPG are allowed "}
               </p>
               <input onChange={imageHandler} name="image" type="file"></input>
               <img

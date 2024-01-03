@@ -64,12 +64,14 @@ const App = () => {
             setIsLogin(true);
           } else {
             setIsLogin(false);
-            localStorage.clear("isLogin");
+            localStorage.removeItem("isLogin");
+            localStorage.removeItem("token");
           }
         })
         .catch((err) => {
           setIsLogin(false);
-          localStorage.clear("isLogin");
+          localStorage.removeItem("isLogin");
+          localStorage.removeItem("token");
           console.log(err);
         });
     };
@@ -90,6 +92,7 @@ const App = () => {
     localStorage.clear("option");
     localStorage.clear("optionValue");
     localStorage.clear("activeCat");
+    localStorage.clear("headerActive");
     navigate("/");
   };
 
@@ -154,7 +157,7 @@ const App = () => {
   }, [currentPage, categoryId, searchData]);
 
   useEffect(() => {
-    localStorage.clear("activeCat");
+    localStorage.removeItem("activeCat");
   }, []);
 
   const currentPageHandler = (value) => {

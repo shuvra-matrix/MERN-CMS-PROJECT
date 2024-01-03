@@ -287,6 +287,13 @@
     grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
     gap: 25px;
   }
+
+  .cat,
+  .title-two,
+  .desc-two,
+  .name-date-snd {
+    padding: 0 0.2rem;
+  }
 }
 
 .loader {

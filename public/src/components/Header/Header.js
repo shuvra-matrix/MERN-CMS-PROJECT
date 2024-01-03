@@ -10,7 +10,6 @@ const Header = (props) => {
   const logoutHandler = () => {
     props.logout();
     setIsActive("blog");
-    localStorage.clear("headerActive", "profile");
   };
 
   return (

@@ -76,7 +76,6 @@ const Login = (propes) => {
           localStorage.setItem("token", data.token);
           localStorage.setItem("expirationTime", expirationTime);
           localStorage.setItem("isLogin", "yes");
-          localStorage.setItem("userId", data.userId);
           propes.isLogin(true);
           setIsLoader(false);
           navigate("/");

@@ -2,6 +2,16 @@
 
 BlogSpot is a web application built using React.js for the frontend, Node.js for the backend, and MongoDB as the database. It allows users to read blogs posted by other writers and create and publish their own blogs. The project utilizes the TinyMCE text editor to enhance the blog writing experience.
 
+## Live Demo
+
+Explore the live demo of BlogSpot to experience its features and functionalities:
+
+[BlogSpot Live Demo](https://publicblogspot.netlify.app/)
+
+Feel free to read existing blogs, create your own posts, and experiment with the various features provided by BlogSpot. Please note that this is a demo version, and any content created is for demonstration purposes only.
+
+For the most up-to-date and interactive experience, visit the live demo and engage with the BlogSpot platform. Enjoy exploring and creating content in this user-friendly CMS!
+
 ## Features
 
 1. **Read Blogs:**

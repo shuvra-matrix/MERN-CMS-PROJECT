@@ -78,8 +78,8 @@ const ForgotPassEmail = () => {
         <h3 className={styles["login"]}>Forgot Password</h3>
 
         <p className={styles["veri-message"]}>
-          We will sent an OTP to your email address. Please check your{" "}
-          <span>inbox</span> for the code. If you don't find it there, kindly
+          We will sent an reset link to your email address. Please check your
+          <span> inbox</span> for the code. If you don't find it there, kindly
           take a peek in your
           <span> spam box </span>.
         </p>

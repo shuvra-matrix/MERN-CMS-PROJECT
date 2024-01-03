@@ -154,7 +154,6 @@ const App = () => {
   }, [currentPage, categoryId, searchData]);
 
   useEffect(() => {
-    console.log("hi");
     localStorage.clear("activeCat");
   }, []);
 

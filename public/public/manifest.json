@@ -3,7 +3,7 @@
   "background_color": "#f6f8f7",
   "display": "standalone",
   "scope": "/",
-  "start_url": ".",
+  "start_url": "https://publicblogspot.netlify.app/",
   "name": "BlogSpot",
   "short_name": "BlogSpot",
   "description": "Welcome to BlogSpot - Your Creative Hub for Expression! Write and share your unique stories, explore diverse perspectives, and connect with a community of passionate bloggers. Dive into a world where words paint a thousand pictures. Start your blogging journey today on BlogSpot!",

@@ -265,7 +265,7 @@ exports.sendResetLink = (req, res, next) => {
         This link is valid for <span style="font-weight: 600; color: #1f1f1f">15 minutes</span>. Do not share this with others.`;
 
         let resetUrl =
-          process.env.RESET_URL ||
+          process.env.RESET_URL + token ||
           "http://localhost:3000/resetpassword?token=" + token;
 
         let action = ` <a

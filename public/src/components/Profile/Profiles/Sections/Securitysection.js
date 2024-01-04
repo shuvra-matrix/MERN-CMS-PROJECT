@@ -125,7 +125,7 @@ const SecuritySection = () => {
               onChange={inputHandler}
               name="oldpass"
               type="password"
-              autocomplete="new-password"
+              autoComplete="new-password"
             ></input>
           </div>
           <div
@@ -138,7 +138,7 @@ const SecuritySection = () => {
               onChange={inputHandler}
               name="newpass"
               type="password"
-              autocomplete="new-password"
+              autoComplete="new-password"
             ></input>
           </div>
           <div

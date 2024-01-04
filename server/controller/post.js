@@ -362,7 +362,7 @@ exports.deletePost = (req, res, next) => {
         throw error;
       }
 
-      return Post.find({ user: req.userId });
+      return Post.find({ user: req.userId }).sort({ createdAt: -1 }).limit(6);
     })
     .then((posts) => {
       if (!posts) {

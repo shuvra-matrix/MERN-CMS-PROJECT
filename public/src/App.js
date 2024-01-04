@@ -122,7 +122,7 @@ const App = () => {
 
   useEffect(() => {
     setLoader(true);
-
+    const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const url =
       apiUrl +
       "/public/getpost?page=" +
@@ -130,7 +130,9 @@ const App = () => {
       "&catId=" +
       categoryId +
       "&search=" +
-      searchData;
+      searchData +
+      "&timeZone=" +
+      userTimezone;
 
     fetch(url, { method: "GET" })
       .then((response) => {

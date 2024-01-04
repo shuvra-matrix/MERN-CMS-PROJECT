@@ -16,6 +16,7 @@ const Singlepost = () => {
 
   useEffect(() => {
     setIsLoading(true);
+    const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const queryString = window.location.search;
     const params = new URLSearchParams(queryString);
     let title = params.get("title");
@@ -27,6 +28,7 @@ const Singlepost = () => {
         body: JSON.stringify({
           title: title,
           postId: id,
+          timeZone: userTimezone,
         }),
         headers: {
           "Content-Type": "application/json",

@@ -38,12 +38,14 @@ exports.getPublishPost = (req, res, next) => {
   }
 
   Post.find(condition)
+    .sort({ createAt: -1 })
     .countDocuments()
     .then((count) => {
       totalItem = count;
 
       totalPage = Math.ceil(totalItem / perPage);
       return Post.find(condition)
+        .sort({ createAt: -1 })
         .populate("user", "name")
         .populate("category", "name")
         .skip((pageNumber - 1) * perPage)

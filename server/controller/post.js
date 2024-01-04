@@ -138,10 +138,12 @@ exports.getProfilePost = (req, res, next) => {
 
   Post.find({ user: req.userId })
     .countDocuments()
+    .sort({ createAt: -1 })
     .then((count) => {
       totalItem = count;
 
       return Post.find({ user: req.userId })
+        .sort({ createAt: -1 })
         .skip((pageNumber - 1) * perPageItem)
         .limit(perPageItem);
     })

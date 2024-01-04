@@ -41,6 +41,7 @@
   align-items: center;
   border-radius: 25px;
   background-color: rgba(0, 0, 0, 0.363);
+  border: 0px;
   display: none;
 }
 

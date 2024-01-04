@@ -188,23 +188,43 @@ exports.sendEmail = async (title, email, name, message, action) => {
           border-top: 1px solid #e6ebf1;
         "
       >
-        <p
-          style="
-            margin: 0;
-            margin-top: 40px;
-            font-size: 16px;
-            font-weight: 600;
-            color: #434343;
-          "
-        >
-          BlogSpot
-        </p>
-        <p style="margin: 0; margin-top: 8px; color: #434343">
-          Kolkata , India
-        </p>
-        <p style="margin: 0; margin-top: 16px; color: #434343">
-          Copyright © 2024 Shuvra Chakrabarty. All rights reserved.
-        </p>
+         <div style="margin: 16px auto 0px; width: 100%">
+          <p
+            style="
+              margin: 8px auto 0px;
+              width: 100%;
+              text-align: center;
+              font-size: 16px;
+              font-weight: 600;
+              color: #434343;
+              padding-top: 5px;
+              padding-bottom: 5px;
+            "
+          >
+            BlogSpot
+          </p>
+          <p
+            style="
+              margin: 8px auto 0px;
+              width: 100%;
+              text-align: center;
+              color: #434343;
+              padding-bottom: 5px;
+            "
+          >
+            Kolkata , India
+          </p>
+          <p
+            style="
+              margin: 8px auto 0px;
+              width: 100%;
+              text-align: center;
+              text-align: center;
+            "
+          >
+            Copyright © 2024 Shuvra Chakrabarty. All rights reserved.
+          </p>
+        </div>
       </footer>
     </div>
   </body>

@@ -2,7 +2,6 @@
 
 .post-main {
   width: 100%;
-  margin-bottom: 10px;
   word-wrap: break-word;
   flex: 1;
   overflow: hidden;
@@ -51,7 +50,7 @@
 .name {
   margin-top: 12px;
   font-weight: 400;
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 .name span {
@@ -81,18 +80,21 @@
 .text-section-main {
   width: 100%;
   background-color: #f6f8f7;
+  padding-bottom: 1.2rem;
+  border-top: 6px solid;
+  border-top-color: rgba(255, 255, 255, 0.37);
 }
 
 .text-section {
   width: 100%;
   max-width: 1100px;
-  margin: 1rem auto 0px;
+  margin: 0px auto;
   font-family: "Inter", sans-serif;
   box-sizing: border-box;
   padding-top: 1rem;
   line-height: 32px !important;
-  padding: 0.5rem 0.5rem 1.2rem 0.5rem;
-  border: 0;
+  padding: 0.5rem 0.5rem 0px 0.5rem;
+  border: 0px;
   border-radius: 12px;
   color: #181c25;
 }

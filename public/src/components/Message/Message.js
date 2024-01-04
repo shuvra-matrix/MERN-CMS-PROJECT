@@ -5,7 +5,6 @@ const Message = (props) => {
   const onCrossClick = () => {
     props.cross(false);
   };
-  console.log(props);
 
   return (
     <div

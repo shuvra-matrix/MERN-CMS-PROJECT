@@ -79,7 +79,6 @@ const ProfileSection = (props) => {
   useEffect(() => {
     const interval = setTimeout(() => {
       const isEmailValid = emailValidHandler(inputData.email.trim());
-      console.log(isEmailValid);
       if (
         userData.email !== inputData.email &&
         inputData.email.length > 1 &&
@@ -186,7 +185,6 @@ const ProfileSection = (props) => {
         });
 
         if (!response.ok) {
-          console.log(response);
           setIsMesssage(true);
           setMessageType("error");
 
@@ -203,7 +201,6 @@ const ProfileSection = (props) => {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         setSmallLoader(false);
         setNewEmail(false);
         setOtpSend(false);

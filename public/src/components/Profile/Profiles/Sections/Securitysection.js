@@ -100,6 +100,11 @@ const SecuritySection = () => {
         setMessageType("error");
         setSmallLoader(false);
       });
+    setUserInput({
+      oldpass: "",
+      newpass: "",
+      conpass: "",
+    });
   };
 
   return (
@@ -126,6 +131,7 @@ const SecuritySection = () => {
               name="oldpass"
               type="password"
               autoComplete="new-password"
+              value={userInput.oldpass}
             ></input>
           </div>
           <div
@@ -139,6 +145,7 @@ const SecuritySection = () => {
               name="newpass"
               type="password"
               autoComplete="new-password"
+              value={userInput.newpass}
             ></input>
           </div>
           <div
@@ -147,7 +154,12 @@ const SecuritySection = () => {
             }`}
           >
             <label htmlFor="">Confirm Password</label>
-            <input onChange={inputHandler} name="conpass" type="text"></input>
+            <input
+              onChange={inputHandler}
+              name="conpass"
+              type="text"
+              value={userInput.conpass}
+            ></input>
           </div>
         </div>
         <div className={styles["button"]}>

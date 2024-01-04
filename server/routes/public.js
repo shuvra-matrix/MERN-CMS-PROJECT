@@ -11,6 +11,5 @@ rourte.get("/", (req, res, next) => {
 
 rourte.get("/getpost", publicController.getPublishPost);
 rourte.post("/getsinglepost", publicController.postPublishPost);
-rourte.get("/getfeaturespost", publicController.getFeaturesPost);
 
 module.exports = rourte;

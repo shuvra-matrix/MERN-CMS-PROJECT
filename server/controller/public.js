@@ -1,9 +1,12 @@
 const Post = require("../model/Post");
 
 const formatDate = (date) => {
-  let splitDate = date.split(",")[0].split("/");
-  date = splitDate[1] + "/" + splitDate[0] + "/" + splitDate[2];
-  return date;
+  let inputDate = new Date(date);
+  let day = ("0" + inputDate.getDate()).slice(-2);
+  let month = ("0" + (inputDate.getMonth() + 1)).slice(-2);
+  let year = inputDate.getFullYear();
+  let formattedDate = day + "/" + month + "/" + year;
+  return formattedDate;
 };
 
 exports.getPublishPost = (req, res, next) => {
@@ -38,14 +41,14 @@ exports.getPublishPost = (req, res, next) => {
   }
 
   Post.find(condition)
-    .sort({ createAt: -1 })
+    .sort({ createdAt: -1 })
     .countDocuments()
     .then((count) => {
       totalItem = count;
 
       totalPage = Math.ceil(totalItem / perPage);
       return Post.find(condition)
-        .sort({ createAt: -1 })
+        .sort({ createdAt: -1 })
         .populate("user", "name")
         .populate("category", "name")
         .skip((pageNumber - 1) * perPage)
@@ -59,7 +62,7 @@ exports.getPublishPost = (req, res, next) => {
       }
 
       const postData = post.map((data) => {
-        let date = formatDate(data.createAt);
+        let date = formatDate(data.createdAt);
         return {
           image: data.image,
           postId: data._id,
@@ -87,7 +90,6 @@ exports.getPublishPost = (req, res, next) => {
 };
 
 exports.postPublishPost = (req, res, next) => {
-  const title = req.body.title;
   const postId = req.body.postId;
 
   Post.findOne({ _id: postId })
@@ -103,10 +105,10 @@ exports.postPublishPost = (req, res, next) => {
       return post.save();
     })
     .then((post) => {
-      const createDate = formatDate(post.createAt);
+      const createDate = formatDate(post.createdAt);
       let updateDate;
-      if (post.upadteAt) {
-        updateDate = formatDate(post.upadteAt);
+      if (post.updatedAt) {
+        updateDate = formatDate(post.updatedAt);
       }
 
       res.status(200).json({
@@ -117,38 +119,6 @@ exports.postPublishPost = (req, res, next) => {
           updateDate: updateDate || "",
         },
       });
-    })
-    .catch((err) => {
-      if (!err.statusCode) {
-        err.statusCode = 500;
-      }
-      next(err);
-    });
-};
-
-exports.getFeaturesPost = (req, res, next) => {
-  Post.find({ status: "publish" })
-    .sort({ views: -1 })
-    .populate("user", "name")
-    .limit(10)
-    .then((post) => {
-      if (post.length === 0) {
-        const error = new Error("no post found");
-        error.statusCode = 401;
-        throw error;
-      }
-
-      const postData = post.map((data) => {
-        let date = formatDate(data.createAt);
-        return {
-          postId: data._id,
-          title: data.title,
-          date: date,
-          user: data.user,
-        };
-      });
-
-      res.status(200).json({ message: "all post got", posts: postData });
     })
     .catch((err) => {
       if (!err.statusCode) {

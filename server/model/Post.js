@@ -49,11 +49,12 @@ const postSchema = new Schema({
     type: Number,
     default: 0,
   },
-  createAt: {
-    type: String,
+  createdAt: {
+    type: Date,
+    default: Date.now,
   },
-  upadteAt: {
-    type: String,
+  updatedAt: {
+    type: Date,
   },
 });
 

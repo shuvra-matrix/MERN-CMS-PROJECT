@@ -36,9 +36,6 @@ exports.addPost = (req, res, next) => {
             throw err;
           }
           imageUrl = result.secure_url;
-          const currentDate = new Date();
-          const options = { timeZone: "Asia/Kolkata" };
-          const istDate = currentDate.toLocaleString("en-US", options);
           const post = new Post({
             title: title,
             content: content,
@@ -50,7 +47,6 @@ exports.addPost = (req, res, next) => {
             tag: tag,
             status: status,
             user: req.userId,
-            createAt: istDate,
           });
 
           let postId;
@@ -138,12 +134,12 @@ exports.getProfilePost = (req, res, next) => {
 
   Post.find({ user: req.userId })
     .countDocuments()
-    .sort({ createAt: -1 })
+    .sort({ createdAt: -1 })
     .then((count) => {
       totalItem = count;
 
       return Post.find({ user: req.userId })
-        .sort({ createAt: -1 })
+        .sort({ createdAt: -1 })
         .skip((pageNumber - 1) * perPageItem)
         .limit(perPageItem);
     })
@@ -204,9 +200,6 @@ exports.postEditData = (req, res, next) => {
   const { title, category, content, desc, imageSource, status, tag, postId } =
     req.body;
 
-  const currentDate = new Date();
-  const options = { timeZone: "Asia/Kolkata" };
-  const istDate = currentDate.toLocaleString("en-US", options);
   if (req.body.image) {
     Post.findById(postId)
       .then((post) => {
@@ -223,7 +216,7 @@ exports.postEditData = (req, res, next) => {
         post.imgSource = imageSource;
         post.status = status;
         post.tag = tag;
-        post.upadteAt = istDate;
+        post.updatedAt = Date.now();
 
         return post.save();
       })
@@ -277,7 +270,7 @@ exports.postEditData = (req, res, next) => {
                 post.status = status;
                 post.tag = tag;
                 post.image = imageUrl;
-                post.upadteAt = istDate;
+                post.updatedAt = Date.now();
                 post.imageName = imageName;
 
                 return post.save();

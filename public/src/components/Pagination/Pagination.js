@@ -15,7 +15,8 @@ const Pagination = (props) => {
     if (totalPage <= maxPagesToShow) {
       for (let i = 1; i <= totalPage; i++) {
         pageNumbers.push(
-          <p
+          <button
+            type="button"
             key={i}
             className={`${styles.page} ${
               i === currentPage ? styles.activePage : ""
@@ -23,7 +24,7 @@ const Pagination = (props) => {
             onClick={() => pageHandler(i)}
           >
             {i}
-          </p>
+          </button>
         );
       }
     } else {
@@ -32,7 +33,8 @@ const Pagination = (props) => {
 
       if (startPage > 1) {
         pageNumbers.push(
-          <p
+          <button
+            type="button"
             key={1}
             className={`${styles.page} ${
               1 === currentPage ? styles.activePage : ""
@@ -40,7 +42,7 @@ const Pagination = (props) => {
             onClick={() => pageHandler(1)}
           >
             1
-          </p>
+          </button>
         );
 
         if (startPage > 2) {
@@ -50,7 +52,8 @@ const Pagination = (props) => {
 
       for (let i = startPage; i <= endPage; i++) {
         pageNumbers.push(
-          <p
+          <button
+            type="button"
             key={i}
             className={`${styles.page} ${
               i === currentPage ? styles.activePage : ""
@@ -58,7 +61,7 @@ const Pagination = (props) => {
             onClick={() => pageHandler(i)}
           >
             {i}
-          </p>
+          </button>
         );
       }
 
@@ -68,7 +71,8 @@ const Pagination = (props) => {
         }
 
         pageNumbers.push(
-          <p
+          <button
+            type="button"
             key={totalPage}
             className={`${styles.page} ${
               totalPage === currentPage ? styles.activePage : ""
@@ -76,7 +80,7 @@ const Pagination = (props) => {
             onClick={() => pageHandler(totalPage)}
           >
             {totalPage}
-          </p>
+          </button>
         );
       }
     }

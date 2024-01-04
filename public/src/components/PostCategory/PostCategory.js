@@ -39,12 +39,10 @@ const PostCategory = (propes) => {
 
   return (
     <div className={styles["div-main"]}>
-      <div
-        className={styles["back"]}
-        onClick={() => scrollCategories("backward")}
-        ref={backRef}
-      >
-        <img width="40" height="40" src={back} alt="back" />
+      <div onClick={() => scrollCategories("backward")} ref={backRef}>
+        <button className={styles["back"]} type="button">
+          <img width="40" height="40" src={back} alt="back" />
+        </button>
       </div>
       <div className={styles["cat-main"]} ref={catMainRef}>
         <div
@@ -53,7 +51,9 @@ const PostCategory = (propes) => {
           }`}
           onClick={() => handleCategoryClick("All", "All")}
         >
-          <p>All</p>
+          <button className={styles["cat-btn"]} type="button">
+            All
+          </button>
         </div>
         {propes.postCategory.map((data) => (
           <div
@@ -63,16 +63,16 @@ const PostCategory = (propes) => {
             }`}
             onClick={() => handleCategoryClick(data.name, data._id)}
           >
-            <p>{data.name}</p>
+            <button className={styles["cat-btn"]} type="button">
+              {data.name}
+            </button>
           </div>
         ))}
       </div>
-      <div
-        className={styles["forward"]}
-        onClick={() => scrollCategories("forward")}
-        ref={forwardRef}
-      >
-        <img width="40" height="40" src={frow} alt="forward--v1" />
+      <div onClick={() => scrollCategories("forward")} ref={forwardRef}>
+        <button type="button" className={styles["forward"]}>
+          <img width="40" height="40" src={frow} alt="forward--v1" />
+        </button>
       </div>
     </div>
   );

@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap");
 .div-main {
   display: flex;
   flex-flow: nowrap row;
@@ -39,10 +40,18 @@
   color: #3d3d3d;
 }
 
-.cat-main p {
-  display: inline;
+.cat-btn {
+  border: 0;
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   white-space: nowrap;
-  font-weight: 500;
+  font-weight: 400;
+  color: black;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: "Inter", sans-serif;
 }
 
 .forward,
@@ -66,10 +75,14 @@
 
 .active {
   background-color: #0cace5;
-  color: white !important;
+
   padding: 5px 20px;
   border: 0;
   border-radius: 25px;
+}
+
+.active button {
+  color: white !important;
 }
 
 @media (max-width: 1100px) {

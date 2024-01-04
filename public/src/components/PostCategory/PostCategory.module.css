@@ -40,6 +40,10 @@
   color: #3d3d3d;
 }
 
+.cat-btn button {
+  border: 0px;
+}
+
 .cat-btn {
   border: 0;
   background: transparent;

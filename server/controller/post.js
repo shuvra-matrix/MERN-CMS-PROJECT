@@ -373,7 +373,7 @@ exports.deletePost = (req, res, next) => {
       const postData = posts.map((data) => {
         return {
           imageUrl: data.image,
-          desc: data.title.slice(0, 26) + "....",
+          desc: data.title,
           postId: data._id,
         };
       });

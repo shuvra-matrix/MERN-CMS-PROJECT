@@ -41,7 +41,7 @@ const ProfileSection = (props) => {
   const inputHandler = (e) => {
     const { name, value } = e.target;
     setInputData((pre) => {
-      return { ...pre, [name]: value.trim() };
+      return { ...pre, [name]: value };
     });
     setNewEmail(false);
     setEmailValid(true);

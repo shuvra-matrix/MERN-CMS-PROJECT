@@ -10,6 +10,10 @@ Explore the live demo of BlogSpot to experience its features and functionalities
 
 <br>
 
+### This web application is hosted on a free server, so it may take some time to load. Please be patient. Thank you!
+
+<br>
+
 ### Live Demo : [BlogSpot Live Demo](https://publicblogspot.netlify.app/)
 
 <br>

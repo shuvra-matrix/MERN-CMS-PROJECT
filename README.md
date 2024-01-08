@@ -6,7 +6,13 @@ BlogSpot is a web application built using React.js for the frontend, Node.js for
 
 Explore the live demo of BlogSpot to experience its features and functionalities:
 
-[BlogSpot Live Demo](https://publicblogspot.netlify.app/)
+<img src="https://github.com/shuvra-matrix/images/blob/main/Screenshot%202024-01-09%20030449.png?raw=true" att="blogpostimage" width="100%" height="700px">
+
+<br>
+
+### Live Demo : [BlogSpot Live Demo](https://publicblogspot.netlify.app/)
+
+<br>
 
 Feel free to read existing blogs, create your own posts, and experiment with the various features provided by BlogSpot. Please note that this is a demo version, and any content created is for demonstration purposes only.
 

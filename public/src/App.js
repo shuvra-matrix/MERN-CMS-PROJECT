@@ -81,7 +81,7 @@ const App = () => {
         authVerify();
       }
     } catch (err) {
-      console.log(err);
+      console.log("localstorage error");
     }
   }, []);
 
@@ -180,10 +180,6 @@ const App = () => {
         setLoader(false);
       });
   }, [currentPage, searchData, location.search]);
-
-  useEffect(() => {
-    localStorage.removeItem("activeCat");
-  }, []);
 
   const currentPageHandler = (value) => {
     setCurrentPage(value);

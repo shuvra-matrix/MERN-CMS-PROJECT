@@ -86,12 +86,18 @@ To run BlogSpot locally, follow these steps:
      MONGO_PASSWORD=<your-mongo-password>
      EMAIL_ID=<your-email-id>
      EMAIL_PASSWORD=<your-email-password>
+     LOGIN_EXPIRES=<token expires time>
+     APPLICATION_START_MODE = <dev or production>
+     ALLOW_ORIGINES = <client side domain>
+     RESET_URL = <client side url>
      ```
 
    - In the `public` directory, create a `.env` file with your TinyMCE API key:
 
      ```
      REACT_APP_TINYMCE_API_KEY=<your-tinymce-api-key>
+     REACT_APP_DOMAIN=<client side domain>
+     REACT_APP_SERVER_URL=<server side url>
      ```
 
 4. Start the local development servers:

@@ -100,7 +100,7 @@ const App = () => {
       .catch((err) => {
         console.log(err);
       });
-    console.log(type);
+
     if (type === "session") {
       setIsMesssage(true);
       setMessage("Your login session has expired.");

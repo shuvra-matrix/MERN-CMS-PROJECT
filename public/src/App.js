@@ -1,4 +1,4 @@
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import { Fragment, useEffect, useState } from "react";
 import "./App.css";
 import Blog from "./components/Blogsection/Blog";
@@ -15,10 +15,10 @@ import Message from "./components/Message/Message";
 const apiUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3030";
 
 const App = () => {
+  const location = useLocation();
   const [isLogin, setIsLogin] = useState(false);
   const [posts, setPosts] = useState([]);
   const [postCategory, setPostCategory] = useState([]);
-  const [categoryId, setCategoryId] = useState("All");
   const [isLoader, setLoader] = useState(false);
   const [searchData, setSearchData] = useState("");
   const [isMessage, setIsMesssage] = useState(false);
@@ -31,8 +31,7 @@ const App = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
 
-  const categoryHandler = (value) => {
-    setCategoryId(value);
+  const categoryHandler = () => {
     setSearchData("");
     setCurrentPage(1);
   };
@@ -122,12 +121,18 @@ const App = () => {
   useEffect(() => {
     setLoader(true);
     const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const queryParams = new URLSearchParams(location.search);
+    let cat = queryParams.get("catId");
+    if (!cat) {
+      cat = "All";
+    }
+
     const url =
       apiUrl +
       "/public/getpost?page=" +
       currentPage +
       "&catId=" +
-      categoryId +
+      cat +
       "&search=" +
       searchData +
       "&timeZone=" +
@@ -155,7 +160,7 @@ const App = () => {
         setPosts([]);
         setLoader(false);
       });
-  }, [currentPage, categoryId, searchData]);
+  }, [currentPage, searchData, location.search]);
 
   useEffect(() => {
     localStorage.removeItem("activeCat");

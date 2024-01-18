@@ -1,18 +1,32 @@
 import styles from "./PostCategory.module.css";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import back from "../../media/icons8-back-64.png";
 import frow from "../../media/icons8-forward-64.png";
+import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const PostCategory = (propes) => {
+  const location = useLocation();
   const catMainRef = useRef(null);
-  const activeCat = localStorage.getItem("activeCat") || "All";
-  const [activeCategory, setActiveCategory] = useState(activeCat);
+  const [activeCategory, setActiveCategory] = useState("All");
   const backRef = useRef(null);
   const forwardRef = useRef(null);
 
+  useEffect(() => {
+    const getQueryData = () => {
+      const queryParams = new URLSearchParams(location.search);
+      const cat = queryParams.get("cat");
+      if (cat) {
+        setActiveCategory(cat);
+      } else {
+        setActiveCategory("All");
+      }
+    };
+
+    getQueryData();
+  }, [location.search]);
+
   const handleCategoryClick = (category, catId) => {
-    setActiveCategory(category);
-    localStorage.setItem("activeCat", category);
     propes.categoryHandler(catId);
     const categoryIndex = propes.postCategory.findIndex(
       (data) => data.name === category
@@ -45,28 +59,34 @@ const PostCategory = (propes) => {
         </button>
       </div>
       <div className={styles["cat-main"]} ref={catMainRef}>
-        <div
-          className={`${styles["category"]} ${
-            activeCategory === "All" ? styles.active : ""
-          }`}
-          onClick={() => handleCategoryClick("All", "All")}
-        >
-          <button className={styles["cat-btn"]} type="button">
-            All
-          </button>
-        </div>
-        {propes.postCategory.map((data) => (
+        <Link to="/">
           <div
-            key={data.name}
             className={`${styles["category"]} ${
-              activeCategory === data.name ? styles.active : ""
+              activeCategory === "All" ? styles.active : ""
             }`}
-            onClick={() => handleCategoryClick(data.name, data._id)}
+            onClick={() => {
+              handleCategoryClick("All", "All");
+              setActiveCategory("All");
+            }}
           >
             <button className={styles["cat-btn"]} type="button">
-              {data.name}
+              All
             </button>
           </div>
+        </Link>
+        {propes.postCategory.map((data) => (
+          <Link key={data.name} to={`?cat=${data.name}&catId=${data._id}`}>
+            <div
+              className={`${styles["category"]} ${
+                activeCategory === data.name ? styles.active : ""
+              }`}
+              onClick={() => handleCategoryClick(data.name, data._id)}
+            >
+              <button className={styles["cat-btn"]} type="button">
+                {data.name}
+              </button>
+            </div>
+          </Link>
         ))}
       </div>
       <div onClick={() => scrollCategories("forward")} ref={forwardRef}>

@@ -5,7 +5,7 @@ import LoaderSmall from "../../../Loader/LoaderSmall";
 
 const apiUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3030";
 
-const SecuritySection = () => {
+const SecuritySection = (props) => {
   const [userInput, setUserInput] = useState({
     oldpass: "",
     newpass: "",
@@ -80,17 +80,19 @@ const SecuritySection = () => {
       }),
     })
       .then((response) => {
-        if (!response.ok) {
-          throw new Error("invalid password");
-        }
-
         return response.json();
       })
       .then((data) => {
-        setIsMesssage(true);
-        setMessage("Update Success!");
-        setMessageType("message");
-        setSmallLoader(false);
+        if (data?.data === "invalid token") {
+          props.logout("session");
+        } else if (data?.error === "yes") {
+          throw new Error("invalid password");
+        } else {
+          setIsMesssage(true);
+          setMessage("Update Success!");
+          setMessageType("message");
+          setSmallLoader(false);
+        }
       })
       .catch((err) => {
         console.log(err);

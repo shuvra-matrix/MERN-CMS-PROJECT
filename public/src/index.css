@@ -42,4 +42,8 @@ a {
   min-height: 100dvh;
   display: flex;
   flex-flow: nowrap column;
+  position: relative;
+  max-width: 1100px;
+  width: 100%;
+  margin: auto;
 }

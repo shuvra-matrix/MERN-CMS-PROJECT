@@ -58,8 +58,10 @@ const ProfileSection = (props) => {
         return response.json();
       })
       .then((data) => {
-        if (data?.error === "yes") {
-          props.logout();
+        if (data?.data === "invalid token") {
+          props.logout("session");
+        } else if (data?.error === "yes") {
+          throw new Error("server error");
         } else {
           setUserData(data.userData);
           setLoader(false);
@@ -115,20 +117,20 @@ const ProfileSection = (props) => {
       },
     })
       .then((response) => {
-        if (!response.ok) {
-          const err = new Error("autherror");
-          throw err;
-        }
         return response.json();
       })
       .then((data) => {
         setSmallLoader(false);
-        if (data.message === "otp send") {
+        if (data?.data === "invalid token") {
+          props.logout("session");
+        } else if (data.message === "otp send") {
           setOtpSend(true);
           setNewEmail(false);
           setIsMesssage(true);
           setMessageType("message");
           setMessage("OTP Send");
+        } else {
+          throw new Error("OTP Send Failed");
         }
       })
       .catch((err) => {
@@ -180,18 +182,9 @@ const ProfileSection = (props) => {
           otp: "",
         });
 
-        if (!response.ok) {
-          setIsMesssage(true);
-          setMessageType("error");
-
-          if (response.status === 401) {
-            setMessage("Invalid OTP!");
-          } else {
-            setMessage("Upload Failed!");
-          }
-
-          const err = new Error("server error");
-          throw err;
+        if (response.status === 401) {
+          setMessage("Invalid OTP!");
+          throw new Error("invalid otp");
         }
 
         return response.json();
@@ -200,12 +193,16 @@ const ProfileSection = (props) => {
         setSmallLoader(false);
         setNewEmail(false);
         setOtpSend(false);
-        if ((data.message = "profile update")) {
+        if (data?.data === "invalid token") {
+          props.logout("session");
+        } else if ((data.message = "profile update")) {
           setIsMesssage(true);
           setMessageType("message");
           setMessage("Upload Success!");
           setUserData(data.userData);
           navigate("/profile");
+        } else {
+          throw new Error("delete failed");
         }
       })
       .catch((err) => {

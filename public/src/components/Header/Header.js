@@ -17,7 +17,6 @@ const Header = (props) => {
     setIsActive("blog");
   };
 
-  console.log(isActive);
   return (
     <Fragment>
       <div className={styles["main-header"]}>

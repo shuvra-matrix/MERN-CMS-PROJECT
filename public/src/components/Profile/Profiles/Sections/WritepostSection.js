@@ -131,16 +131,19 @@ const WritePostSection = (props) => {
       credentials: "include",
     })
       .then((response) => {
-        if (!response.ok) {
-          throw new Error("server error");
-        }
         return response.json();
       })
       .then((data) => {
-        setSmallLoader(false);
-        setIsMesssage(true);
-        setMessageType("message");
-        setMessage("Upload Success!");
+        if (data?.data === "invalid token") {
+          props.logout("session");
+        } else if (data?.error === "yes") {
+          throw new Error("server error");
+        } else {
+          setSmallLoader(false);
+          setIsMesssage(true);
+          setMessageType("message");
+          setMessage("Upload Success!");
+        }
       })
       .catch((err) => {
         setSmallLoader(false);

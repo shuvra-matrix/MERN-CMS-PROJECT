@@ -10,6 +10,7 @@ import Login from "./components/Auth/Login";
 import Signup from "./components/Auth/Signup";
 import ForgotPassEmail from "./components/Auth/ForgotPasswordEmail";
 import ResetPass from "./components/Auth/ResetPassword";
+import Message from "./components/Message/Message";
 
 const apiUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3030";
 
@@ -20,6 +21,7 @@ const App = () => {
   const [categoryId, setCategoryId] = useState("All");
   const [isLoader, setLoader] = useState(false);
   const [searchData, setSearchData] = useState("");
+  const [isMessage, setIsMesssage] = useState(false);
 
   const [pages, setPages] = useState({
     totalItem: 0,
@@ -72,7 +74,7 @@ const App = () => {
       });
   }, []);
 
-  const logoutHandler = () => {
+  const logoutHandler = (type = "") => {
     const url = apiUrl + "/auth/logout";
 
     fetch(url, { method: "GET", credentials: "include" })
@@ -87,6 +89,10 @@ const App = () => {
       .catch((err) => {
         console.log(err);
       });
+    console.log(type);
+    if (type === "session") {
+      setIsMesssage(true);
+    }
   };
 
   const loginHandler = (value) => {
@@ -159,10 +165,22 @@ const App = () => {
     setCurrentPage(value);
   };
 
+  const crossHandler = (value) => {
+    setIsMesssage(value);
+  };
+
   return (
     <Fragment>
+      {isMessage && (
+        <div className="session-message">
+          <Message
+            type="error"
+            message="Your login session has expired."
+            cross={crossHandler}
+          />
+        </div>
+      )}
       <Header isLogin={isLogin} logout={logoutHandler} />
-
       <Routes>
         <Route
           path="/login"

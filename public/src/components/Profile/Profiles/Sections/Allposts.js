@@ -62,18 +62,20 @@ const Allpost = (props) => {
       },
     })
       .then((response) => {
-        if (!response.ok) {
-          throw new Error("server error");
-        }
-
         return response.json();
       })
       .then((data) => {
-        setPost(data.postData);
-        setCurrentPage(1);
-        setIsMesssage(true);
-        setMessageType("message");
-        setMessage("Delete Success!");
+        if (data?.data === "invalid token") {
+          props.logout("session");
+        } else if (data?.error === "yes") {
+          throw new Error("delete failed");
+        } else {
+          setPost(data.postData);
+          setCurrentPage(1);
+          setIsMesssage(true);
+          setMessageType("message");
+          setMessage("Delete Success!");
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -92,14 +94,17 @@ const Allpost = (props) => {
       credentials: "include",
     })
       .then((response) => {
-        if (!response.ok) {
-          throw new Error("post not found");
-        }
         return response.json();
       })
       .then((data) => {
-        setPost(data.postData);
-        setLoader(false);
+        if (data?.data === "invalid token") {
+          props.logout("session");
+        } else if (data?.error === "yes") {
+          throw new Error("data fetch failed");
+        } else {
+          setPost(data.postData);
+          setLoader(false);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -118,8 +123,10 @@ const Allpost = (props) => {
         return response.json();
       })
       .then((data) => {
-        if (data?.error === "yes") {
-          props.logout();
+        if (data?.data === "invalid token") {
+          props.logout("session");
+        } else if (data?.error === "yes") {
+          throw new Error("data fetch failed");
         } else {
           setPost(data.postData);
           setTotalPage(data.totalPage);
@@ -267,6 +274,7 @@ const Allpost = (props) => {
           postCategory={props.postCategory}
           postId={postId}
           backBtn={backClickHandler}
+          logout={props.logout}
         />
       )}
     </Fragment>

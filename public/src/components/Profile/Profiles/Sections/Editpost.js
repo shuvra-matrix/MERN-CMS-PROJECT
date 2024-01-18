@@ -65,14 +65,17 @@ const Editpost = (props) => {
       }),
     })
       .then((response) => {
-        if (!response.ok) {
-          throw new Error("post not found");
-        }
         return response.json();
       })
       .then((data) => {
-        setPostData(data.postData);
-        setLoader(false);
+        if (data?.data === "invalid token") {
+          props.logout("session");
+        } else if (data?.error === "yes") {
+          throw new Error("server error");
+        } else {
+          setPostData(data.postData);
+          setLoader(false);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -81,7 +84,7 @@ const Editpost = (props) => {
         setMessage("Server Error!");
         setLoader(false);
       });
-  }, [props.postId]);
+  }, [props]);
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
@@ -125,17 +128,20 @@ const Editpost = (props) => {
       credentials: "include",
     })
       .then((response) => {
-        if (!response.ok) {
-          throw new Error("server error");
-        }
         return response.json();
       })
       .then((data) => {
-        setPostData(data.postData);
-        setSmallLoader(false);
-        setIsMesssage(true);
-        setMessage("Update Success!");
-        setMessageType("message");
+        if (data?.data === "invalid token") {
+          props.logout("session");
+        } else if (data?.error === "yes") {
+          throw new Error("Upload Failed");
+        } else {
+          setPostData(data.postData);
+          setSmallLoader(false);
+          setIsMesssage(true);
+          setMessage("Update Success!");
+          setMessageType("message");
+        }
       })
       .catch((err) => {
         console.log(err);

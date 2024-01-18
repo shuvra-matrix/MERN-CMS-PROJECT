@@ -124,14 +124,11 @@ const WritePostSection = (props) => {
     fromData.append("imageSource", inputData.imgSource);
     fromData.append("status", inputData.status);
     fromData.append("tag", inputData.tag);
-    const token = localStorage.getItem("token");
 
     fetch(url, {
       method: "POST",
       body: fromData,
-      headers: {
-        Authorization: "Bearer " + token,
-      },
+      credentials: "include",
     })
       .then((response) => {
         if (!response.ok) {

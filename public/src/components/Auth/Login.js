@@ -59,6 +59,7 @@ const Login = (propes) => {
         email: inputData.email,
         password: inputData.password,
       }),
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
@@ -71,10 +72,6 @@ const Login = (propes) => {
       })
       .then((data) => {
         if (data.message === "login done") {
-          const now = new Date();
-          const expirationTime = now.getTime() + 60 * 60 * 1000;
-          localStorage.setItem("token", data.token);
-          localStorage.setItem("expirationTime", expirationTime);
           localStorage.setItem("isLogin", "yes");
           propes.isLogin(true);
           setIsLoader(false);

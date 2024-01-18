@@ -42,14 +42,11 @@ const App = () => {
 
   useEffect(() => {
     const checkLoginStatus = () => {
-      const token = localStorage.getItem("token");
       const url = apiUrl + "/auth/verifytoken";
 
       fetch(url, {
         method: "post",
-        headers: {
-          Authorization: "Bearer " + token,
-        },
+        credentials: "include",
       })
         .then((response) => {
           if (!response.ok) {
@@ -65,13 +62,12 @@ const App = () => {
           } else {
             setIsLogin(false);
             localStorage.removeItem("isLogin");
-            localStorage.removeItem("token");
           }
         })
         .catch((err) => {
           setIsLogin(false);
           localStorage.removeItem("isLogin");
-          localStorage.removeItem("token");
+
           console.log(err);
         });
     };
@@ -85,15 +81,21 @@ const App = () => {
 
   const logoutHandler = () => {
     setIsLogin(false);
-    localStorage.clear("isLogin");
-    localStorage.clear("token");
-    localStorage.clear("userId");
-    localStorage.clear("expirationTime");
-    localStorage.clear("option");
-    localStorage.clear("optionValue");
-    localStorage.clear("activeCat");
-    localStorage.clear("headerActive");
-    navigate("/");
+
+    const url = apiUrl + "/auth/logout";
+
+    fetch(url, { method: "GET" })
+      .then((response) => {
+        localStorage.clear("isLogin");
+        localStorage.clear("option");
+        localStorage.clear("optionValue");
+        localStorage.clear("activeCat");
+        localStorage.clear("headerActive");
+        navigate("/");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const loginHandler = (value) => {

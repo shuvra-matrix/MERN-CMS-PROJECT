@@ -3,6 +3,7 @@ const mongoos = require("mongoose");
 const multer = require("multer");
 const requestIp = require("request-ip");
 require("dotenv").config();
+const cookieParser = require("cookie-parser");
 
 const app = express();
 
@@ -10,14 +11,18 @@ const port = "3030";
 const MONGO_URL = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}mymongoinit.6md0cxy.mongodb.net/blog?retryWrites=true&w=majority`;
 
 app.use(express.json());
+app.use(cookieParser());
+
 app.use(requestIp.mw());
 
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  const allowedOrigins = process.env.ALLOW_ORIGINES || "http://localhost:3000";
+  res.setHeader("Access-Control-Allow-Origin", allowedOrigins);
   res.setHeader(
     "Access-Control-Allow-Methods",
     "GET, POST, DELETE, PATCH, PUT"
   );
+  res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type , Authorization");
   next();
 });

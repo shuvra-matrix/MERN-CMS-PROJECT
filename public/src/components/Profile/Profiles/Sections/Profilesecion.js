@@ -49,11 +49,10 @@ const ProfileSection = (props) => {
 
   useEffect(() => {
     const url = apiUrl + "/profile/profile";
-    const token = localStorage.getItem("token");
     setLoader(true);
     fetch(url, {
       method: "GET",
-      headers: { Authorization: "Bearer " + token },
+      credentials: "include",
     })
       .then((response) => {
         if (!response.ok) {

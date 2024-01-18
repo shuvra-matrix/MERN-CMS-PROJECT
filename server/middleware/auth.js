@@ -1,15 +1,12 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
+const getCookieValue = require("../helper/cookieHandler");
 
 module.exports = (req, res, next) => {
-  const authHeader = req.get("Authorization");
-  if (!authHeader) {
-    const error = new Error("invalid token");
-    error.statusCode = 401;
-    throw error;
-  }
+  const cookieSting = req.headers.cookie;
+  const cookieName = "user_token";
 
-  const token = req.get("Authorization").split(" ")[1];
+  const token = getCookieValue.getCookieValue(cookieSting, cookieName);
 
   if (!token) {
     const error = new Error("invalid token");

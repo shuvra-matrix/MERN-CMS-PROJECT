@@ -4,6 +4,7 @@ const User = require("../model/User");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const { sendEmail } = require("./mail");
+const getCookieValue = require("../helper/cookieHandler");
 
 exports.signup = (req, res, next) => {
   const error = validationResult(req);
@@ -173,12 +174,24 @@ exports.login = (req, res, next) => {
 
       const token = jwt.sign(
         { email: loadUser.email, userId: loadUser._id.toString() },
-        secret
+        secret,
+        { expiresIn: process.env.LOGIN_EXPIRES + "ms" }
       );
+
+      const options = {
+        maxAge: process.env.LOGIN_EXPIRES,
+        httpOnly: true,
+      };
+
+      if (process.env.APPLICATION_START_MODE === "production") {
+        options.secure = true;
+        options.sameSite = "Lax";
+      }
+
+      res.cookie("user_token", token, options);
 
       res.status(200).json({
         message: "login done",
-        token: token,
       });
     })
     .catch((err) => {
@@ -190,15 +203,10 @@ exports.login = (req, res, next) => {
 };
 
 exports.tokenVerify = (req, res, next) => {
-  const authHeader = req.get("Authorization");
+  const cookieSting = req.headers.cookie;
+  const cookieName = "user_token";
 
-  if (!authHeader) {
-    const error = new Error("invalid token");
-    error.statusCode = 401;
-    throw error;
-  }
-
-  const token = req.get("Authorization").split(" ")[1];
+  const token = getCookieValue.getCookieValue(cookieSting, cookieName);
 
   if (!token) {
     const error = new Error("invalid token");
@@ -395,4 +403,9 @@ exports.postNewPassword = (req, res, next) => {
 
       next(err);
     });
+};
+
+exports.getLogout = (req, res, next) => {
+  res.clearCookie("user_token");
+  res.status(200).json({ messgae: "logout done" });
 };

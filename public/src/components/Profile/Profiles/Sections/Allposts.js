@@ -50,17 +50,15 @@ const Allpost = (props) => {
     e.preventDefault();
     setDeletePrompt(false);
     const post_Id = e.target[0].value;
-    const token = localStorage.getItem("token");
     const url = apiUrl + "/post/postdelete?page=" + currentPage;
-
     fetch(url, {
       method: "DELETE",
       body: JSON.stringify({
         postId: post_Id,
       }),
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
       },
     })
       .then((response) => {
@@ -88,13 +86,10 @@ const Allpost = (props) => {
   const backClickHandler = (value) => {
     setisEdit(value);
     setLoader(true);
-    const token = localStorage.getItem("token");
     const url = apiUrl + "/post/getpost?page=" + currentPage;
     fetch(url, {
       method: "GET",
-      headers: {
-        Authorization: "Bearer " + token,
-      },
+      credentials: "include",
     })
       .then((response) => {
         if (!response.ok) {
@@ -114,13 +109,10 @@ const Allpost = (props) => {
 
   useEffect(() => {
     setLoader(true);
-    const token = localStorage.getItem("token");
     const url = apiUrl + "/post/getpost?page=" + currentPage;
     fetch(url, {
       method: "GET",
-      headers: {
-        Authorization: "Bearer " + token,
-      },
+      credentials: "include",
     })
       .then((response) => {
         if (!response.ok) {

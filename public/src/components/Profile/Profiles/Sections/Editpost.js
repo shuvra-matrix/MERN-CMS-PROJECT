@@ -52,13 +52,12 @@ const Editpost = (props) => {
 
   useEffect(() => {
     setLoader(true);
-    const token = localStorage.getItem("token");
     const postId = props.postId;
     const url = apiUrl + "/post/getpostdata";
     fetch(url, {
       method: "POST",
+      credentials: "include",
       headers: {
-        Authorization: "Bearer " + token,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({

@@ -92,4 +92,6 @@ rourte.put(
   authController.postNewPassword
 );
 
+rourte.get("/logout", authController.getLogout);
+
 module.exports = rourte;

@@ -104,15 +104,14 @@ const ProfileSection = (props) => {
     }
 
     const url = apiUrl + "/profile/genotp";
-    const token = localStorage.getItem("token");
     const email = inputData.email;
     fetch(url, {
       method: "POST",
       body: JSON.stringify({
         email: email,
       }),
+      credentials: "include",
       headers: {
-        Authorization: "Bearer " + token,
         "Content-Type": "application/json",
       },
     })
@@ -156,9 +155,9 @@ const ProfileSection = (props) => {
     const isOtp = isOtpSend;
 
     const url = apiUrl + "/profile/editprofile";
-    const token = localStorage.getItem("token");
     fetch(url, {
       method: "PUT",
+      credentials: "include",
       body: JSON.stringify({
         name: name,
         email: email,
@@ -169,7 +168,6 @@ const ProfileSection = (props) => {
         isOtp: isOtp,
       }),
       headers: {
-        Authorization: "Bearer " + token,
         "Content-Type": "application/json",
       },
     })

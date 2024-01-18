@@ -84,7 +84,7 @@ const App = () => {
 
     const url = apiUrl + "/auth/logout";
 
-    fetch(url, { method: "GET" })
+    fetch(url, { method: "GET", credentials: "include" })
       .then((response) => {
         localStorage.clear("isLogin");
         localStorage.clear("option");

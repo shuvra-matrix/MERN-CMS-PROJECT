@@ -107,7 +107,6 @@ const Editpost = (props) => {
     fromData.append("status", inputData.status || postData.status);
     fromData.append("tag", inputData.tag || postData.tag);
     fromData.append("postId", props.postId);
-    const token = localStorage.getItem("token");
 
     setInputHandler({
       title: "",
@@ -123,9 +122,7 @@ const Editpost = (props) => {
     fetch(url, {
       method: "put",
       body: fromData,
-      headers: {
-        Authorization: "Bearer " + token,
-      },
+      credentials: "include",
     })
       .then((response) => {
         if (!response.ok) {

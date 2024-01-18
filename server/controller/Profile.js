@@ -186,7 +186,7 @@ exports.getCategory = (req, res, next) => {
         .status(200)
         .json({ message: "post category get done", postCategory: newPost });
     })
-    .then((err) => {
+    .catch((err) => {
       next(err);
     });
 };

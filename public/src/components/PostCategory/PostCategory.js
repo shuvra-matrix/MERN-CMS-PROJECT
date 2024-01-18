@@ -26,8 +26,8 @@ const PostCategory = (propes) => {
     getQueryData();
   }, [location.search]);
 
-  const handleCategoryClick = (category, catId) => {
-    propes.categoryHandler(catId);
+  const handleCategoryClick = (category) => {
+    propes.categoryHandler();
     const categoryIndex = propes.postCategory.findIndex(
       (data) => data.name === category
     );

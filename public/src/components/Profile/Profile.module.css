@@ -1,6 +1,6 @@
 .profile-main {
   width: 1100px;
-  margin: 0px auto;
+  margin: 0px auto 6rem;
   min-height: 90svh;
   display: flex;
   flex-flow: nowrap row;

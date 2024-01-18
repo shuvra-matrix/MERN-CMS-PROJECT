@@ -13,8 +13,10 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  min-height: 100dvh;
+  min-height: 100vh;
   scroll-behavior: smooth;
+  display: flex;
+  flex-direction: column;
 }
 
 body::-webkit-scrollbar {
@@ -39,8 +41,6 @@ a {
 }
 
 #root {
-  min-height: 100dvh;
-  display: flex;
-  flex-flow: nowrap column;
+  flex-grow: 1;
   position: relative;
 }

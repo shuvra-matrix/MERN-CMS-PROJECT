@@ -1,6 +1,6 @@
 .pagination-main {
   width: 100%;
-  margin: 3rem auto 3rem;
+  margin: 3rem auto 9rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -29,7 +29,7 @@
 
 @media (max-width: 750px) {
   .pagination-main {
-    margin: 1rem auto 2rem;
+    margin: 2rem auto 9rem;
   }
 }
 

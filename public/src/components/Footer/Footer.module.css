@@ -1,6 +1,9 @@
 .footer {
+  flex: 1 1 10%;
   width: 100%;
   background-color: #191233;
+  position: absolute;
+  bottom: 0px;
 }
 
 .sub-footer {

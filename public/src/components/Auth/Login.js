@@ -6,6 +6,7 @@ import LoaderForAuth from "../Loader/LoaderForAuth";
 import blogLogo from "../../media/bloglogo.png";
 
 const apiUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3030";
+const domain = process.env.REACT_APP_DOMAIN || "localhost";
 
 const Login = (propes) => {
   const { state } = useLocation();
@@ -41,6 +42,19 @@ const Login = (propes) => {
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
+    function areThirdPartyCookiesEnabled() {
+      document.cookie = `testThirdPartyCookie=true; domain=${domain}; path=/; samesite=None; secure`;
+      const thirdPartyCookieEnabled =
+        document.cookie.indexOf("testThirdPartyCookie") !== -1;
+      document.cookie = `testThirdPartyCookie=; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=${domain}; path=/`;
+
+      return thirdPartyCookieEnabled;
+    }
+
+    if (!areThirdPartyCookiesEnabled()) {
+      propes.logout("cookie-issue");
+      return;
+    }
 
     if (!inputData.email.includes("@") && inputData.email.length < 8) {
       setEmailError(true);

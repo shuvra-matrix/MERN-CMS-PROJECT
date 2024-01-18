@@ -178,14 +178,17 @@ exports.login = (req, res, next) => {
         { expiresIn: process.env.LOGIN_EXPIRES + "ms" }
       );
 
+      const domain = process.env.DOMAIN || "localhost";
+
       const options = {
         maxAge: process.env.LOGIN_EXPIRES,
         httpOnly: true,
+        domain: domain,
       };
 
       if (process.env.APPLICATION_START_MODE === "production") {
         options.secure = true;
-        options.sameSite = "Lax";
+        options.sameSite = "None";
       }
 
       res.cookie("user_token", token, options);
@@ -406,6 +409,11 @@ exports.postNewPassword = (req, res, next) => {
 };
 
 exports.getLogout = (req, res, next) => {
-  res.clearCookie("user_token");
+  const domain = process.env.DOMAIN || "localhost";
+  res.clearCookie("user_token", {
+    domain: domain,
+    sameSite: "None",
+    secure: true,
+  });
   res.status(200).json({ messgae: "logout done" });
 };

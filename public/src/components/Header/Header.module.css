@@ -130,10 +130,25 @@ a {
   box-shadow: 1px 1px 10px 2px rgba(221, 84, 66, 0.452);
 }
 
+.session-message {
+  position: absolute;
+  width: 96%;
+  margin: auto;
+  top: 50px;
+  z-index: 22;
+  width: 100%;
+  right: 0px;
+  text-transform: capitalize;
+}
+
 @media (max-width: 1120px) {
   .main-header {
     width: 100%;
     padding: 1rem 1rem;
+  }
+  .session-message {
+    top: 32px;
+    right: 16px;
   }
 }
 
@@ -142,6 +157,12 @@ a {
   .logout-btn {
     padding: 10px 15px;
     font-size: 1rem;
+  }
+}
+
+@media (max-width: 560px) {
+  .session-message {
+    right: 12px;
   }
 }
 
@@ -174,5 +195,21 @@ a {
 
   .logo {
     justify-content: flex-start;
+  }
+  .session-message {
+    right: 8px;
+  }
+}
+
+@media (max-width: 400px) {
+  .session-message {
+    right: 6px;
+  }
+}
+
+@media (max-width: 300px) {
+  .session-message {
+    right: 0px;
+    width: 100%;
   }
 }

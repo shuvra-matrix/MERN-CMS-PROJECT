@@ -10,7 +10,6 @@ import Login from "./components/Auth/Login";
 import Signup from "./components/Auth/Signup";
 import ForgotPassEmail from "./components/Auth/ForgotPasswordEmail";
 import ResetPass from "./components/Auth/ResetPassword";
-import Message from "./components/Message/Message";
 
 const apiUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3030";
 
@@ -22,6 +21,7 @@ const App = () => {
   const [isLoader, setLoader] = useState(false);
   const [searchData, setSearchData] = useState("");
   const [isMessage, setIsMesssage] = useState(false);
+  const [message, setMessage] = useState("");
 
   const [pages, setPages] = useState({
     totalItem: 0,
@@ -44,33 +44,45 @@ const App = () => {
   useEffect(() => {
     const url = apiUrl + "/auth/verifytoken";
 
-    fetch(url, {
-      method: "post",
-      credentials: "include",
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("auth failed");
-        }
-
-        return response.json();
+    const authVerify = () => {
+      fetch(url, {
+        method: "post",
+        credentials: "include",
       })
-      .then((data) => {
-        setSearchData("");
-        if (data.message === "valid auth") {
-          setIsLogin(true);
-          localStorage.setItem("isLogin", "yes");
-        } else {
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("auth failed");
+          }
+
+          return response.json();
+        })
+        .then((data) => {
+          setSearchData("");
+          if (data.message === "valid auth") {
+            setIsLogin(true);
+            localStorage.setItem("isLogin", "yes");
+          } else {
+            setIsLogin(false);
+            localStorage.removeItem("isLogin");
+          }
+        })
+        .catch((err) => {
           setIsLogin(false);
-          localStorage.removeItem("isLogin");
-        }
-      })
-      .catch((err) => {
-        setIsLogin(false);
-        localStorage.removeItem("isLogin");
-
-        console.log(err);
-      });
+          const data = localStorage.getItem("isLogin");
+          if (data) {
+            localStorage.removeItem("isLogin");
+          }
+          console.log(err);
+        });
+    };
+    try {
+      const getLocalData = localStorage.getItem("isLogin");
+      if (getLocalData) {
+        authVerify();
+      }
+    } catch (err) {
+      console.log(err);
+    }
   }, []);
 
   const logoutHandler = (type = "") => {
@@ -91,6 +103,13 @@ const App = () => {
     console.log(type);
     if (type === "session") {
       setIsMesssage(true);
+      setMessage("Your login session has expired.");
+    }
+    if (type === "cookie-issue") {
+      setIsMesssage(true);
+      setMessage(
+        "Cookies are not enabled in your browser. Please enable them to access your profile."
+      );
     }
   };
 
@@ -176,22 +195,19 @@ const App = () => {
 
   return (
     <Fragment>
-      {isMessage && (
-        <div className="session-message">
-          <Message
-            type="error"
-            message="Your login session has expired."
-            cross={crossHandler}
-          />
-        </div>
-      )}
-      <Header isLogin={isLogin} logout={logoutHandler} />
+      <Header
+        isLogin={isLogin}
+        logout={logoutHandler}
+        crossHandler={crossHandler}
+        message={message}
+        isMessage={isMessage}
+      />
       <Routes>
         <Route
           path="/login"
           element={
             !isLogin ? (
-              <Login isLogin={loginHandler} />
+              <Login isLogin={loginHandler} logout={logoutHandler} />
             ) : (
               <Blog
                 posts={posts}

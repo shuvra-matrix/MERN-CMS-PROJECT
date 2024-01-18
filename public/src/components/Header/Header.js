@@ -3,6 +3,7 @@ import styles from "./Header.module.css";
 import { Link } from "react-router-dom";
 import blogLogo from "../../media/bloglogo.png";
 import { useLocation } from "react-router-dom";
+import Message from "../Message/Message";
 
 const Header = (props) => {
   const location = useLocation();
@@ -22,6 +23,15 @@ const Header = (props) => {
   return (
     <Fragment>
       <div className={styles["main-header"]}>
+        {props.isMessage && (
+          <div className={styles["session-message"]}>
+            <Message
+              type="error"
+              message={props.message}
+              cross={props.crossHandler}
+            />
+          </div>
+        )}
         <div className={styles["logo"]}>
           <Link to="/">
             <img src={blogLogo} alt="logo"></img>

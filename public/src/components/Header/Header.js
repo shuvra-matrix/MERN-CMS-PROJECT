@@ -9,7 +9,9 @@ const Header = (props) => {
   const [isActive, setIsActive] = useState("blog");
 
   useEffect(() => {
-    location.pathname === "/" ? setIsActive("blog") : setIsActive("profile");
+    location.pathname === "/profile"
+      ? setIsActive("profile")
+      : setIsActive("blog");
   }, [location]);
 
   const logoutHandler = () => {

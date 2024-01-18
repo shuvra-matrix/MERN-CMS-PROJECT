@@ -41,47 +41,38 @@ const App = () => {
   };
 
   useEffect(() => {
-    const checkLoginStatus = () => {
-      const url = apiUrl + "/auth/verifytoken";
+    const url = apiUrl + "/auth/verifytoken";
 
-      fetch(url, {
-        method: "post",
-        credentials: "include",
+    fetch(url, {
+      method: "post",
+      credentials: "include",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("auth failed");
+        }
+
+        return response.json();
       })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("auth failed");
-          }
-
-          return response.json();
-        })
-        .then((data) => {
-          setSearchData("");
-          if (data.message === "valid auth") {
-            setIsLogin(true);
-          } else {
-            setIsLogin(false);
-            localStorage.removeItem("isLogin");
-          }
-        })
-        .catch((err) => {
+      .then((data) => {
+        setSearchData("");
+        if (data.message === "valid auth") {
+          setIsLogin(true);
+          localStorage.setItem("isLogin", "yes");
+        } else {
           setIsLogin(false);
           localStorage.removeItem("isLogin");
+        }
+      })
+      .catch((err) => {
+        setIsLogin(false);
+        localStorage.removeItem("isLogin");
 
-          console.log(err);
-        });
-    };
-
-    const isUserLogin = localStorage.getItem("isLogin") === "yes";
-
-    if (isUserLogin) {
-      checkLoginStatus();
-    }
+        console.log(err);
+      });
   }, []);
 
   const logoutHandler = () => {
-    setIsLogin(false);
-
     const url = apiUrl + "/auth/logout";
 
     fetch(url, { method: "GET", credentials: "include" })
@@ -90,7 +81,7 @@ const App = () => {
         localStorage.clear("option");
         localStorage.clear("optionValue");
         localStorage.clear("activeCat");
-        localStorage.clear("headerActive");
+        setIsLogin(false);
         navigate("/");
       })
       .catch((err) => {
@@ -248,7 +239,7 @@ const App = () => {
           path="/profile"
           element={
             isLogin ? (
-              <Profile postCategory={postCategory} />
+              <Profile postCategory={postCategory} logout={logoutHandler} />
             ) : (
               <Blog
                 posts={posts}

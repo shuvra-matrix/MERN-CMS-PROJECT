@@ -55,16 +55,15 @@ const ProfileSection = (props) => {
       credentials: "include",
     })
       .then((response) => {
-        if (!response.ok) {
-          const error = new Error("invalid user");
-          throw error;
-        }
-
         return response.json();
       })
       .then((data) => {
-        setUserData(data.userData);
-        setLoader(false);
+        if (data?.error === "yes") {
+          props.logout();
+        } else {
+          setUserData(data.userData);
+          setLoader(false);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -73,7 +72,7 @@ const ProfileSection = (props) => {
         setMessageType("error");
         setMessage("Server Error!");
       });
-  }, []);
+  }, [props]);
 
   useEffect(() => {
     const interval = setTimeout(() => {

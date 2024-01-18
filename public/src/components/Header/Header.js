@@ -1,17 +1,23 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import styles from "./Header.module.css";
 import { Link } from "react-router-dom";
 import blogLogo from "../../media/bloglogo.png";
+import { useLocation } from "react-router-dom";
 
 const Header = (props) => {
-  const option = localStorage.getItem("headerActive") || "blog";
-  const [isActive, setIsActive] = useState(option);
+  const location = useLocation();
+  const [isActive, setIsActive] = useState("blog");
+
+  useEffect(() => {
+    location.pathname === "/" ? setIsActive("blog") : setIsActive("profile");
+  }, [location]);
 
   const logoutHandler = () => {
     props.logout();
     setIsActive("blog");
   };
 
+  console.log(isActive);
   return (
     <Fragment>
       <div className={styles["main-header"]}>
@@ -20,12 +26,7 @@ const Header = (props) => {
             <img src={blogLogo} alt="logo"></img>
           </Link>
           <Link to="/">
-            <h1
-              onClick={() => {
-                setIsActive("blog");
-                localStorage.setItem("headerActive", "blog");
-              }}
-            >
+            <h1>
               Blog<span>Sp</span>ot
             </h1>
           </Link>
@@ -44,13 +45,7 @@ const Header = (props) => {
           </Link>
           {props.isLogin && (
             <Link to="/profile">
-              <p
-                onClick={() => {
-                  setIsActive("profile");
-                  localStorage.setItem("headerActive", "profile");
-                }}
-                className={isActive === "profile" ? styles["active"] : ""}
-              >
+              <p className={isActive === "profile" ? styles["active"] : ""}>
                 Profile
               </p>
             </Link>

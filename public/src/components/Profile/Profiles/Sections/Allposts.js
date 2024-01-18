@@ -115,21 +115,22 @@ const Allpost = (props) => {
       credentials: "include",
     })
       .then((response) => {
-        if (!response.ok) {
-          throw new Error("post not found");
-        }
         return response.json();
       })
       .then((data) => {
-        setPost(data.postData);
-        setTotalPage(data.totalPage);
-        setLoader(false);
+        if (data?.error === "yes") {
+          props.logout();
+        } else {
+          setPost(data.postData);
+          setTotalPage(data.totalPage);
+          setLoader(false);
+        }
       })
       .catch((err) => {
         console.log(err);
         setLoader(false);
       });
-  }, [currentPage]);
+  }, [currentPage, props]);
 
   const nextButtonHandler = () => {
     if (currentPage < totalPage) {

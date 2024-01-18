@@ -25,7 +25,11 @@ const Profile = (props) => {
       </div>
       <div className={styles["profile-main"]}>
         <Sidemenu optionHandel={optionHandler} />
-        <Profiles options={option} postCategory={props.postCategory} />
+        <Profiles
+          options={option}
+          postCategory={props.postCategory}
+          logout={props.logout}
+        />
       </div>
     </Fragment>
   );

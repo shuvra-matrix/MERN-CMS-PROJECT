@@ -8,6 +8,7 @@ const { sendEmail } = require("./mail");
 exports.getProfile = (req, res, next) => {
   User.findById(req.userId)
     .then((user) => {
+      console.log("hi");
       if (!user) {
         const error = new Error("user not found");
         error.statusCode = 400;

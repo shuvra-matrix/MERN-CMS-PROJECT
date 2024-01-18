@@ -10,6 +10,7 @@ module.exports = (req, res, next) => {
 
   if (!token) {
     const error = new Error("invalid token");
+    error.data = "invalid token";
     error.statusCode = 401;
     throw error;
   }

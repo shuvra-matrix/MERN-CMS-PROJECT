@@ -7,15 +7,26 @@ import WritePostSection from "./Sections/WritepostSection";
 const Profiles = (propes) => {
   return (
     <div className={styles["profiles"]}>
-      {propes.options === "profile" ? <ProfileSection /> : ""}
-      {propes.options === "security" ? <SecuritySection /> : ""}
+      {propes.options === "profile" ? (
+        <ProfileSection logout={propes.logout} />
+      ) : (
+        ""
+      )}
+      {propes.options === "security" ? (
+        <SecuritySection logout={propes.logout} />
+      ) : (
+        ""
+      )}
       {propes.options === "writepost" ? (
-        <WritePostSection postCategory={propes.postCategory} />
+        <WritePostSection
+          postCategory={propes.postCategory}
+          logout={propes.logout}
+        />
       ) : (
         ""
       )}
       {propes.options === "allpost" ? (
-        <Allpost postCategory={propes.postCategory} />
+        <Allpost postCategory={propes.postCategory} logout={propes.logout} />
       ) : (
         ""
       )}

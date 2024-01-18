@@ -29,6 +29,20 @@
   flex-flow: nowrap column;
 }
 
+.image-section {
+  width: 60%;
+}
+
+.image-section img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.image-section p {
+  padding-top: 10px;
+  color: rgb(65, 65, 65);
+}
+
 .title h1 {
   color: rgb(33, 30, 37);
   padding-bottom: 0.2rem;
@@ -97,16 +111,6 @@
   color: #181c25;
 }
 
-.image-section img {
-  width: 100%;
-  border-radius: 10px;
-}
-
-.image-section p {
-  padding-top: 10px;
-  color: rgb(65, 65, 65);
-}
-
 .text-section {
   padding-top: 1rem;
   font-size: 1.15rem;
@@ -143,7 +147,6 @@ p img {
     flex-flow: nowrap column;
     gap: 20px;
   }
-
   .title h1 {
     font-size: 1.6rem;
   }
@@ -151,31 +154,27 @@ p img {
   .desc {
     font-size: 1.1rem;
   }
-
   .date {
     padding-top: 1rem;
   }
   .image-section img {
-    height: 300px;
+    height: 400px;
+  }
+  .image-section {
+    width: 100%;
   }
 }
 
-@media (max-width: 830px) {
-  .title-section {
-    flex-flow: nowrap column;
-    gap: 20px;
-  }
-
+@media (max-width: 730px) {
   .title h1 {
     font-size: 1.5rem;
-  }
-
-  .image-section img {
-    height: 250px;
   }
 }
 
 @media (max-width: 550px) {
+  .image-section img {
+    height: 300px;
+  }
   p img {
     width: 100%;
     height: auto;

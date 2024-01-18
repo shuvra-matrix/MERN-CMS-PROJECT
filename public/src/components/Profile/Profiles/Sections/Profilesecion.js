@@ -182,11 +182,6 @@ const ProfileSection = (props) => {
           otp: "",
         });
 
-        if (response.status === 401) {
-          setMessage("Invalid OTP!");
-          throw new Error("invalid otp");
-        }
-
         return response.json();
       })
       .then((data) => {
@@ -202,7 +197,7 @@ const ProfileSection = (props) => {
           setUserData(data.userData);
           navigate("/profile");
         } else {
-          throw new Error("delete failed");
+          throw new Error("Upload Failed!");
         }
       })
       .catch((err) => {

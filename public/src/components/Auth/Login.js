@@ -127,13 +127,15 @@ const Login = (propes) => {
                 emailError ? styles["invalid"] : ""
               }`}
             >
-              <label htmlFor="">Email Address</label>
+              <label htmlFor="email">Email Address</label>
               <input
                 onChange={inputDataHandler}
                 type="email"
                 name="email"
                 value={inputData.email}
+                autoComplete="username"
                 placeholder="your@example.com"
+                id="email"
               ></input>
             </div>
             <div
@@ -141,13 +143,15 @@ const Login = (propes) => {
                 passError ? styles["invalid"] : ""
               }`}
             >
-              <label htmlFor="">Password</label>
+              <label htmlFor="pass">Password</label>
               <input
                 onChange={inputDataHandler}
                 type="password"
                 name="password"
+                autoComplete="current-password"
                 value={inputData.password}
                 placeholder="Enter 6 character or more "
+                id="pass"
               ></input>
               <Link to="/forgotpassword">
                 <p className={styles["forgot"]}>Forgot Password</p>

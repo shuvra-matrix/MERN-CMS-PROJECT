@@ -149,13 +149,15 @@ const Signup = (props) => {
                     nameError ? styles["invalid"] : ""
                   }`}
                 >
-                  <label htmlFor="">Name</label>
+                  <label htmlFor="name">Name</label>
                   <input
+                    id="name"
                     type="text"
                     placeholder="Your name"
                     name="name"
                     value={inputData.name}
                     onChange={inputDataHandler}
+                    autoComplete="off"
                   ></input>
                 </div>
                 <div
@@ -163,13 +165,15 @@ const Signup = (props) => {
                     emailError ? styles["invalid"] : ""
                   }`}
                 >
-                  <label htmlFor="">Email Address</label>
+                  <label htmlFor="email">Email Address</label>
                   <input
+                    id="email"
                     type="email"
                     placeholder="your@example.com"
                     name="email"
                     value={inputData.email}
                     onChange={inputDataHandler}
+                    autoComplete="off"
                   ></input>
                 </div>
                 <div
@@ -177,13 +181,15 @@ const Signup = (props) => {
                     passError ? styles["invalid"] : ""
                   }`}
                 >
-                  <label htmlFor="">Password</label>
+                  <label htmlFor="pass">Password</label>
                   <input
+                    id="pass"
                     type="password"
                     name="password"
                     value={inputData.password}
                     placeholder="Enter 6 character or more "
                     onChange={inputDataHandler}
+                    autoComplete="off"
                   ></input>
                 </div>
                 <div
@@ -191,13 +197,15 @@ const Signup = (props) => {
                     conPassError ? styles["invalid"] : ""
                   }`}
                 >
-                  <label htmlFor="">Confirm Password</label>
+                  <label htmlFor="conpass">Confirm Password</label>
                   <input
+                    id="conpass"
                     type="text"
                     name="confirmPassword"
                     value={inputData.confirmPassword}
                     placeholder="Enter 6 character or more "
                     onChange={inputDataHandler}
+                    autoComplete="off"
                   ></input>
                 </div>
               </div>

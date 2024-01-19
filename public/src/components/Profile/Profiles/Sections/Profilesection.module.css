@@ -135,6 +135,10 @@ textarea {
   right: 0px;
 }
 
+.hidden-username {
+  display: none;
+}
+
 @media (max-width: 1000px) {
   .back-btn {
     left: -70px;

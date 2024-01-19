@@ -121,18 +121,30 @@ const SecuritySection = (props) => {
       <h3>Change Password</h3>
       <form onSubmit={submitHandler}>
         <div className={styles["profile-sub"]}>
+          <div className={`${styles["section"]} ${styles["hidden-username"]}`}>
+            <label htmlFor="username">Username</label>
+            <input
+              onChange={inputHandler}
+              name="username"
+              type="text"
+              autoComplete="username"
+              value=""
+              id="username"
+            />
+          </div>
           <div
             className={`${styles["section"]} ${
               oldPassError ? styles["invalid"] : ""
             }`}
           >
-            <label htmlFor="">Previous Password</label>
+            <label htmlFor="prepass">Previous Password</label>
             <input
               onChange={inputHandler}
               name="oldpass"
               type="password"
-              autoComplete="new-password"
               value={userInput.oldpass}
+              autoComplete="current-password"
+              id="prepass"
             ></input>
           </div>
           <div
@@ -140,13 +152,14 @@ const SecuritySection = (props) => {
               passError ? styles["invalid"] : ""
             }`}
           >
-            <label htmlFor="">New Password</label>
+            <label htmlFor="pass">New Password</label>
             <input
               onChange={inputHandler}
               name="newpass"
               type="password"
               autoComplete="new-password"
               value={userInput.newpass}
+              id="pass"
             ></input>
           </div>
           <div
@@ -154,12 +167,14 @@ const SecuritySection = (props) => {
               conPassError ? styles["invalid"] : ""
             }`}
           >
-            <label htmlFor="">Confirm Password</label>
+            <label htmlFor="newpass">Confirm Password</label>
             <input
               onChange={inputHandler}
               name="conpass"
               type="text"
               value={userInput.conpass}
+              autoComplete="new-password"
+              id="newpass"
             ></input>
           </div>
         </div>

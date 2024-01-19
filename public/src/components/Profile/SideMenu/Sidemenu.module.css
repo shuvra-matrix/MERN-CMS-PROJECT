@@ -32,6 +32,7 @@
   justify-content: flex-end;
   align-items: center;
   gap: 20px;
+  border-left: 8px solid #ffffff;
 }
 
 .options span img {
@@ -40,8 +41,11 @@
 }
 
 .active {
-  border-left: 8px solid;
   border-left-color: #8d4ef5;
+}
+
+.options p {
+  text-align: left;
 }
 
 @media (max-width: 910px) {
@@ -50,6 +54,12 @@
   }
   .sidemenu-main {
     width: 250px;
+  }
+}
+
+@media (max-width: 780px) {
+  .options {
+    padding: 0.8rem;
   }
 }
 
@@ -71,8 +81,6 @@
 
   .options {
     margin: 10px;
-    padding: 0.8rem;
-
     font-size: 1rem;
     font-weight: 600;
   }
@@ -113,6 +121,12 @@
     justify-content: center;
     font-size: 1rem;
     font-weight: 600;
+    border-left: 6px solid white;
+    border-right: 6px solid white;
+  }
+
+  .active {
+    border-left: 6px solid #8d4ef5;
   }
 
   .options span {

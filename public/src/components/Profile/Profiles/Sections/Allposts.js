@@ -265,7 +265,7 @@ const Allpost = (props) => {
         </Fragment>
       )}
 
-      {post.length === 0 && (
+      {!isLoader && post.length === 0 && (
         <p className={styles["no-post"]}>No posts available !</p>
       )}
 

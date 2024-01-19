@@ -47,7 +47,6 @@ const Header = (props) => {
             <p
               onClick={() => {
                 setIsActive("blog");
-                localStorage.setItem("headerActive", "blog");
               }}
               className={isActive === "blog" ? styles["active"] : ""}
             >

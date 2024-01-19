@@ -15,7 +15,9 @@ const apiUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3030";
 
 const App = () => {
   const location = useLocation();
-  const [isLogin, setIsLogin] = useState(false);
+  const loginValue = localStorage.getItem("isLogin");
+  const loginStatus = loginValue === "yes" ? true : false;
+  const [isLogin, setIsLogin] = useState(loginStatus);
   const [posts, setPosts] = useState([]);
   const [postCategory, setPostCategory] = useState([]);
   const [isLoader, setLoader] = useState(false);

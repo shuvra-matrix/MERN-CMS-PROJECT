@@ -143,7 +143,7 @@ const SecuritySection = (props) => {
               name="oldpass"
               type="password"
               value={userInput.oldpass}
-              autoComplete="current-password"
+              autoComplete="off"
               id="prepass"
             ></input>
           </div>

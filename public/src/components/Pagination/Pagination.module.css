@@ -37,7 +37,6 @@
   .pagination-main {
     width: 100%;
     padding: 0 10px;
-    margin: 0.5rem auto 2rem;
     gap: 10px;
     flex-flow: wrap row;
   }

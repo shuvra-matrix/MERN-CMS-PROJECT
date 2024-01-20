@@ -215,13 +215,22 @@ const Allpost = (props) => {
           <div className={styles["allpost-main"]}>
             {post.map((data) => (
               <div className={styles["allpost-sub"]} key={data.postId}>
-                <Link to={`/post?title=${data?.title}&id=${data?.postId}`}>
+                {props.option === "allpost" ? (
+                  <Link to={`/post?title=${data?.title}&id=${data?.postId}`}>
+                    <img
+                      className={styles["blog-image"]}
+                      src={data.imageUrl}
+                      alt="images dssd"
+                    ></img>
+                  </Link>
+                ) : (
                   <img
                     className={styles["blog-image"]}
                     src={data.imageUrl}
                     alt="images dssd"
                   ></img>
-                </Link>
+                )}
+
                 <p>{data.desc}</p>
                 <div className={styles["action"]}>
                   <form

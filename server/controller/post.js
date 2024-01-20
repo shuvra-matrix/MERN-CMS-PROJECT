@@ -318,7 +318,7 @@ exports.deletePost = (req, res, next) => {
   let totalPost;
   let totalPage;
 
-  Post.findById(postId)
+  Post.findOne({ user: req.userId, _id: postId })
     .then((post) => {
       if (!post) {
         const error = new Error("post not found");
@@ -362,8 +362,6 @@ exports.deletePost = (req, res, next) => {
 
       totalPage = Math.ceil(totalPost / perPage);
 
-      console.log(totalPage);
-
       const postData = posts.map((data) => {
         return {
           imageUrl: data.image,
@@ -393,7 +391,7 @@ exports.restorePost = (req, res, next) => {
   let totalPost;
   let totalPage;
 
-  Post.findById(postId)
+  Post.findOne({ user: req.userId, _id: postId })
     .then((post) => {
       if (!post) {
         const error = new Error("server error");
@@ -406,11 +404,11 @@ exports.restorePost = (req, res, next) => {
       return post.save();
     })
     .then((result) => {
-      return Post.find({ status: "Delete" }).countDocuments();
+      return Post.find({ user: req.userId, status: "Delete" }).countDocuments();
     })
     .then((count) => {
       totalPost = count;
-      return Post.find({ status: "Delete" })
+      return Post.find({ user: req.userId, status: "Delete" })
         .sort({ createdAt: -1 })
         .limit(perPage);
     })
@@ -447,7 +445,11 @@ exports.restorePost = (req, res, next) => {
 exports.deletFromRecycleBin = (req, res, next) => {
   const postId = req.body.postId;
   let postData;
-  Post.findById(postId)
+  let totalPost;
+  let totalPage;
+  const postPerPage = 6;
+
+  Post.findOne({ user: req.userId, _id: postId })
     .then((post) => {
       if (!post) {
         const error = new Error("post not found");
@@ -504,9 +506,13 @@ exports.deletFromRecycleBin = (req, res, next) => {
         throw error;
       }
 
+      return Post.find({ user: req.userId, status: "Delete" }).countDocuments();
+    })
+    .then((count) => {
+      totalPost = count;
       return Post.find({ user: req.userId, status: "Delete" })
         .sort({ createdAt: -1 })
-        .limit(6);
+        .limit(postPerPage);
     })
     .then((posts) => {
       if (!posts) {
@@ -514,11 +520,15 @@ exports.deletFromRecycleBin = (req, res, next) => {
         error.statusCode = 401;
         throw error;
       }
+
+      totalPage = Math.ceil(totalPost / postPerPage);
+
       const postData = posts.map((data) => {
         return {
           imageUrl: data.image,
           desc: data.title,
           postId: data._id,
+          totalPage: totalPage,
         };
       });
 

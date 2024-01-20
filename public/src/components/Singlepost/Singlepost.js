@@ -25,6 +25,7 @@ const Singlepost = () => {
     if (title && id) {
       fetch(url, {
         method: "post",
+        credentials: "include",
         body: JSON.stringify({
           title: title,
           postId: id,
@@ -62,7 +63,7 @@ const Singlepost = () => {
           <LoaderBig />
         </div>
       )}
-      {!isLoading && (
+      {!isLoading && postsData.post.createDate && (
         <div className={styles["post-main"]}>
           <div className={styles["post-sub"]}>
             <div className={styles["title-section"]}>

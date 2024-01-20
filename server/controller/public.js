@@ -1,4 +1,5 @@
 const Post = require("../model/Post");
+const getCookieValue = require("../helper/cookieHandler");
 
 const formatDate = (date, timeZone = "UTC") => {
   const options = {
@@ -99,10 +100,15 @@ exports.getPublishPost = (req, res, next) => {
 };
 
 exports.postPublishPost = (req, res, next) => {
+  const cookieSting = req.headers.cookie;
+  const cookieName = "isLogin";
+  const token = getCookieValue.getCookieValue(cookieSting, cookieName);
   const postId = req.body.postId;
   const timeZone = req.body.timeZone;
 
-  Post.findOne({ _id: postId })
+  const status = token === "yes" ? { $in: ["publish", "draft"] } : "publish";
+
+  Post.findOne({ _id: postId, status: status })
     .populate("user", "name")
     .then((post) => {
       if (!post) {

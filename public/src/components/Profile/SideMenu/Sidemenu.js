@@ -6,6 +6,7 @@ import securityIcon from "../../../media/icons8-password-50.png";
 import writeBlogIcon from "../../../media/icons8-edit-row-50.png";
 import blogsIcon from "../../../media/icons8-blog-50.png";
 import recycleBin from "../../../media/icons8-recycle-bin-64.png";
+import draft from "../../../media/icons8-draft-64.png";
 
 const Sidemenu = (propes) => {
   const option = localStorage.getItem("option") || "option1";
@@ -16,9 +17,10 @@ const Sidemenu = (propes) => {
     localStorage.setItem("option", value);
   };
 
-  const optionsHandler = (value) => {
-    propes.optionHandel(value);
+  const optionsHandler = (value, type = "") => {
+    propes.optionHandel(value, type);
     localStorage.setItem("optionValue", value);
+    localStorage.setItem("postStatus", type);
   };
 
   return (
@@ -86,10 +88,10 @@ const Sidemenu = (propes) => {
         }`}
         onClick={() => {
           activeOptionHandler("option4");
-          optionsHandler("allpost");
+          optionsHandler("allpost", "publish");
         }}
       >
-        <p>Posts</p>
+        <p>Publish</p>
         <span>
           <img width="50" height="50" src={blogsIcon} alt="blog" />
         </span>
@@ -100,6 +102,20 @@ const Sidemenu = (propes) => {
         }`}
         onClick={() => {
           activeOptionHandler("option5");
+          optionsHandler("allpost", "draft");
+        }}
+      >
+        <p>Draft</p>
+        <span>
+          <img width="50" height="50" src={draft} alt="blog" />
+        </span>
+      </div>
+      <div
+        className={`${styles["options"]} ${
+          activeOption === "option6" ? styles["active"] : ""
+        }`}
+        onClick={() => {
+          activeOptionHandler("option6");
           optionsHandler("recyclebin");
         }}
       >

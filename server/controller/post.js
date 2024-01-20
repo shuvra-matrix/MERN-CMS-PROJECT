@@ -127,14 +127,16 @@ exports.addPost = (req, res, next) => {
 exports.getProfilePost = (req, res, next) => {
   const pageNumber = req.query.page || 1;
   const getType = req.query.type || "allpost";
+  const postStatus = req.query.postStatus || "publish";
 
   const perPageItem = 6;
 
   let totalItem;
   let totalPage;
 
-  let option =
-    getType === "recyclebin" ? "Delete" : { $in: ["publish", "draft"] };
+  let type = postStatus === "draft" ? "draft" : "publish";
+
+  let option = getType === "recyclebin" ? "Delete" : type;
 
   Post.find({
     user: req.userId,
@@ -313,12 +315,13 @@ exports.postEditData = (req, res, next) => {
 
 exports.deletePost = (req, res, next) => {
   const postId = req.body.postId;
+  const postStatus = req.body.status;
 
   const perPage = 6;
   let totalPost;
   let totalPage;
 
-  Post.findOne({ user: req.userId, _id: postId })
+  Post.findOne({ user: req.userId, _id: postId, status: postStatus })
     .then((post) => {
       if (!post) {
         const error = new Error("post not found");
@@ -339,7 +342,7 @@ exports.deletePost = (req, res, next) => {
 
       return Post.find({
         user: req.userId,
-        status: { $in: ["publish", "draft"] },
+        status: postStatus,
       }).countDocuments();
     })
     .then((count) => {
@@ -347,7 +350,7 @@ exports.deletePost = (req, res, next) => {
 
       return Post.find({
         user: req.userId,
-        status: { $in: ["publish", "draft"] },
+        status: postStatus,
       })
 
         .sort({ createdAt: -1 })

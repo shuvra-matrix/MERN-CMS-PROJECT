@@ -30,6 +30,7 @@ const Profiles = (propes) => {
           postCategory={propes.postCategory}
           logout={propes.logout}
           option={propes.options}
+          postStatus={propes.postStatus}
         />
       ) : (
         ""

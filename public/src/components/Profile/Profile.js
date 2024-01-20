@@ -6,9 +6,12 @@ import { Fragment, useState } from "react";
 const Profile = (props) => {
   const optionValue = localStorage.getItem("optionValue") || "profile";
   const [option, setOption] = useState(optionValue);
+  const postStatusLocal = localStorage.getItem("postStatus") || "publish";
+  const [postStatus, setPostStatus] = useState(postStatusLocal);
 
-  const optionHandler = (value) => {
+  const optionHandler = (value, postStatus = "") => {
     setOption(value);
+    setPostStatus(postStatus);
   };
 
   return (
@@ -29,6 +32,7 @@ const Profile = (props) => {
           options={option}
           postCategory={props.postCategory}
           logout={props.logout}
+          postStatus={postStatus}
         />
       </div>
     </Fragment>

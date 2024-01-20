@@ -96,6 +96,7 @@ const App = () => {
         localStorage.clear("option");
         localStorage.clear("optionValue");
         localStorage.clear("activeCat");
+        localStorage.clear("postStatus");
         setIsLogin(false);
         navigate("/");
       })

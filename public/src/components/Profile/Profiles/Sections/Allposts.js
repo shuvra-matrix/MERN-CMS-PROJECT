@@ -57,6 +57,7 @@ const Allpost = (props) => {
       method: "DELETE",
       body: JSON.stringify({
         postId: post_Id,
+        status: props.postStatus,
       }),
       credentials: "include",
       headers: {
@@ -90,7 +91,14 @@ const Allpost = (props) => {
   const backClickHandler = (value) => {
     setisEdit(value);
     setLoader(true);
-    const url = apiUrl + "/post/getpost?page=" + currentPage;
+    const url =
+      apiUrl +
+      "/post/getpost?page=" +
+      currentPage +
+      "&type=" +
+      props.option +
+      "&postStatus=" +
+      props.postStatus;
     fetch(url, {
       method: "GET",
       credentials: "include",
@@ -102,8 +110,10 @@ const Allpost = (props) => {
         if (data?.data === "invalid token") {
           props.logout("session");
         } else if (data?.error === "yes") {
+          setPost([]);
           throw new Error("data fetch failed");
         } else {
+          setTotalPage(data.totalPage);
           setPost(data.postData);
           setLoader(false);
         }
@@ -116,8 +126,15 @@ const Allpost = (props) => {
 
   useEffect(() => {
     setLoader(true);
+    setisEdit(false);
     const url =
-      apiUrl + "/post/getpost?page=" + currentPage + "&type=" + props.option;
+      apiUrl +
+      "/post/getpost?page=" +
+      currentPage +
+      "&type=" +
+      props.option +
+      "&postStatus=" +
+      props.postStatus;
     fetch(url, {
       method: "GET",
       credentials: "include",
@@ -129,6 +146,7 @@ const Allpost = (props) => {
         if (data?.data === "invalid token") {
           props.logout("session");
         } else if (data?.error === "yes") {
+          setPost([]);
           throw new Error("data fetch failed");
         } else {
           setPost(data.postData);
@@ -341,10 +359,13 @@ const Allpost = (props) => {
         </Fragment>
       )}
 
-      {!isLoader && post.length === 0 && props.option === "allpost" && (
-        <p className={styles["no-post"]}>No posts available !</p>
+      {!isLoader && post.length === 0 && props.postStatus === "publish" && (
+        <p className={styles["no-post"]}>No published posts available !</p>
       )}
-      {!isLoader && post.length === 0 && props.option === "recyclebin" && (
+      {!isLoader && post.length === 0 && props.postStatus === "draft" && (
+        <p className={styles["no-post"]}>No posts are available in Draft ! </p>
+      )}
+      {!isLoader && post.length === 0 && props.postStatus === "recyclebin" && (
         <p className={styles["no-post"]}>Recycle Bin is empty !</p>
       )}
 

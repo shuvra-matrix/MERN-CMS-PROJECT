@@ -234,7 +234,7 @@ const Allpost = (props) => {
             {post.map((data) => (
               <div className={styles["allpost-sub"]} key={data.postId}>
                 {props.option === "allpost" ? (
-                  <Link to={`/post?title=${data?.title}&id=${data?.postId}`}>
+                  <Link to={`/post?title=${data?.desc}&id=${data?.postId}`}>
                     <img
                       className={styles["blog-image"]}
                       src={data.imageUrl}
@@ -365,7 +365,7 @@ const Allpost = (props) => {
       {!isLoader && post.length === 0 && props.postStatus === "draft" && (
         <p className={styles["no-post"]}>No posts are available in Draft ! </p>
       )}
-      {!isLoader && post.length === 0 && props.postStatus === "recyclebin" && (
+      {!isLoader && post.length === 0 && props.option === "recyclebin" && (
         <p className={styles["no-post"]}>Recycle Bin is empty !</p>
       )}
 

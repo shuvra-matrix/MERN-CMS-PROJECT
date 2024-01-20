@@ -10,6 +10,7 @@ import ok from "../../../../media/icons8-right-ok.png";
 import cross from "../../../../media/icons8-cross-64.png";
 import { Link } from "react-router-dom";
 import Message from "../../../Message/Message";
+import restore from "../../../../media/icons8-restore-64.png";
 
 const apiUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3030";
 
@@ -20,7 +21,6 @@ const Allpost = (props) => {
   const [isLoader, setLoader] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPage, setTotalPage] = useState(0);
-  const [isDeletePrompt, setDeletePrompt] = useState(false);
   const [deletePromptPostId, setDeletePromptPostId] = useState(null);
   const [message, setMessage] = useState("");
   const [isMessage, setIsMesssage] = useState(false);
@@ -34,12 +34,10 @@ const Allpost = (props) => {
   };
 
   const deletePromptHandler = (postId) => {
-    setDeletePrompt(true);
     setDeletePromptPostId(postId);
   };
 
   const closeDeletePrompt = () => {
-    setDeletePrompt(false);
     setDeletePromptPostId(null);
   };
   const crossHandler = (value) => {
@@ -48,9 +46,13 @@ const Allpost = (props) => {
 
   const deleteHandler = (e) => {
     e.preventDefault();
-    setDeletePrompt(false);
+
     const post_Id = e.target[0].value;
-    const url = apiUrl + "/post/postdelete?page=" + currentPage;
+
+    const url =
+      props.option === "allpost"
+        ? apiUrl + "/post/postdelete?page=" + currentPage
+        : apiUrl + "/post/reccyclePostdelete?page=" + currentPage;
     fetch(url, {
       method: "DELETE",
       body: JSON.stringify({
@@ -71,7 +73,7 @@ const Allpost = (props) => {
           throw new Error("delete failed");
         } else {
           setPost(data.postData);
-          setCurrentPage(1);
+          setTotalPage(data.totalPage);
           setIsMesssage(true);
           setMessageType("message");
           setMessage("Delete Success!");
@@ -114,7 +116,8 @@ const Allpost = (props) => {
 
   useEffect(() => {
     setLoader(true);
-    const url = apiUrl + "/post/getpost?page=" + currentPage;
+    const url =
+      apiUrl + "/post/getpost?page=" + currentPage + "&type=" + props.option;
     fetch(url, {
       method: "GET",
       credentials: "include",
@@ -150,6 +153,46 @@ const Allpost = (props) => {
     }
   };
 
+  const restoreHandler = (e) => {
+    e.preventDefault();
+    const post_Id = e.target[0].value;
+
+    const url = apiUrl + "/post/restorePost";
+
+    fetch(url, {
+      method: "PUT",
+      body: JSON.stringify({
+        postId: post_Id,
+      }),
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        if (data?.data === "invalid token") {
+          props.logout("session");
+        } else if (data?.error === "yes") {
+          throw new Error("restore failed");
+        } else {
+          setPost(data.postData);
+          setTotalPage(data.totalPage);
+          setIsMesssage(true);
+          setMessageType("message");
+          setMessage("Restore Success!");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsMesssage(true);
+        setMessageType("error");
+        setMessage("Restore failed!");
+      });
+  };
+
   return (
     <Fragment>
       {isLoader && (
@@ -181,17 +224,41 @@ const Allpost = (props) => {
                 </Link>
                 <p>{data.desc}</p>
                 <div className={styles["action"]}>
-                  <form method="post" onSubmit={(e) => editHandler(e)}>
+                  <form
+                    method="post"
+                    onSubmit={(e) =>
+                      props.option === "allpost"
+                        ? editHandler(e)
+                        : restoreHandler(e)
+                    }
+                  >
                     <input
                       type="hidden"
                       name="postId"
                       value={data.postId}
                     ></input>
-                    <button className={styles["edit"]} type="submit">
-                      <img width="20" height="20" src={edit} alt="create-new" />
-                    </button>
+                    {props.option === "allpost" && (
+                      <button className={styles["edit"]} type="submit">
+                        <img
+                          width="20"
+                          height="20"
+                          src={edit}
+                          alt="create-new"
+                        />
+                      </button>
+                    )}
+                    {props.option === "recyclebin" && (
+                      <button className={styles["restore"]} type="submit">
+                        <img
+                          width="20"
+                          height="20"
+                          src={restore}
+                          alt="create-new"
+                        />
+                      </button>
+                    )}
                   </form>
-                  {!isDeletePrompt && (
+                  {deletePromptPostId !== data.postId && (
                     <form
                       method="post"
                       onSubmit={() => deletePromptHandler(data.postId)}
@@ -206,7 +273,7 @@ const Allpost = (props) => {
                       </button>
                     </form>
                   )}
-                  {isDeletePrompt && deletePromptPostId === data.postId && (
+                  {deletePromptPostId === data.postId && (
                     <div className={styles["delete-prompt"]}>
                       <p className={styles["prompt-delete-message"]}>Sure?</p>
                       <form method="post" onSubmit={deleteHandler}>
@@ -265,8 +332,11 @@ const Allpost = (props) => {
         </Fragment>
       )}
 
-      {!isLoader && post.length === 0 && (
+      {!isLoader && post.length === 0 && props.option === "allpost" && (
         <p className={styles["no-post"]}>No posts available !</p>
+      )}
+      {!isLoader && post.length === 0 && props.option === "recyclebin" && (
+        <p className={styles["no-post"]}>Recycle Bin is empty !</p>
       )}
 
       {isEdit && (

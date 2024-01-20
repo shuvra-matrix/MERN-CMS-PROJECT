@@ -10,5 +10,7 @@ routes.get("/getpost", auth, postController.getProfilePost);
 routes.post("/getpostdata", auth, postController.getEditPostData);
 routes.put("/editpostdata", auth, postController.postEditData);
 routes.delete("/postdelete", auth, postController.deletePost);
+routes.put("/restorePost", auth, postController.restorePost);
+routes.delete("/reccyclePostdelete", auth, postController.deletFromRecycleBin);
 
 module.exports = routes;

@@ -12,6 +12,7 @@
   top: 29px;
   right: 10px;
   border: 0;
+  z-index: 30;
 }
 
 .allpost-sub {
@@ -51,12 +52,14 @@
   align-items: center;
   flex-flow: nowrap row;
   padding-top: 5px;
+  height: 42px;
 }
 
 .edit,
 .delete,
 .delete-ok,
-.delete-cancel {
+.delete-cancel,
+.restore {
   text-align: center;
   border: 0px;
   padding: 3px;
@@ -72,7 +75,7 @@
   flex-flow: nowrap row;
   justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 20px;
   background-color: #ffffff;
   padding: 5px 10px;
   border-radius: 5px;
@@ -99,6 +102,21 @@
 
 .delete-cancel {
   background-color: rgba(245, 41, 85, 0.966);
+}
+
+.restore {
+  background-color: #5cbe00;
+  padding: 4px 10px;
+  border-radius: 8px;
+}
+
+.restore img {
+  width: 25px;
+  height: 25px;
+}
+
+.restore:hover {
+  background-color: #479400;
 }
 
 .delete-cancel:hover {

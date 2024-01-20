@@ -5,6 +5,7 @@ import profileIcon from "../../../media/icons8-male-user-50.png";
 import securityIcon from "../../../media/icons8-password-50.png";
 import writeBlogIcon from "../../../media/icons8-edit-row-50.png";
 import blogsIcon from "../../../media/icons8-blog-50.png";
+import recycleBin from "../../../media/icons8-recycle-bin-64.png";
 
 const Sidemenu = (propes) => {
   const option = localStorage.getItem("option") || "option1";
@@ -91,6 +92,20 @@ const Sidemenu = (propes) => {
         <p>Posts</p>
         <span>
           <img width="50" height="50" src={blogsIcon} alt="blog" />
+        </span>
+      </div>
+      <div
+        className={`${styles["options"]} ${
+          activeOption === "option5" ? styles["active"] : ""
+        }`}
+        onClick={() => {
+          activeOptionHandler("option5");
+          optionsHandler("recyclebin");
+        }}
+      >
+        <p>Recycle Bin</p>
+        <span>
+          <img width="50" height="50" src={recycleBin} alt="blog" />
         </span>
       </div>
     </div>

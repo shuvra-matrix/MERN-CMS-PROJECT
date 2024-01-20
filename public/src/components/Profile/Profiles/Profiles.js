@@ -26,7 +26,20 @@ const Profiles = (propes) => {
         ""
       )}
       {propes.options === "allpost" ? (
-        <Allpost postCategory={propes.postCategory} logout={propes.logout} />
+        <Allpost
+          postCategory={propes.postCategory}
+          logout={propes.logout}
+          option={propes.options}
+        />
+      ) : (
+        ""
+      )}
+      {propes.options === "recyclebin" ? (
+        <Allpost
+          postCategory={propes.postCategory}
+          logout={propes.logout}
+          option={propes.options}
+        />
       ) : (
         ""
       )}

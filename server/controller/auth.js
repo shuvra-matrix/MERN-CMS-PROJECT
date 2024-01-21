@@ -261,9 +261,10 @@ exports.sendResetLink = (req, res, next) => {
         To proceed with the password reset, please click on the link below. 
         This link is valid for <span style="font-weight: 600; color: #1f1f1f">15 minutes</span>. Do not share this with others.`;
 
-        let resetUrl =
-          process.env.RESET_URL + token ||
-          "http://localhost:3000/resetpassword?token=" + token;
+        let domain =
+          process.env.RESET_URL || "http://localhost:3000/resetpassword?token=";
+
+        let resetUrl = domain + token;
 
         let action = ` <a
               style="
@@ -288,7 +289,7 @@ exports.sendResetLink = (req, res, next) => {
                 "
               >
                 Click Here
-              </p></a`;
+              </p></a>`;
 
         let title = "Password Reset Link";
 

@@ -5,6 +5,8 @@ const User = require("../model/User");
 const rourte = express.Router();
 
 const authController = require("../controller/auth");
+const authMillerware = require("../middleware/auth");
+
 rourte.post(
   "/signup",
   [
@@ -62,7 +64,7 @@ rourte.post(
   authController.login
 );
 
-rourte.post("/verifytoken", authController.tokenVerify);
+rourte.post("/verifytoken", authMillerware, authController.tokenVerify);
 
 rourte.post(
   "/sendresetlink",
@@ -92,6 +94,6 @@ rourte.put(
   authController.postNewPassword
 );
 
-rourte.get("/logout", authController.getLogout);
+rourte.get("/logout", authMillerware, authController.getLogout);
 
 module.exports = rourte;

@@ -49,6 +49,13 @@ const userSchema = new Schema({
   isTokenExp: {
     type: String,
   },
+  blockedToken: [
+    {
+      type: {
+        type: String,
+      },
+    },
+  ],
 });
 
 module.exports = mongoos.model("User", userSchema);

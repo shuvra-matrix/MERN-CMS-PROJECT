@@ -215,38 +215,6 @@ exports.login = (req, res, next) => {
 };
 
 exports.tokenVerify = (req, res, next) => {
-  const cookieSting = req.headers.cookie;
-  const cookieName = "user_token";
-
-  const token = getCookieValue.getCookieValue(cookieSting, cookieName);
-
-  if (!token) {
-    const error = new Error("invalid token");
-    error.statusCode = 401;
-    throw error;
-  }
-
-  let decodeToken;
-  const secret = process.env.SECRET;
-
-  try {
-    decodeToken = jwt.verify(token, secret);
-  } catch (err) {
-    err.statusCode = 500;
-    throw err;
-  }
-
-  const clientUserAgent = req.headers["user-agent"];
-  const ip = req.clientIp;
-
-  if (decodeToken.ip !== ip || decodeToken.userAgent !== clientUserAgent) {
-    const err = new Error("invalid token");
-    err.statusCode = 401;
-    err.data = "invalid token";
-    throw err;
-  }
-
-  req.userId = decodeToken.userId;
   res.status(200).json({
     message: "valid auth",
   });
@@ -382,13 +350,9 @@ exports.postNewPassword = (req, res, next) => {
   const password = req.body.password;
   const token = req.body.token;
 
-  let encryptPassword;
-
   bcrypt
     .hash(password, 12)
     .then((hashPassword) => {
-      encryptPassword = hashPassword;
-
       User.findOne({
         _id: userId,
         resetToken: token,
@@ -428,6 +392,9 @@ exports.postNewPassword = (req, res, next) => {
 };
 
 exports.getLogout = (req, res, next) => {
+  const cookieSting = req.headers.cookie;
+  const cookieName = "user_token";
+  const token = getCookieValue.getCookieValue(cookieSting, cookieName);
   const domain = process.env.DOMAIN || "localhost";
   const option = {
     domain: domain,
@@ -437,4 +404,21 @@ exports.getLogout = (req, res, next) => {
   res.clearCookie("user_token", option);
   res.clearCookie("isLogin", option);
   res.status(200).json({ messgae: "logout done" });
+
+  User.findById(req.userId)
+    .then((user) => {
+      if (!user) {
+        const error = new Error("no user found");
+        error.statusCode = 403;
+        throw error;
+      }
+      user.blockedToken.push({ type: token });
+      return user.save();
+    })
+    .then((result) => {
+      console.log("logout");
+    })
+    .catch((err) => {
+      next(err);
+    });
 };

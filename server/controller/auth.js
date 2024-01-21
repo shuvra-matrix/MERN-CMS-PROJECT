@@ -172,8 +172,16 @@ exports.login = (req, res, next) => {
 
       const secret = process.env.SECRET;
 
+      const clientIP = req.clientIp;
+      const clientUserAgent = req.headers["user-agent"];
+
       const token = jwt.sign(
-        { email: loadUser.email, userId: loadUser._id.toString() },
+        {
+          email: loadUser.email,
+          userId: loadUser._id.toString(),
+          ip: clientIP,
+          userAgent: clientUserAgent,
+        },
         secret,
         { expiresIn: process.env.LOGIN_EXPIRES + "ms" }
       );
@@ -225,6 +233,16 @@ exports.tokenVerify = (req, res, next) => {
     decodeToken = jwt.verify(token, secret);
   } catch (err) {
     err.statusCode = 500;
+    throw err;
+  }
+
+  const clientUserAgent = req.headers["user-agent"];
+  const ip = req.clientIp;
+
+  if (decodeToken.ip !== ip || decodeToken.userAgent !== clientUserAgent) {
+    const err = new Error("invalid token");
+    err.statusCode = 401;
+    err.data = "invalid token";
     throw err;
   }
 

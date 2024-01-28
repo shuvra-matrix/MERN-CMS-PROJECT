@@ -27,16 +27,6 @@ module.exports = (req, res, next) => {
     throw err;
   }
 
-  const clientUserAgent = req.headers["user-agent"];
-  const ip = req.clientIp;
-
-  if (decodeToken.ip !== ip || decodeToken.userAgent !== clientUserAgent) {
-    const err = new Error("invalid token");
-    err.statusCode = 401;
-    err.data = "invalid token";
-    throw err;
-  }
-
   req.userId = decodeToken.userId;
 
   User.findById(req.userId)

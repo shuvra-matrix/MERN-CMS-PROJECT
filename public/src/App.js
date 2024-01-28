@@ -124,6 +124,7 @@ const App = () => {
     const url = apiUrl + "/profile/getcategory";
     fetch(url, {
       method: "GET",
+      credentials: "include",
     })
       .then((response) => {
         if (!response.ok) {
@@ -160,7 +161,7 @@ const App = () => {
       "&timeZone=" +
       userTimezone;
 
-    fetch(url, { method: "GET" })
+    fetch(url, { method: "GET", credentials: "include" })
       .then((response) => {
         if (!response.ok) {
           const error = new Error("server error");

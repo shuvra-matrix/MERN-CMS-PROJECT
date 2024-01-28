@@ -175,21 +175,25 @@ exports.login = (req, res, next) => {
       const clientIP = req.clientIp;
       const clientUserAgent = req.headers["user-agent"];
 
+      const expireTime = process.env.LOGIN_EXPIRES;
+      const expireTimeToken = Date.now() + Number(expireTime);
+
       const token = jwt.sign(
         {
           email: loadUser.email,
           userId: loadUser._id.toString(),
           ip: clientIP,
           userAgent: clientUserAgent,
+          expireTime: expireTimeToken,
         },
         secret,
-        { expiresIn: process.env.LOGIN_EXPIRES + "ms" }
+        { expiresIn: expireTime + "ms" }
       );
 
       const domain = process.env.DOMAIN || "localhost";
 
       const options = {
-        maxAge: process.env.LOGIN_EXPIRES,
+        maxAge: expireTime,
         httpOnly: true,
         domain: domain,
       };

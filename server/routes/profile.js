@@ -9,8 +9,8 @@ const authMillerware = require("../middleware/auth");
 routes.get("/profile", authMillerware, profileController.getProfile);
 routes.post("/genotp", authMillerware, profileController.sendOtp);
 routes.put("/editprofile", authMillerware, profileController.editProfile);
-routes.post("/addcategory", profileController.addCategory);
-routes.get("/getcategory", profileController.getCategory);
+routes.post("/addcategory", authMillerware, profileController.addCategory);
+routes.get("/getcategory", authMillerware, profileController.getCategory);
 routes.put(
   "/updatepassword",
   [

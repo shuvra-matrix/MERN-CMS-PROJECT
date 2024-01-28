@@ -6,7 +6,7 @@ BlogSpot is a web application built using React.js for the frontend, Node.js for
 
 Explore the live demo of BlogSpot to experience its features and functionalities:
 
-<img src="https://github.com/shuvra-matrix/images/blob/main/Screenshot%202024-01-09%20030449.png?raw=true" att="blogpostimage" width="100%" height="700px">
+![demo image](https://github.com/shuvra-matrix/images/blob/main/Screenshot%202024-01-09%20030449.png?raw=true)
 
 <br>
 
